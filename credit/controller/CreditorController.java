@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import java.util.LinkedList;
+
 import java.util.List;
 
 @Controller
@@ -35,13 +35,6 @@ public class CreditorController {
         map.addAttribute("user", userRepository.findOne(id));
         map.addAttribute("credit", byUserId);
         map.addAttribute("userSum", creditRepository.userSum(id));
-//        int sum=0;
-//        for (Creditor creditor : byUserId) {
-//            if (creditor.getType().equals(CreditType.NEW)) {
-//                sum += creditor.getPrice();
-//            }
-//        }
-//        map.addAttribute("sum",sum);
         return "details";
     }
 
@@ -76,15 +69,6 @@ public class CreditorController {
         } else {
             map.addAttribute("allByDate", allByDate);
         }
-//        List<User> l=new LinkedList<>();
-//        for (Creditor creditor : allByDate) {
-//            l.add(userRepository.findOne(creditor.getUser().getId()));
-//        }
-//        if (!l.isEmpty()) {
-//            map.addAttribute("usersByDate", l);
-//        }else {
-//            map.addAttribute("mes",date.substring(5,10)+" amsatvin partq chi exel");
-//        }
         return "result";
     }
     @RequestMapping(value = "/allByMax")

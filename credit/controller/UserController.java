@@ -34,27 +34,13 @@ public class UserController {
     @RequestMapping(value = "/")
     public String home(ModelMap map) {
         map.addAttribute("all",userRepository.findAllByOrderByNameAsc());
-//        map.addAttribute("credit", creditRepository.findAll());
         map.addAttribute("s",creditRepository.sum());
-
-//        List<Creditor> allCred = creditRepository.findAll();
-//        int sum = 0;
-//        for (Creditor creditor : allCred) {
-//            if (creditor.getType().equals(CreditType.NEW)) {
-//                sum += creditor.getPrice();
-//            }
-//        }
-//        map.addAttribute("sum", sum);
         return "index";
     }
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String delete(ModelMap map,@RequestParam("id") int id){
         User user = userRepository.findOne(id);
         String message=user.getName()+"@   partq uni, Mi jnje!!!";
-//        if(!creditRepository.findAllByUser(user).isEmpty()){
-//            for (Creditor creditor : creditRepository.findAllByUser(user)) {
-//                if (creditor.getType().equals(CreditType.NEW)){
-//                    map.addAttribute("message",message);
         if (!creditRepository.findNotNull(id).isEmpty()){
                     return "redirect:/credit?id=" + user.getId()+"&message=" + message;
         }
@@ -108,7 +94,7 @@ public class UserController {
     @RequestMapping(value = "search")
     public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
         List<User> userList = userRepository.findUserByNameLike(search.trim());
-        if (search != null && userList.isEmpty()) {
+        if (userList.isEmpty()) {
             modelMap.addAttribute("mess", "' " + search + " '" + "  anunov mard chka");
         } else {
             modelMap.addAttribute("allUsers", userList);
