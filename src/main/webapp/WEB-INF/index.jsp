@@ -37,7 +37,7 @@
                                      <%--src="../20180622_210517.jpg">--%>
 <%--</span>--%>
 <ol style="padding-left: 200px">
-    <li><h3 style="color: olive"><strong style="color: red;">ընդհանուր=${s}</strong></h3></li>
+    <li><h3 style="color: olive"><strong style="color: red;">ընդհանուր= ${s}</strong></h3></li>
     <c:forEach items="${all}" var="one">
         <li style="width: 300px;float: left;border-style: ridge;background-color: yellow">
             <h3>${one.name}&nbsp;${one.country}
