@@ -24,7 +24,7 @@
 
 <spring:form action="/addCredit" modelAttribute="creditor" method="post">
     <spring:hidden path="user" value="${user.id}"></spring:hidden>
-    Նոր պարտք  <spring:input type="number" step="50"  path="price" placeholder=" partq"></spring:input>
+    Նոր պարտք  <spring:input type="number" step="50"  path="price" placeholder="partq"></spring:input>
     <spring:button>ավելացնել</spring:button>
 </spring:form>
 <span style="width: 280px;float: left;">
