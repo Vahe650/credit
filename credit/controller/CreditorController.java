@@ -74,7 +74,7 @@ public class CreditorController {
     public String date(ModelMap map, @RequestParam("date") String date) {
         List<Creditor> allByDate = creditRepository.findAllByDate(date);
         if (allByDate.isEmpty()) {
-            map.addAttribute("mes", date.substring(5, 10) + " amsatvin partq chi exel");
+            map.addAttribute("mess", date.substring(5, 10) + " amsatvin partq chi exel");
         } else {
             map.addAttribute("allByDate", allByDate);
         }
