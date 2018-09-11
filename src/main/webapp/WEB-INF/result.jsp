@@ -45,7 +45,6 @@
 <ol style="padding: 100px">
     <%--<li style="width: 400px"><h3 style="color: olive">անուն&nbsp;&nbsp;&nbsp;&nbsp;Հասցե</h3></li>--%>
     <h2 style="color: red">${mess}</h2>
-    <h2 style="color: red">${mes}</h2>
     <c:forEach items="${allUsers}" var="one">
 
         <li style="width: 300px;float: left;border-style: ridge;background-color: pink">
