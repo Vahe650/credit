@@ -1,4 +1,4 @@
-package credit.credit.model;
+package app.credit.model;
 
 public enum CreditType {
     NEW,END

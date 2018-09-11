@@ -1,4 +1,4 @@
-package credit.credit.model;
+package app.credit.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

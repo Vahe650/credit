@@ -1,14 +1,10 @@
-package credit.credit.controller;
+package app.credit.controller;
 
-import credit.credit.model.CreditType;
-import credit.credit.model.Creditor;
-import credit.credit.model.User;
-import credit.credit.repository.CreditRepository;
-import credit.credit.repository.UserRepository;
-import javafx.print.Collation;
+import app.credit.model.User;
+import app.credit.repository.CreditRepository;
+import app.credit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -18,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @Controller

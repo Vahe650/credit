@@ -1,5 +1,5 @@
-package credit.credit.repository;
-import credit.credit.model.User;
+package app.credit.repository;
+import app.credit.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

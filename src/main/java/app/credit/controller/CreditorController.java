@@ -1,10 +1,10 @@
-package credit.credit.controller;
+package app.credit.controller;
 
-import credit.credit.model.CreditType;
-import credit.credit.model.Creditor;
-import credit.credit.model.User;
-import credit.credit.repository.CreditRepository;
-import credit.credit.repository.UserRepository;
+import app.credit.model.CreditType;
+import app.credit.model.Creditor;
+import app.credit.model.User;
+import app.credit.repository.CreditRepository;
+import app.credit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
