@@ -8,12 +8,14 @@ import credit.credit.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -39,7 +41,14 @@ public class CreditorController {
     }
 
     @RequestMapping(value = "/addCredit")
-    public String cred(@ModelAttribute(name = "creditor") Creditor creditor) {
+    public String cred(@Valid @ModelAttribute(name = "creditor") Creditor creditor, BindingResult result) {
+        StringBuilder sb = new StringBuilder();
+        if (result.hasErrors()) {
+            for (ObjectError objectError : result.getAllErrors()) {
+                sb.append(objectError.getDefaultMessage()).append("<br>");
+            }
+            return "redirect:/credit?id="+creditor.getUser().getId()+"&message=" + sb.toString();
+        }
         creditor.setType(CreditType.NEW);
         creditRepository.save(creditor);
         return "redirect:/credit" + "?id=" + creditor.getUser().getId();

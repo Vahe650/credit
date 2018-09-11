@@ -33,19 +33,20 @@ public class UserController {
 
     @RequestMapping(value = "/")
     public String home(ModelMap map) {
-        map.addAttribute("all",userRepository.findAllByOrderByNameAsc());
-        map.addAttribute("s",creditRepository.sum());
+        map.addAttribute("all", userRepository.findAllByOrderByNameAsc());
+        map.addAttribute("s", creditRepository.sum());
         return "index";
     }
+
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
-    public String delete(ModelMap map,@RequestParam("id") int id){
+    public String delete(@RequestParam("id") int id) {
         User user = userRepository.findOne(id);
-        String message=user.getName()+"@   partq uni, Mi jnje!!!";
-        if (!creditRepository.findNotNull(id).isEmpty()){
-                    return "redirect:/credit?id=" + user.getId()+"&message=" + message;
+        String message = user.getName() + "@   partq uni, Mi jnje!!!";
+        if (!creditRepository.findNotNull(id).isEmpty()) {
+            return "redirect:/credit?id=" + user.getId() + "&message=" + message;
         }
         userRepository.delete(id);
-        return"redirect:/";
+        return "redirect:/";
     }
 
 
@@ -54,12 +55,11 @@ public class UserController {
             required = false) String message) {
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("user", new User());
-
         return "AddUser";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String update(@Valid  @ModelAttribute(name = "user") User user,BindingResult result) {
+    public String update(@Valid @ModelAttribute(name = "user") User user, BindingResult result) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
@@ -67,12 +67,16 @@ public class UserController {
             }
             return "redirect:/admin?message=" + sb.toString();
         }
+        if (userRepository.findByNameAndCountry(user.getName(), user.getCountry()) != null) {
+            String message = "ed anunov mard ka grancvac<br> LAV MAN ARI!!!";
+            return "redirect:/admin?message=" + message;
+        }
         userRepository.save(user);
         return "redirect:/credit?id=" + user.getId();
     }
 
     @RequestMapping(value = "/update")
-    public String update(ModelMap map, @RequestParam("id") int id,@RequestParam(name = "message",
+    public String update(ModelMap map, @RequestParam("id") int id, @RequestParam(name = "message",
             required = false) String message) {
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("user", userRepository.findOne(id));
@@ -80,17 +84,18 @@ public class UserController {
     }
 
     @RequestMapping(value = "/up", method = RequestMethod.POST)
-    public String up(@Valid @ModelAttribute(name = "user") User user,BindingResult result) {
+    public String up(@Valid @ModelAttribute(name = "user") User user, BindingResult result) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage() + "<br>");
+                sb.append(objectError.getDefaultMessage()).append("<br>");
             }
-            return "redirect:/update?id=" + user.getId()+"&message=" + sb.toString();
+            return "redirect:/update?id=" + user.getId() + "&message=" + sb.toString();
         }
         userRepository.save(user);
         return "redirect:/credit?id=" + user.getId();
     }
+
     @RequestMapping(value = "search")
     public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
         List<User> userList = userRepository.findUserByNameLike(search.trim());

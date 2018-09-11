@@ -20,6 +20,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query(value = "SELECT SUM(price) FROM creditor  LEFT JOIN USER  " +
             " ON user.`id`=creditor.`user_id`  WHERE creditor.`type`='NEW' GROUP BY user_id ORDER BY SUM(price) DESC", nativeQuery = true)
     List<Integer> allByMaxPrice();
+    User findByNameAndCountry(String name,String country);
 
 
 }
