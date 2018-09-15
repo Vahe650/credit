@@ -21,7 +21,7 @@ public class Creditor {
     @Column
     @DecimalMin(value = "500",message = "500-ic pakas tiv mi gre")
     @DecimalMax(value = "100000",message = "100,000-ic avel tiv mi gre")
-    private int price;
+    private int value;
     @Column
     private String date;
     @ManyToOne

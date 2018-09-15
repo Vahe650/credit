@@ -36,7 +36,7 @@ public class UserController {
     public String delete(@RequestParam("id") int id) {
         User user = userRepository.findOne(id);
         String message = user.getName() + "@   partq uni, Mi jnje!!!";
-        if (!creditRepository.findNotNull(id).isEmpty()) {
+        if (!creditRepository.findHaveingPrice(user).isEmpty()) {
             return "redirect:/credit?id=" + user.getId() + "&message=" + message;
         }
         userRepository.delete(id);

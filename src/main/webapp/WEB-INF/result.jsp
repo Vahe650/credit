@@ -68,7 +68,7 @@
                     <button style="border-color: red;border-radius: 200px">OK</button>
                 </a><br> <fmt:parseDate var="parsedEmpDate" pattern="yyyy-MM-dd"
                                         value = "${one.date}" />
-                    <fmt:formatDate value="${parsedEmpDate}" type="date"></fmt:formatDate>/&nbsp;&nbsp;${one.price}
+                    <fmt:formatDate value="${parsedEmpDate}" type="date"></fmt:formatDate>/&nbsp;&nbsp;${one.value}
         </li>
 
     </c:forEach>

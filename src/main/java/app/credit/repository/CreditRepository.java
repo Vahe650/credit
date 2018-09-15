@@ -11,20 +11,20 @@ import java.util.List;
 public interface CreditRepository extends JpaRepository<Creditor, Integer> {
     List<Creditor> findAllByUser(User user);
 
-    @Query("SELECT SUM(price) FROM Creditor t WHERE t.type=('NEW')")
+    @Query("SELECT SUM(value) FROM Creditor t WHERE t.type=('NEW')")
     Integer sum();
 
     @Query("SELECT c FROM Creditor c WHERE c.date LIKE  CONCAT('%', :times, '%') and c.type=('NEW') ")
     List<Creditor> findAllByDate(@Param("times") String time);
 
-    @Query(value = "SELECT sum(price) FROM Creditor  WHERE type=('NEW') and user_id=:id", nativeQuery = true)
-    Integer userSum(@Param(value = "id") int id);
+    @Query("SELECT sum(value) FROM Creditor c  WHERE c.type=('NEW') and c.user=:user")
+    Integer userSum(@Param(value = "user") User user);
 
-    @Query(value = "SELECT * from Creditor  WHERE user_id=:id AND type=('NEW')", nativeQuery = true)
-    List<Integer> findNotNull(@Param("id") int id);
+    @Query("SELECT c from Creditor c  WHERE c.user=:user AND c.type=('NEW')")
+    List<Integer> findHaveingPrice(@Param("user") User user);
 
-    @Query(value = "SELECT * FROM creditor  LEFT JOIN USER  " +
-            " ON user.`id`=creditor.`user_id`  WHERE creditor.`type`='NEW' GROUP BY user_id ORDER BY SUM(price) DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM creditor  LEFT JOIN USER  ON user.`id`=creditor.`user_id` " +
+            " WHERE creditor.`type`='NEW' GROUP BY user_id ORDER BY SUM(value) DESC", nativeQuery = true)
     List<Creditor> allUsersByMaxPrice();
 
 

@@ -24,7 +24,7 @@
 
 <spring:form action="/addCredit" modelAttribute="creditor" method="post">
     <spring:hidden path="user" value="${user.id}"></spring:hidden>
-    Նոր պարտք  <spring:input type="number" step="50"  path="price" placeholder="partq"></spring:input>
+    Նոր պարտք  <spring:input type="number" step="50" path="value" placeholder="partq"></spring:input>
     <spring:button>ավելացնել</spring:button>
 </spring:form>
 <span style="width: 280px;float: left;">
@@ -40,7 +40,7 @@
                            value = "${one.date}" />
 
             <li><h3><fmt:formatDate dateStyle="short"  value="${parsedEmpDate}" pattern="MM-dd" type="date"></fmt:formatDate>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.price}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/change?id=${one.id}"><button>-</button></a> ${one.value}
                 <a href="/changeType?id=${one.id}"><button>+</button></a>
             </li>
 
@@ -68,7 +68,7 @@
 
 
             <li><h3><fmt:formatDate dateStyle="short" pattern="MM-dd" value="${parsedEmpDate}" type="date"></fmt:formatDate>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.price}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.value}
                 <a href="/deletePrice?id=${one.id}"><button>ջնջել</button></a></li>
         </c:if>
     </c:forEach>
