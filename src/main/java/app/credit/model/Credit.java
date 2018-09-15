@@ -12,7 +12,7 @@ import javax.validation.constraints.DecimalMin;
 @NoArgsConstructor
 @Entity
 @Table(name = "creditor")
-public class Creditor {
+public class Credit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
