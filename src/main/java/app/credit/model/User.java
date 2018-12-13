@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,6 @@ public class User {
     private String tel;
     @Column
     private String country;
+    @OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Credit> credits;
 }

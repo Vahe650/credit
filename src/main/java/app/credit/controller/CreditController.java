@@ -59,14 +59,14 @@ public class CreditController {
         Credit one = creditRepository.findOne(id);
         one.setType(CreditType.END);
         creditRepository.save(one);
-        return "redirect:/credit" + "?id=" + one.getUser().getId();
+        return "redirect:/credit?id=" + one.getUser().getId();
     }
 
     @RequestMapping(value = "/deletePrice")
     public String delete(@RequestParam("id") int id) {
         Credit one = creditRepository.findOne(id);
         creditRepository.delete(id);
-        return "redirect:/credit" + "?id=" + one.getUser().getId();
+        return "redirect:/credit?id=" + one.getUser().getId();
 
     }
 
@@ -83,7 +83,7 @@ public class CreditController {
 
     @RequestMapping(value = "/allByMax")
     public String allByMax(ModelMap modelMap) {
-        modelMap.addAttribute("allByMax", userRepository.allByMaxPrice());
+        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
         modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
         return "result";
     }
@@ -91,9 +91,7 @@ public class CreditController {
     @RequestMapping(value = "/change")
     public String change(ModelMap map, @RequestParam("id") int id) {
         Credit one = creditRepository.findOne(id);
-        User user=one.getUser();
         map.addAttribute("credit",one);
-        map.addAttribute("user",user);
         return "changePrice";
     }
 
@@ -101,6 +99,9 @@ public class CreditController {
     public String updatePrice(@ModelAttribute(name = "credit") Credit credit){
         Credit one = creditRepository.findOne(credit.getId());
         one.setValue(credit.getValue());
+        if (!credit.getDate().equals("")){
+            one.setDate(credit.getDate());
+        }
         creditRepository.save(one);
         return "redirect:/credit?id="+one.getUser().getId();
 

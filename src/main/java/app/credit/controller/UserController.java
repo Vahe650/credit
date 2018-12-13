@@ -65,6 +65,7 @@ public class UserController {
             String message = "ed anunov mard ka grancvac<br> LAV MAN ARI!!!";
             return "redirect:/admin?message=" + message;
         }
+        user.setName(user.getName().toLowerCase());
         userRepository.save(user);
         return "redirect:/credit?id=" + user.getId();
     }

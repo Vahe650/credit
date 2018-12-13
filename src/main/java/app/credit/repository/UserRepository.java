@@ -18,9 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "group by user.id order by user.name", nativeQuery = true)
     List<User> findAllByOrderByNameAsc();
 
-    @Query(value = "SELECT SUM(value) FROM creditor  LEFT JOIN USER  " +
-            " ON user.`id`=creditor.`user_id`  WHERE creditor.`type`='NEW' GROUP BY user_id ORDER BY SUM(value) DESC", nativeQuery = true)
-    List<Integer> allByMaxPrice();
+
 
     User findByNameAndCountry(String name, String country);
 

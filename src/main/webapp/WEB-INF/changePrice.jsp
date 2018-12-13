@@ -12,11 +12,13 @@
     <title>change</title>
 </head>
 <body>
-<h3 style="color: red">${user.name}&nbsp;${user.country}&nbsp;${user.tel}&nbsp; &nbsp; &nbsp;</h3>
+<a  href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a>
+<h3 style="color: red">${credit.user.name}&nbsp;${credit.user.country}&nbsp;${credit.user.tel}&nbsp; &nbsp; &nbsp;</h3>
 <spring:form action="/updatePrice" modelAttribute="credit" method="post">
     <spring:hidden path="id" value="${credit.id}"></spring:hidden>
-    Նոր պարտք  <spring:input type="number" step="50" path="value" placeholder="partq"></spring:input>
-    <spring:button>թարմացնել</spring:button>
+    Նոր պարտք  <spring:input type="number" step="50" path="value" placeholder="partq"></spring:input><br>
+    Նոր ամիս  <spring:input type="date"  path="date" placeholder="partq"></spring:input><br>
+    <spring:button style="border-radius: 200px;border-color: red">թարմացնել</spring:button>
 </spring:form>
 </body>
 </html>

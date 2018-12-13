@@ -13,22 +13,22 @@
     <title>result</title>
 </head>
 <body>
-<a href="/">
-    <button>Գլխավոր</button>
-</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin">
-    <button>Նոր</button>
-</a>
-<br>
-<form action="/search">
-    <input name="search" placeholder="փնտրել">
-    <input type="submit" value="փնտրել">
-</form>
+<%--<a href="/">--%>
+    <%--<button style="border-radius: 200px;border-color: red">Գլխավոր</button>--%>
+<%--</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/admin">--%>
+    <%--<button style="border-radius: 200px;border-color: red">Նոր</button>--%>
+<%--</a>--%>
+<%--<br>--%>
+<%--<form action="/search">--%>
+    <%--<input name="search" placeholder="փնտրել">--%>
+    <%--<input style="border-radius: 200px;border-color: red" type="submit" value="փնտրել">--%>
+<%--</form>--%>
 <span style="width: 280px;float: left;padding: 60px">
 <ol style="width: 400px;float: left;padding: 0px;">
     <c:forEach items="${allUsersByMax}" var="one">
-        <li style="border-style: ridge; background-color: pink;"><a href="/credit?id=${one.user.id}"><h4>${one.user.name}
+        <li style="border-style: ridge; background-color: pink;"><h4>${one.user.name}
     &nbsp;${one.user.country}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.user.tel}</h4>
-                </a></li>
+                </li>
     </c:forEach>
 </ol>
     </span>

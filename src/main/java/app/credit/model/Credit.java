@@ -25,6 +25,7 @@ public class Credit {
     @Column
     private String date;
     @ManyToOne
+    @JoinColumn(name="user_id")
     private User user;
     @Column
     @Enumerated(EnumType.STRING)

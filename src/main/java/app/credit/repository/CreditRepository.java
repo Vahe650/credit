@@ -23,9 +23,15 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     @Query("SELECT c from Credit c  WHERE c.user=:user AND c.type=('NEW')")
     List<Integer> findHaveingPrice(@Param("user") User user);
 
-    @Query(value = "SELECT * FROM creditor  LEFT JOIN USER  ON user.`id`=creditor.`user_id` " +
-            " WHERE creditor.`type`='NEW' GROUP BY user_id ORDER BY SUM(value) DESC", nativeQuery = true)
+    @Query("SELECT SUM(c.value) FROM Credit c LEFT JOIN c.user u  " +
+            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
+    List<Integer> allByMaxPrice();
+
+    @Query("SELECT c FROM Credit c LEFT JOIN  c.user u " +
+            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
     List<Credit> allUsersByMaxPrice();
+
+
 
 
 }

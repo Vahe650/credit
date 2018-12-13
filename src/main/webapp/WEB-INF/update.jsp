@@ -12,14 +12,14 @@
     <title>update</title>
 </head>
 <body>
-<a href="/"><button>Գլխավոր</button></a><br>
+<a href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a><br>
 <span style="color: red"><h3>${message}</h3></span>
 <spring:form action="/up" modelAttribute="user" method="post">
     <spring:hidden path="id" value="${user.id}"></spring:hidden>
     <spring:input path="name" value="${user.name}" placeholder="անուն"></spring:input><br>
     <spring:input path="country" value="${user.country}" placeholder="քաղաք" ></spring:input><br>
     <spring:input path="tel" value="${user.tel}" placeholder=" հեռախոս"></spring:input><br>
-    <spring:button>թարմացնել</spring:button>
+    <spring:button style="border-radius: 200px;border-color: red">թարմացնել</spring:button>
 
 </spring:form>
 </body>
