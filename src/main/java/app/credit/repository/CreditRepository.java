@@ -32,6 +32,9 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> allUsersByMaxPrice();
 
 
+    Credit findTop1ByUserOrderByIdDesc( User user);
+
+
 
 
 }

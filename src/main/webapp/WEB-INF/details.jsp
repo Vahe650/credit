@@ -24,7 +24,7 @@
 
 <spring:form action="/addCredit" modelAttribute="creditor" method="post">
     <spring:hidden path="user" value="${user.id}"></spring:hidden>
-    Նոր պարտք  <spring:input type="number" step="50" path="value" placeholder="partq"></spring:input>
+    Նոր պարտք  <spring:input type="number" step="50" path="value"  placeholder="partq"></spring:input>
     <spring:button style="border-radius: 200px;border-color: red">ավելացնել</spring:button>
 </spring:form>
 <span style="width: 280px;float: left;">
@@ -36,11 +36,10 @@
     <c:forEach items="${user.credits}" var="one">
         <c:if test="${one.type=='NEW'}">
 
-            <fmt:parseDate var="parsedEmpDate" pattern="yyyy-MM-dd"
-                           value = "${one.date}" />
 
-            <li><h3><fmt:formatDate dateStyle="short"  value="${parsedEmpDate}" pattern="MM-dd" type="date"></fmt:formatDate>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/change?id=${one.id}"><button style="border-radius: 200px;border-color: red">-</button></a> ${one.value}
+
+            <li><h3>${one.armDate}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="/change?id=${one.id}"><button style="border-radius: 200px;border-color: red">-</button></a> ${one.value}
                 <a href="/changeType?id=${one.id}"><button style="border-radius: 200px;border-color: red">+</button></a>
             </li>
 
@@ -63,12 +62,10 @@
      <li><h3 style="color: olive">ամիս/օր &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; գումար</h3></li>
     <c:forEach items="${credit}" var="one">
         <c:if test="${one.type=='END'}">
-            <fmt:parseDate var="parsedEmpDate" type="both" pattern="yyyy-MM-dd"
-                           value = "${one.date}" />
 
 
-            <li><h3><fmt:formatDate dateStyle="short" pattern="MM-dd" value="${parsedEmpDate}" type="date"></fmt:formatDate>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.value}
+            <li><h3>${one.armDate}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${one.value}
                 <a href="/deletePrice?id=${one.id}"><button>ջնջել</button></a></li>
         </c:if>
     </c:forEach>

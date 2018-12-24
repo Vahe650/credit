@@ -5,9 +5,11 @@ import app.credit.model.CreditType;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
+import app.credit.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -25,16 +30,29 @@ public class CreditController {
     private CreditRepository creditRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CreditService creditService;
 
 
     @RequestMapping(value = "/credit")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
-                      @RequestParam(name = "id", required = false) int id) {
+                      @RequestParam(name = "id", required = false) int id) throws ParseException {
         User one = userRepository.findOne(id);
         List<Credit> byUserId = creditRepository.findAllByUser(one);
+//            for (Credit credit : byUserId) {
+//                if (StringUtils.isEmpty(credit.getArmDate())) {
+//                    String presentDate = creditService.getDates(credit.getDate());
+//                    credit.setArmDate(presentDate);
+//                    creditRepository.save(credit);
+//                }
+//            }
+        final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
+        String presentDate = creditService.getDates(credit.getDate());
+        credit.setArmDate(presentDate);
+        creditRepository.save(credit);
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("creditor", new Credit());
-        map.addAttribute("user",one);
+        map.addAttribute("user", one);
         map.addAttribute("credit", byUserId);
         map.addAttribute("userSum", creditRepository.userSum(one));
         return "details";
@@ -91,19 +109,19 @@ public class CreditController {
     @RequestMapping(value = "/change")
     public String change(ModelMap map, @RequestParam("id") int id) {
         Credit one = creditRepository.findOne(id);
-        map.addAttribute("credit",one);
+        map.addAttribute("credit", one);
         return "changePrice";
     }
 
     @RequestMapping(value = "/updatePrice")
-    public String updatePrice(@ModelAttribute(name = "credit") Credit credit){
+    public String updatePrice(@ModelAttribute(name = "credit") Credit credit) {
         Credit one = creditRepository.findOne(credit.getId());
         one.setValue(credit.getValue());
-        if (!credit.getDate().equals("")){
+        if (!credit.getDate().equals("")) {
             one.setDate(credit.getDate());
         }
         creditRepository.save(one);
-        return "redirect:/credit?id="+one.getUser().getId();
+        return "redirect:/credit?id=" + one.getUser().getId();
 
     }
 }

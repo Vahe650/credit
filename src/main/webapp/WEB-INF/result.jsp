@@ -66,9 +66,7 @@
             <h3>${one.user.name}&nbsp;${one.user.country}
                 <a href="/credit?id=${one.user.id}">
                     <button style="border-color: red;border-radius: 200px">OK</button>
-                </a><br> <fmt:parseDate var="parsedEmpDate" pattern="yyyy-MM-dd"
-                                        value = "${one.date}" />
-                    <fmt:formatDate value="${parsedEmpDate}" type="date"></fmt:formatDate>/&nbsp;&nbsp;${one.value}
+                </a><br>${one.armDate}&nbsp;&nbsp;${one.value}
         </li>
 
     </c:forEach>

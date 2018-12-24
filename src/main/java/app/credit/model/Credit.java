@@ -2,6 +2,8 @@ package app.credit.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.scheduling.annotation.Async;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
@@ -24,6 +26,8 @@ public class Credit {
     private int value;
     @Column
     private String date;
+    @Column
+    private String armDate;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
