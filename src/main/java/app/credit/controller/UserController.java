@@ -45,8 +45,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(ModelMap map, @RequestParam(name = "message",
-            required = false) String message) {
+    public String adminPage(ModelMap map, @RequestParam(name = "message",required = false) String message) {
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("user", new User());
         return "AddUser";
@@ -71,8 +70,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update")
-    public String update(ModelMap map, @RequestParam("id") int id, @RequestParam(name = "message",
-            required = false) String message) {
+    public String update(ModelMap map,
+                         @RequestParam("id") int id,
+                         @RequestParam(name = "message",required = false) String message) {
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("user", userRepository.findOne(id));
         return "update";
@@ -91,7 +91,7 @@ public class UserController {
         return "redirect:/credit?id=" + user.getId();
     }
 
-    @RequestMapping(value = "search")
+    @RequestMapping(value = "/search")
     public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
         List<User> userList = userRepository.findUserByNameLike(search.trim());
         if (userList.isEmpty()) {

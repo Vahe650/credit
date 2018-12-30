@@ -20,19 +20,19 @@ public class CreditService {
 
             case "01":
 
-                month = "Հունվ8";
+                month = "Հնվ";
 
                 break;
 
             case "02":
 
-                month = "Փետր";
+                month = "Փտր";
 
                 break;
 
             case "03":
 
-                month = "Մարտ";
+                month = "Մրտ";
 
                 break;
 
@@ -62,7 +62,7 @@ public class CreditService {
 
             case "08":
 
-                month = "Օգոս++";
+                month = "Օգս";
 
                 break;
 
@@ -91,7 +91,7 @@ public class CreditService {
                 break;
 
         }
-        return  month+"-"+day+"-"+year;
+        return  month+"-"+day+"-"+year+"թ";
 
     }
 

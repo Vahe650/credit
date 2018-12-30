@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Partq</title>
+    <title>պարտք</title>
 </head>
 <body style="background-color: darkkhaki">
 

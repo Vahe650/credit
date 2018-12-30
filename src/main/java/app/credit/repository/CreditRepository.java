@@ -1,5 +1,6 @@
 package app.credit.repository;
 
+import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +31,16 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     @Query("SELECT c FROM Credit c LEFT JOIN  c.user u " +
             " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
     List<Credit> allUsersByMaxPrice();
+
+    @Query("SELECT new app.credit.dto.UserSumDto(c.user,SUM(c.value)) FROM Credit c  " +
+            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
+    List<UserSumDto> createUserSum();
+
+    @Query("SELECT new app.credit.dto.UserSumDto(c.user,SUM(c.value)) FROM Credit c " +
+            " WHERE c.type='NEW' and (c.user.name LIKE  CONCAT('%', :name, '%') or c.user.country LIKE  CONCAT('%', :name, '%'))  " +
+            " GROUP BY c.user ORDER BY SUM(c.value) DESC")
+    List<UserSumDto> searchUserSDto(@Param("name") String name);
+
 
 
     Credit findTop1ByUserOrderByIdDesc( User user);

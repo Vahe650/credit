@@ -3,11 +3,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.format.annotation.NumberFormat;
 import org.springframework.scheduling.annotation.Async;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
@@ -23,6 +26,7 @@ public class Credit {
     @Column
     @DecimalMin(value = "500",message = "500-ic pakas tiv mi gre")
     @DecimalMax(value = "100000",message = "100,000-ic avel tiv mi gre")
+    @NumberFormat(pattern = " " )
     private int value;
     @Column
     private String date;

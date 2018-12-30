@@ -1,5 +1,6 @@
 package app.credit.controller;
 
+import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
@@ -36,7 +37,7 @@ public class CreditController {
 
     @RequestMapping(value = "/credit")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
-                      @RequestParam(name = "id", required = false) int id) throws ParseException {
+                      @RequestParam(name = "id", required = false) int id) {
         User one = userRepository.findOne(id);
         List<Credit> byUserId = creditRepository.findAllByUser(one);
 //            for (Credit credit : byUserId) {
@@ -45,11 +46,15 @@ public class CreditController {
 //                    credit.setArmDate(presentDate);
 //                    creditRepository.save(credit);
 //                }
-//            }
+//
         final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
-        String presentDate = creditService.getDates(credit.getDate());
-        credit.setArmDate(presentDate);
-        creditRepository.save(credit);
+        if (credit != null) {
+            if (StringUtils.isEmpty(credit.getArmDate())) {
+                String presentDate = creditService.getDates(credit.getDate());
+                credit.setArmDate(presentDate);
+                creditRepository.save(credit);
+            }
+        }
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("creditor", new Credit());
         map.addAttribute("user", one);
@@ -92,7 +97,7 @@ public class CreditController {
     public String date(ModelMap map, @RequestParam("date") String date) {
         List<Credit> allByDate = creditRepository.findAllByDate(date);
         if (allByDate.isEmpty()) {
-            map.addAttribute("mess", date.substring(5, 10) + " amsatvin partq chi exel");
+            map.addAttribute("mess", creditService.getDates(date) + " in partq chi exel");
         } else {
             map.addAttribute("allByDate", allByDate);
         }
@@ -101,24 +106,43 @@ public class CreditController {
 
     @RequestMapping(value = "/allByMax")
     public String allByMax(ModelMap modelMap) {
-        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
-        modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
+//        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
+//        modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
+        modelMap.addAttribute("userSumDto",creditRepository.createUserSum());
         return "result";
+    }
+    @RequestMapping(value = "/searchDtoByName")
+    public String searchDto(ModelMap modelMap, @RequestParam("name") String name){
+        List<UserSumDto> userList = creditRepository.searchUserSDto(name.trim());
+        if (userList.isEmpty()) {
+            modelMap.addAttribute("message",   name  + "n  partq chuni");
+        } else {
+            modelMap.addAttribute("allDtos", userList);
+        }
+        return "result";
+
     }
 
     @RequestMapping(value = "/change")
     public String change(ModelMap map, @RequestParam("id") int id) {
         Credit one = creditRepository.findOne(id);
-        map.addAttribute("credit", one);
+        map.addAttribute("creditor", one);
         return "changePrice";
     }
 
     @RequestMapping(value = "/updatePrice")
-    public String updatePrice(@ModelAttribute(name = "credit") Credit credit) {
+    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit,BindingResult result) {
         Credit one = creditRepository.findOne(credit.getId());
+        StringBuilder sb = new StringBuilder();
+        if (result.hasErrors()) {
+            for (ObjectError objectError : result.getAllErrors()) {
+                sb.append(objectError.getDefaultMessage()).append("<br>");
+            }
+            return "redirect:/credit?id=" + one.getUser().getId() + "&message=" + sb.toString();
+        }
         one.setValue(credit.getValue());
         if (!credit.getDate().equals("")) {
-            one.setDate(credit.getDate());
+            one.setArmDate(creditService.getDates(credit.getDate()));
         }
         creditRepository.save(one);
         return "redirect:/credit?id=" + one.getUser().getId();
