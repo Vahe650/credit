@@ -1,6 +1,9 @@
 package app.credit.controller;
 
+import app.credit.dto.CreditDto;
 import app.credit.dto.UserSumDto;
+import app.credit.jms.JmsProducer;
+import app.credit.jms.JmsReplyConsumer;
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
@@ -8,6 +11,7 @@ import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -18,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import javax.jms.JMSException;
 import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -28,25 +33,31 @@ import java.util.List;
 
 public class CreditController {
     @Autowired
+    private JmsReplyConsumer jmsReplyConsumer;
+    @Autowired
     private CreditRepository creditRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private CreditService creditService;
+    @Autowired
+    JmsProducer producer;
 
 
     @RequestMapping(value = "/credit")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
-                      @RequestParam(name = "id", required = false) int id) {
+                      @RequestParam(name = "id", required = false) int id) throws JMSException {
         User one = userRepository.findOne(id);
         List<Credit> byUserId = creditRepository.findAllByUser(one);
-//            for (Credit credit : byUserId) {
-//                if (StringUtils.isEmpty(credit.getArmDate())) {
-//                    String presentDate = creditService.getDates(credit.getDate());
-//                    credit.setArmDate(presentDate);
-//                    creditRepository.save(credit);
-//                }
-//
+        for (Credit credit : byUserId) {
+            CreditDto creditDto = new CreditDto();
+            creditDto.setId(credit.getId());
+            creditDto.setArmdate(credit.getArmDate());
+            creditDto.setValue(credit.getValue());
+            creditDto.setType(credit.getType());
+            creditDto.setUserName(credit.getUser().getName());
+            producer.send(creditDto, creditDto.getUserName());
+        }
         final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
         if (credit != null) {
             if (StringUtils.isEmpty(credit.getArmDate())) {
@@ -108,14 +119,15 @@ public class CreditController {
     public String allByMax(ModelMap modelMap) {
 //        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
 //        modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
-        modelMap.addAttribute("userSumDto",creditRepository.createUserSum());
+        modelMap.addAttribute("userSumDto", creditRepository.createUserSum());
         return "result";
     }
+
     @RequestMapping(value = "/searchDtoByName")
-    public String searchDto(ModelMap modelMap, @RequestParam("name") String name){
+    public String searchDto(ModelMap modelMap, @RequestParam("name") String name) {
         List<UserSumDto> userList = creditRepository.searchUserSDto(name.trim());
         if (userList.isEmpty()) {
-            modelMap.addAttribute("message",   name  + "n  partq chuni");
+            modelMap.addAttribute("message", name + "n  partq chuni");
         } else {
             modelMap.addAttribute("allDtos", userList);
         }
@@ -131,7 +143,7 @@ public class CreditController {
     }
 
     @RequestMapping(value = "/updatePrice")
-    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit,BindingResult result) {
+    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result) {
         Credit one = creditRepository.findOne(credit.getId());
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
