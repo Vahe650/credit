@@ -2,8 +2,8 @@ package app.credit.controller;
 
 import app.credit.dto.CreditDto;
 import app.credit.dto.UserSumDto;
+import app.credit.jms.JmsConsumer;
 import app.credit.jms.JmsProducer;
-import app.credit.jms.JmsReplyConsumer;
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
@@ -11,7 +11,6 @@ import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.CreditService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.converter.MessageConversionException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -20,20 +19,15 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
 import javax.jms.JMSException;
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Controller
 
 public class CreditController {
     @Autowired
-    private JmsReplyConsumer jmsReplyConsumer;
+    private JmsConsumer jmsConsumer;
     @Autowired
     private CreditRepository creditRepository;
     @Autowired
@@ -41,7 +35,7 @@ public class CreditController {
     @Autowired
     private CreditService creditService;
     @Autowired
-    JmsProducer producer;
+    private JmsProducer producer;
 
 
     @RequestMapping(value = "/credit")
@@ -57,6 +51,7 @@ public class CreditController {
             creditDto.setType(credit.getType());
             creditDto.setUserName(credit.getUser().getName());
             producer.send(creditDto, creditDto.getUserName());
+            jmsConsumer.sending("credit with '"+credit.getId()+"' is exist" ,credit.getUser().getName());
         }
         final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
         if (credit != null) {

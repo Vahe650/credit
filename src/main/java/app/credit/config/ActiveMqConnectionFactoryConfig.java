@@ -30,7 +30,6 @@ public class ActiveMqConnectionFactoryConfig  {
 	
 	@Value("${jsa.activemq.borker.password}")
 	String password;
-    private org.springframework.messaging.converter.MessageConverter messageConverter;
 
     /*
 	 * Initial ConnectionFactory
