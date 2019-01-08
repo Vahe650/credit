@@ -1,5 +1,6 @@
 package app.credit.repository;
 
+import app.credit.dto.CreditDto;
 import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.User;
@@ -40,6 +41,10 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
             " WHERE c.type='NEW' and (c.user.name LIKE  CONCAT('%', :name, '%') or c.user.country LIKE  CONCAT('%', :name, '%'))  " +
             " GROUP BY c.user ORDER BY SUM(c.value) DESC")
     List<UserSumDto> searchUserSDto(@Param("name") String name);
+
+    @Query("SELECT new app.credit.dto.CreditDto(c.id,c.armDate,c.value,c.type,c.user.name) FROM Credit c " +
+            " WHERE c.type='NEW' and c.user=:user")
+    List<CreditDto> getCreditDtos(@Param("user") User user);
 
 
 

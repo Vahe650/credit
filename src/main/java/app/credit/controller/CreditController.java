@@ -43,15 +43,10 @@ public class CreditController {
                       @RequestParam(name = "id", required = false) int id) throws JMSException {
         User one = userRepository.findOne(id);
         List<Credit> byUserId = creditRepository.findAllByUser(one);
-        for (Credit credit : byUserId) {
-            CreditDto creditDto = new CreditDto();
-            creditDto.setId(credit.getId());
-            creditDto.setArmdate(credit.getArmDate());
-            creditDto.setValue(credit.getValue());
-            creditDto.setType(credit.getType());
-            creditDto.setUserName(credit.getUser().getName());
+        List<CreditDto> creditDtos = creditRepository.getCreditDtos(one);
+        for (CreditDto creditDto : creditDtos) {
             producer.send(creditDto, creditDto.getUserName());
-            jmsConsumer.sending("credit with '"+credit.getId()+"' is exist" ,credit.getUser().getName());
+            jmsConsumer.sending("credit with '"+creditDto.getId()+"' is exist" ,creditDto.getUserName());
         }
         final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
         if (credit != null) {
