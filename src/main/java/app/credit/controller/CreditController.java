@@ -1,8 +1,5 @@
 package app.credit.controller;
 
-//import app.credit.jms.JmsConsumer;
-//import app.credit.jms.JmsProducer;
-//import app.credit.jms.JmsReplyConsumer;
 
 import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
