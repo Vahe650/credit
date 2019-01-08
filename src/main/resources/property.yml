@@ -1,0 +1,26 @@
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 28800s
+
+spring:
+    jpa:
+        database: MYSQL
+    datasource:
+        url: jdbc:mysql://localhost:3306/credit?verifyservercertificate=false&useSSL=false&characterEncoding=utf8&characterSetResults=utf8
+        username: root
+        password: root
+        driver-class-name: com.mysql.jdbc.Driver
+    thymeleaf:
+      cache: false
+#    session:
+#     timeout: ONE_MINUTE_IN_SECONDS
+logging:
+  level:
+    org.springframework.web: ERROR
+    com.itspace: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: logWeb/application.log

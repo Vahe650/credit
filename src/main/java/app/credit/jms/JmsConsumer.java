@@ -1,24 +1,32 @@
-package app.credit.jms;//package app.credit.jms;
+//package app.credit.jms;
 //
 //
-//import app.credit.model.Credit;
-//import app.credit.model.CreditType;
-//import org.springframework.jms.annotation.JmsListener;
-//import org.springframework.messaging.handler.annotation.Header;
+//import javax.jms.JMSException;
+//import javax.jms.Message;
+//
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Value;
+//import org.springframework.jms.core.JmsTemplate;
+//import org.springframework.jms.core.MessagePostProcessor;
 //import org.springframework.stereotype.Component;
 //
 //@Component
 //public class JmsConsumer {
+//    @Autowired
+//    JmsTemplate jmsTemplate;
+//    @Value("${jsa.activemq.queue.consumer}")
+//    String queue2;
 //
 //
-//	@JmsListener(destination = "${jsa.activemq.queue.consumer}", containerFactory="jsaFactory")
-//	public void appleReceive(Credit credit, @Header(value = "user",required = false) String type) {
-//        if (type != null){
-//            if (type.equals(CreditType.NEW.name())) {
-//                System.out.println("credit not paid " + credit);
-//            } else if (type.equals(CreditType.END.name())) {
-//                System.out.println("credit paid: " + credit);
+//    public void sending(String text,String userName) {
+//        jmsTemplate.convertAndSend(queue2, text, new MessagePostProcessor() {
+//            public Message postProcessMessage(Message message) throws JMSException {
+//                message.setStringProperty("user", userName);
+//                return message;
 //            }
+//        });
 //    }
-//	}
+//
+//
 //}

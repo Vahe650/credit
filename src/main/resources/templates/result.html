@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<head>
+    <title>պարտք</title>
+</head>
+<body>
+
+<a href="/">
+    <button style="border-radius: 200px;border-color: red">Գլխավոր</button>
+    <a href="/allByMax">
+        <button style="border-radius: 200px;border-color: red">Բոլորը</button>
+    </a>
+
+</a>&nbsp;<a href="/admin">
+    <button style="border-radius: 200px;border-color: red">Նոր</button>
+</a>
+<br>
+
+<form th:action="@{/searchDtoByName}">
+    <input name="name" placeholder="փնտրել">
+    <input STYLE="color: red;border-radius: 500px;border-color: red" type="submit" value="փնտրել">
+</form>
+<h2 style="color: red" th:text="${message}"></h2>
+<ul style="padding-left: 150px;" th:each="one:${allDtos}">
+
+    <li style="width: 300px;float: left;padding-right: 20px; border-style: ridge; background-color: greenyellow;"><h4
+            th:text="${one.user.name+' '+one.user.country+''+one.user.tel+'='+one.sum}">
+        <span style="color: red;float:  right" th:text="'='+${one.sum}"></span></h4>
+    </li>
+
+</ul>
+
+<ul th:each="one:${userSumDto}" style="padding-left: 150px;">
+    <li style="width: 300px;float: left;padding-right: 20px; border-style: ridge; background-color: greenyellow;"><h4
+            th:text="${one.user.name+' '+one.user.country+''+one.user.tel+'='+one.sum}">
+
+    </li>
+
+</ul>
+
+
+<br>
+
+
+<ol style="padding: 100px">
+    <h2 style="color: red" th:text="${mess}"></h2>
+
+    <li th:each="one:${allUsers}" style="width: 300px;float: left;border-style: ridge;background-color: pink">
+        <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
+        <a th:href="@{/credit(id=${one.id})}">
+            <button style="border-color: red;border-radius: 200px">OK</button>
+        </a>
+    </li>
+
+
+    <li th:each="one:${allByDate}" style="width: 300px;float: left;border-style: ridge;background-color: pink">
+        <strong style="display: inline-block" th:text="${one.user.name+' '+one.user.country}"></strong>
+        <a th:href="@{/credit(id=${one.user.id})}">
+            <button style="border-color: red;border-radius: 200px">OK</button>
+        </a>
+       <p> <strong th:utext="${one.armDate+' _ '+one.value}"></strong>
+    </li>
+
+
+</ol>
+
+
+</body>
+</html>

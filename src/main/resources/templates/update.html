@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <title>update</title>
+</head>
+<body>
+<a href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a><br>
+<span style="color: red"><h3 th:text="${message}"></h3></span>
+<form th:action="@{/up}" th:object="${user}" method="post">
+    <input type="hidden" name="id" th:value="${user.id}">
+    <input th:field="*{name}"  placeholder="անուն"/><br>
+    <input th:field="*{country}"  placeholder="քաղաք"/><br>
+    <input th:field="*{tel}"  placeholder=" հեռախոս"/><br>
+    <button style="border-radius: 200px;border-color: red">թարմացնել</button>
+
+</form>
+</body>
+</html>

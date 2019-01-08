@@ -1,5 +1,6 @@
 package app.credit.repository;
 
+import app.credit.dto.CreditDto;
 import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.User;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> findAllByUser(User user);
@@ -20,6 +22,12 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
 
     @Query("SELECT sum(value) FROM Credit c  WHERE c.type=('NEW') and c.user=:user")
     Integer userSum(@Param(value = "user") User user);
+
+    @Query("SELECT c FROM Credit c  WHERE c.type=('NEW') and c.user=:user")
+    List<Credit> newCredits(@Param(value = "user") User user);
+
+    @Query("SELECT c FROM Credit c  WHERE c.type=('END') and c.user=:user")
+    List<Credit> endCredits(@Param(value = "user") User user);
 
     @Query("SELECT c from Credit c  WHERE c.user=:user AND c.type=('NEW')")
     List<Integer> findHaveingPrice(@Param("user") User user);
@@ -41,10 +49,13 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
             " GROUP BY c.user ORDER BY SUM(c.value) DESC")
     List<UserSumDto> searchUserSDto(@Param("name") String name);
 
+    @Query("SELECT new app.credit.dto.CreditDto(c.id,c.armDate,c.value,c.type,c.user.name) FROM Credit c " +
+            " WHERE c.type='NEW' and c.user=:user")
+    List<CreditDto> getCreditDtos(@Param("user") User user);
+
 
 
     Credit findTop1ByUserOrderByIdDesc( User user);
-
 
 
 

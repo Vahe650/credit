@@ -1,17 +1,17 @@
 package app.credit.controller;
 
-import app.credit.dto.CreditDto;
+//import app.credit.jms.JmsConsumer;
+//import app.credit.jms.JmsProducer;
+//import app.credit.jms.JmsReplyConsumer;
+
 import app.credit.dto.UserSumDto;
-import app.credit.jms.JmsProducer;
-import app.credit.jms.JmsReplyConsumer;
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.CreditService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.converter.MessageConversionException;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -24,41 +24,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.jms.JMSException;
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.Date;
+import javax.validation.constraints.DecimalMin;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-
+@AllArgsConstructor
 public class CreditController {
-    @Autowired
-    private JmsReplyConsumer jmsReplyConsumer;
-    @Autowired
+
+//    private JmsConsumer jmsConsumer;
+//    private JmsProducer producer;
+
     private CreditRepository creditRepository;
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private CreditService creditService;
-    @Autowired
-    JmsProducer producer;
 
 
     @RequestMapping(value = "/credit")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
-                      @RequestParam(name = "id", required = false) int id) throws JMSException {
-        User one = userRepository.findOne(id);
-        List<Credit> byUserId = creditRepository.findAllByUser(one);
-        for (Credit credit : byUserId) {
-            CreditDto creditDto = new CreditDto();
-            creditDto.setId(credit.getId());
-            creditDto.setArmdate(credit.getArmDate());
-            creditDto.setValue(credit.getValue());
-            creditDto.setType(credit.getType());
-            creditDto.setUserName(credit.getUser().getName());
-            producer.send(creditDto, creditDto.getUserName());
-        }
-        final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one);
+                      @RequestParam(name = "id", required = false) int userId) throws JMSException {
+        Optional<User> one = userRepository.findById(userId);
+        List<Credit> byUserId = creditRepository.findAllByUser(one.get());
+//        List<CreditDto> creditDtos = creditRepository.getCreditDtos(one.get());
+//        for (CreditDto creditDto : creditDtos) {
+//            producer.send(creditDto, creditDto.getUserName());
+//            jmsConsumer.sending("credit with '" + creditDto.getId() + "' is exist", creditDto.getUserName());
+//        }
+        final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one.get());
         if (credit != null) {
             if (StringUtils.isEmpty(credit.getArmDate())) {
                 String presentDate = creditService.getDates(credit.getDate());
@@ -66,43 +58,59 @@ public class CreditController {
                 creditRepository.save(credit);
             }
         }
+        final List<Credit> news = creditRepository.newCredits(one.get());
+        final List<Credit> ends = creditRepository.endCredits(one.get());
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("creditor", new Credit());
-        map.addAttribute("user", one);
-        map.addAttribute("credit", byUserId);
-        map.addAttribute("userSum", creditRepository.userSum(one));
+        map.addAttribute("user", one.get());
+        map.addAttribute("byUserId", byUserId);
+        map.addAttribute("news", news);
+        map.addAttribute("ends", ends);
+        map.addAttribute("userSum", creditRepository.userSum(one.get()));
         return "details";
+
     }
 
     @RequestMapping(value = "/addCredit")
-    public String cred(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result) {
+    public String cred(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result,
+                       @RequestParam(name = "userId", required = false) int userId) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage()).append("<br>");
+                sb.append(objectError.getDefaultMessage());
+                if (objectError.toString().contains(NumberFormatException.class.getName())) {
+                    sb = new StringBuilder("shat mec tiv es gre");
+                }
             }
-            return "redirect:/credit?id=" + credit.getUser().getId() + "&message=" + sb.toString();
+            return "redirect:/credit?id=" + userId + "&message=" + sb.toString();
         }
         credit.setType(CreditType.NEW);
+        final Optional<User> user = userRepository.findById(userId);
+        credit.setUser(user.get());
         creditRepository.save(credit);
         return "redirect:/credit" + "?id=" + credit.getUser().getId();
     }
 
     @RequestMapping(value = "/changeType")
     public String type(@RequestParam("id") int id) {
-        Credit one = creditRepository.findOne(id);
-        one.setType(CreditType.END);
-        creditRepository.save(one);
-        return "redirect:/credit?id=" + one.getUser().getId();
+        Optional<Credit> one = creditRepository.findById(id);
+        one.get().setType(CreditType.END);
+        creditRepository.save(one.get());
+        return "redirect:/credit?id=" + one.get().getUser().getId();
     }
 
     @RequestMapping(value = "/deletePrice")
     public String delete(@RequestParam("id") int id) {
-        Credit one = creditRepository.findOne(id);
-        creditRepository.delete(id);
-        return "redirect:/credit?id=" + one.getUser().getId();
+        Optional<Credit> one = creditRepository.findById(id);
+        if (one.isPresent()) {
+            creditRepository.delete(one.get());
+
+        }
+        return "redirect:/credit?id=" + one.get().getId();
+
 
     }
+
 
     @RequestMapping(value = "/searchByDate")
     public String date(ModelMap map, @RequestParam("date") String date) {
@@ -137,27 +145,32 @@ public class CreditController {
 
     @RequestMapping(value = "/change")
     public String change(ModelMap map, @RequestParam("id") int id) {
-        Credit one = creditRepository.findOne(id);
-        map.addAttribute("creditor", one);
+        Optional<Credit> one = creditRepository.findById(id);
+        map.addAttribute("creditor", one.get());
         return "changePrice";
     }
 
     @RequestMapping(value = "/updatePrice")
-    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result) {
-        Credit one = creditRepository.findOne(credit.getId());
+    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result, @RequestParam(name = "id", required = false) int id) {
+        Optional<Credit> one = creditRepository.findById(credit.getId());
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
                 sb.append(objectError.getDefaultMessage()).append("<br>");
+                if (objectError.toString().contains(NumberFormatException.class.getName())) {
+                    sb = new StringBuilder("shat mec tiv es gre");
+                }
             }
-            return "redirect:/credit?id=" + one.getUser().getId() + "&message=" + sb.toString();
+            return "redirect:/credit?id=" + one.get().getUser().getId() + "&message=" + sb.toString();
         }
-        one.setValue(credit.getValue());
+        one.get().setValue(credit.getValue());
         if (!credit.getDate().equals("")) {
-            one.setArmDate(creditService.getDates(credit.getDate()));
+            one.get().setArmDate(creditService.getDates(credit.getDate()));
         }
-        creditRepository.save(one);
-        return "redirect:/credit?id=" + one.getUser().getId();
+        one.get().setId(id);
+        creditRepository.save(one.get());
+        return "redirect:/credit?id=" + one.get().getUser().getId();
+
 
     }
 }

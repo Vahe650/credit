@@ -3,6 +3,7 @@ package app.credit.controller;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -15,14 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
-
-
+@AllArgsConstructor
 public class UserController {
-    @Autowired
     private UserRepository userRepository;
-    @Autowired
     private CreditRepository creditRepository;
 
     @RequestMapping(value = "/")
@@ -34,12 +33,12 @@ public class UserController {
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String delete(@RequestParam("id") int id) {
-        User user = userRepository.findOne(id);
-        String message = user.getName() + "@   partq uni, Mi jnje!!!";
-        if (!creditRepository.findHaveingPrice(user).isEmpty()) {
-            return "redirect:/credit?id=" + user.getId() + "&message=" + message;
+        Optional<User> user = userRepository.findById(id);
+        String message = user.get().getName() + "@   partq uni, Mi jnje!!!";
+        if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
+            return "redirect:/credit?id=" + user.get().getId() + "&message=" + message;
         }
-        userRepository.delete(id);
+        userRepository.delete(user.get());
         return "redirect:/";
     }
 
@@ -71,15 +70,16 @@ public class UserController {
 
     @RequestMapping(value = "/update")
     public String update(ModelMap map,
-                         @RequestParam("id") int id,
+                         @RequestParam(name = "id") int id,
                          @RequestParam(name = "message",required = false) String message) {
+        final Optional<User> byId = userRepository.findById(id);
         map.addAttribute("message", message != null ? message : "");
-        map.addAttribute("user", userRepository.findOne(id));
+        map.addAttribute("user", byId.get());
         return "update";
     }
 
     @RequestMapping(value = "/up", method = RequestMethod.POST)
-    public String up(@Valid @ModelAttribute(name = "user") User user, BindingResult result) {
+    public String up(@Valid @ModelAttribute(name = "user") User user,@RequestParam(name = "id",required = false) int id, BindingResult result) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
@@ -87,6 +87,7 @@ public class UserController {
             }
             return "redirect:/update?id=" + user.getId() + "&message=" + sb.toString();
         }
+        user.setId(id);
         userRepository.save(user);
         return "redirect:/credit?id=" + user.getId();
     }

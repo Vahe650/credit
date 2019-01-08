@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html>
+<head>
+    <title>change</title>
+</head>
+<body>
+<a  href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a>
+<h3 style="color: red" th:text="${creditor.user.name+'  '+ creditor.user.country+'  '+ creditor.user.tel}"></h3>
+<form th:action="@{/updatePrice}" th:object="${creditor}" method="post">
+    <input type="hidden" name="id" th:value="${creditor.getId()}">
+    Նոր պարտք  <input type="number" step="50"  th:field="*{value}" placeholder="partq"><br>
+    Նոր ամիս  <input type="date"   th:field="*{date}" placeholder="partq"><br>
+    <button style="border-radius: 200px;border-color: red">թարմացնել</button>
+</form>
+</body>
+</html>
