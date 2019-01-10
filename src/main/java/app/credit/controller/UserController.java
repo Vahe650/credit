@@ -34,12 +34,15 @@ public class UserController {
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
     public String delete(@RequestParam("id") int id) {
         Optional<User> user = userRepository.findById(id);
-        String message = user.get().getName() + "@   partq uni, Mi jnje!!!";
-        if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
-            return "redirect:/credit?id=" + user.get().getId() + "&message=" + message;
+        if (user.isPresent()) {
+            String message = user.get().getName() + "@   partq uni, Mi jnje!!!";
+            if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
+                return "redirect:/credit?id=" + user.get().getId() + "&message=" + message;
+            }
+            userRepository.delete(user.get());
+            return "redirect:/";
         }
-        userRepository.delete(user.get());
-        return "redirect:/";
+        return "redirect:/error";
     }
 
 
@@ -55,7 +58,7 @@ public class UserController {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage()).append("<br>");
+                sb.append(objectError.getDefaultMessage());
             }
             return "redirect:/admin?message=" + sb.toString();
         }
@@ -73,13 +76,18 @@ public class UserController {
                          @RequestParam(name = "id") int id,
                          @RequestParam(name = "message",required = false) String message) {
         final Optional<User> byId = userRepository.findById(id);
-        map.addAttribute("message", message != null ? message : "");
-        map.addAttribute("user", byId.get());
-        return "update";
+        if (byId.isPresent()) {
+            map.addAttribute("message", message != null ? message : "");
+            map.addAttribute("user", byId.get());
+            return "update";
+        }
+        return "redirect:/error";
     }
 
     @RequestMapping(value = "/up", method = RequestMethod.POST)
-    public String up(@Valid @ModelAttribute(name = "user") User user,@RequestParam(name = "id",required = false) int id, BindingResult result) {
+    public String up(@Valid @ModelAttribute(name = "user") User user,
+                     @RequestParam(name = "id",required = false) int id,
+                     BindingResult result) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {

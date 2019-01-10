@@ -28,7 +28,7 @@
 
 
 <ol style="padding-left: 200px">
-    <li><h3 style="color: olive"><strong th:text="'ընդհանուր='+${s}" style="color: red;"></strong></h3></li>
+    <li><h3 style="color: olive"><strong th:inline="text" style="color: red;  ">ընդհանուր=[[${#numbers.formatDecimal(s, 0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 
         <li th:each="one:${all}" style="width: 300px;float: left;border-style: ridge;background-color: yellow">
             <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
