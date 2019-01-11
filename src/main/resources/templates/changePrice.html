@@ -11,12 +11,12 @@
 <p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
 <a  href="/allByMax"><button class="more">Գլխավոր</button></a>
-<h3 style="color: red" th:text="${creditor.user.name+'  '+ creditor.user.country+'  '+ creditor.user.tel}"></h3>
+<h3 class="message" th:text="${creditor.user.name+'  '+ creditor.user.country+'  '+ creditor.user.tel}"></h3>
 <form th:action="@{/updatePrice}" th:object="${creditor}" method="post">
     <input type="hidden" name="id" th:value="${creditor.getId()}">
-    Նոր պարտք  <input type="number" step="50"  th:field="*{value}" placeholder="partq"><br>
-    Նոր ամիս  <input type="date"   th:field="*{date}" placeholder="partq"><br>
-    <button class="more" >թարմացնել</button>
+    Փոխել չափը  <input type="number" step="50"  th:field="*{value}" placeholder="partq"><br>
+    Փոխել օրը  <input type="date"   th:field="*{date}" placeholder="partq"><br>
+    <button class="newbtn" >թարմացնել</button>
 </form>
 </body>
 </html>

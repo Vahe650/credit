@@ -3,39 +3,41 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+    <link rel="stylesheet" type="text/css" href="src/main/resources/static/css/style.css"/>
     <title>պարտք</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
 
 </head>
-<body style="background-color: darkkhaki">
+<body >
 <p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
 
-<span><a href="/"><button class="more">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
-    <a href="/admin"><button class="more">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
-    <a href="/logout"><button class="more">ԵԼՔ</button></a>
+<span><a href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
+    <a href="/admin"><button class="newbtn">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
+    <a href="/logout"><button class="newbtn">ԵԼՔ</button></a>
 </span><br><br>
 <form action="/search">
     <input name="search" placeholder="փնտրել">
-    <input class="more" c type="submit" value="փնտրել">
+    <input type="image" src="../images/test.jpg" class="btn" alt="Submit" >
 </form>
 <form action="/searchByDate">
-    <input type="date" name="date" placeholder="amsativ">
-    <input class="more" type="submit" value="փնտրել">
+    <input style="height: 30px" type="date" name="date" placeholder="amsativ">
+    <input type="image" src="../images/test.jpg" class="btn" alt="Submit" >
+
 </form>
 
 
 
 
-<ol style="padding-left: 200px">
-    <li><h3 style="color: olive"><strong th:inline="text" style="color: red;  ">ընդհանուր=[[${#numbers.formatDecimal(s,
+<ol class="ul" >
+    <li><h3 style="color: olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
         0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 
-    <li th:each="one:${all}" style="width: 300px;float: left;border-style: ridge;background-color: yellow">
-        <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
-        <a th:href="@{/credit(id=${one.id})}">
-            <button class="more">0K</button>
+    <li th:each="one:${all}" class="dtoSum">
+        <a th:href="@{/app(id=${one.id})}">
+            <button  class="newbtn">0K</button>
         </a>
+        <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
     </li>
 
 </ol>

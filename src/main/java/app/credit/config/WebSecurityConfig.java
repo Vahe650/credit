@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     }
     @Override
     public void configure(WebSecurity webSecurity) {
-        webSecurity.ignoring().antMatchers("/css/style.css");
+        webSecurity.ignoring().antMatchers("/css/**");
         webSecurity.ignoring().antMatchers("/fonts/**");
         webSecurity.ignoring().antMatchers("/images/**");
         webSecurity.ignoring().antMatchers("/vendor/**");

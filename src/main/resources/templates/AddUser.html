@@ -13,14 +13,14 @@
 <body>
 <p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<a href="/allByMax"><button style="border-radius: 200px;border-color: red"> Գլխավոր</button></a><br>
+<a href="/allByMax"><button class="newbtn"> Գլխավոր</button></a><br>
 <span class="message" ><h3 th:text="${message}"> </h3></span>
 
 <form th:action="@{/add}" th:object="${user}"  method="post">
     <input  th:field="*{name}" placeholder="անուն"></input><br>
     <input  th:field="*{country}" placeholder="քաղաք" ></input><br>
     <input  th:field="*{tel}" placeholder="հեռախոս "></input><br>
-    <button class="more">ավելացնել</button>
+    <button class="newbtn">ավելացնել</button>
 
 </form>
 </body>

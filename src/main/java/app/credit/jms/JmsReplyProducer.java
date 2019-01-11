@@ -1,8 +1,8 @@
 //
-//package app.credit.jms;
+//package app.app.jms;
 //
 //
-//import app.credit.dto.CreditDto;
+//import app.app.dto.CreditDto;
 //import org.springframework.jms.annotation.JmsListener;
 //import org.springframework.messaging.Message;
 //import org.springframework.messaging.handler.annotation.Header;

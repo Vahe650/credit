@@ -11,19 +11,19 @@
     <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
-<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+<p sec:authorize="hasAnyAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<a href="/allByMax"><button class="more">ԳԼԽԱՎՈՐ</button></a>
+<a href="/allByMax"><button class="newbtn">ԳԼԽԱՎՈՐ</button></a>
 <h3 class="message" th:text="${user.name+' '+user.country+' '+user.tel}"></h3>
-<a th:href="@{/update(id=${user.id})}"><button class="more" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
-<a th:href="@{/deleteUser(id=${user.id})}"><button class="more"> ՋՆՋԵԼ</button></a><br>
+<a th:href="@{/update(id=${user.id})}"><button class="newbtn" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
+<a th:href="@{/deleteUser(id=${user.id})}"><button class="newbtn"> ՋՆՋԵԼ</button></a><br>
 <h3 class="message" th:text="${message}"></h3>
 
 
 <form th:action="@{/addCredit}" th:object="${creditor}" method="post">
     <input type="hidden" name="userId" th:value="${user.getId()}">ՆՈՐ ՊԱՐՏՔ
     <input th:field="*{value}" type="number" step="50" placeholder="partq">
-    <button class="more">ԱՎԵԼԱՑՆԵԼ</button>
+    <button class="newbtn">ԱՎԵԼԱՑՆԵԼ</button>
 </form>
 <span class="credit" >
     <h2>ՊԱՐՏՔ</h2>
@@ -32,8 +32,8 @@
 
             <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
               <a th:href="@{/change(id=${one.id})}"><button
-                      class="more">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
-                <a th:href="@{/changeType(id=${one.id})}"><button class="more">+</button></a><br><br>
+                      class="newbtn">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
+                <a th:href="@{/changeType(id=${one.id})}"><button class="newbtn">+</button></a><br><br>
             </li>
 
 
@@ -52,7 +52,7 @@
 
 
             <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" style="display: inline-block"></strong>
-                <a th:href="@{/deletePrice(id=${one.id})}"><button class="more">ՋՆՋԵԼ</button></a><br><br></li>
+                <a th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">ՋՆՋԵԼ</button></a><br><br></li>
 
 </ol>
     </span>

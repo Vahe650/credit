@@ -1,4 +1,4 @@
-package credit.credit;
+package app.credit;
 
         import org.junit.Test;
         import org.junit.runner.RunWith;

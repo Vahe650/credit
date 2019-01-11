@@ -10,14 +10,14 @@
 <body>
 <p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<a href="/allByMax"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a><br>
+<a href="/allByMax"><button class="newbtn">Գլխավոր</button></a><br>
 <h3 class="message"  th:text="${message}"></h3>
 <form th:action="@{/up}" th:object="${user}" method="post">
     <input type="hidden" name="id" th:value="${user.id}">
     <input th:field="*{name}"  placeholder="անուն"/><br>
     <input th:field="*{country}"  placeholder="քաղաք"/><br>
     <input th:field="*{tel}"  placeholder=" հեռախոս"/><br>
-    <button class="more">թարմացնել</button>
+    <button class="newbtn">թարմացնել</button>
 
 </form>
 </body>

@@ -10,14 +10,14 @@
 <body>
 <p  sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<span  sec:authorize="hasAuthority('ADMIN')"><a  href="/allByMax"><button class="more" >Գլխավոր</button></a>&nbsp;&nbsp;
-    <a  href="/admin"><button class="more" >ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
+<span  sec:authorize="hasAuthority('ADMIN')"><a  href="/allByMax"><button class="newbtn" >Գլխավոր</button></a>&nbsp;&nbsp;
+    <a  href="/admin"><button class="newbtn" >ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
 </span>
 
-<a  href="/"><button class="more">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
+<a  href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
 
-<span  sec:authorize="!hasAuthority('ADMIN')"><a href="/login"><button class="more" >Մուտք</button></a>&nbsp;&nbsp;</span>
-<span  sec:authorize="hasAuthority('ADMIN')"><a href="/logout"><button class="more" >ԵԼՔ</button></a>&nbsp;&nbsp;</span>
+<span  sec:authorize="!hasAuthority('ADMIN')"><a href="/login"><button class="newbtn" >Մուտք</button></a>&nbsp;&nbsp;</span>
+<span  sec:authorize="hasAuthority('ADMIN')"><a href="/logout"><button class="newbtn" >ԵԼՔ</button></a>&nbsp;&nbsp;</span>
 
 
 
@@ -26,13 +26,10 @@
 
 <form th:action="@{/searchDtoByName}">
     <input name="name" placeholder="ՈՐՈՆՈՒՄ ՊԱՐՏՔ">
-    <input class="more"  type="submit" value="ՈՐՈՆՈՒՄ">
+    <input type="image" src="../images/test.jpg" class="btn" alt="Submit" >
+
 </form>
 <span sec:authorize="hasAuthority('ADMIN')">
-<form th:action="@{/search}">
-    <input name="search" placeholder="ՈՐՈՆՈՒՄ ԱՆՈՒՆ">
-    <input class="more"  type="submit" value="ՈՐՈՆՈՒՄ">
-</form>
     </span>
 <h2 class="message" th:text="${message}"></h2>
 <ul class="ul">
@@ -53,27 +50,22 @@
     </li>
 
 </ul>
-
-
-<br>
-
-
-<ol style="padding: 100px">
+<ol class="ul">
     <h2 class="message" th:text="${mess}"></h2>
 
-    <li th:each="one:${allUsers}" style="width: 300px;float: left;border-style: ridge;background-color: pink">
-        <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
-        <a th:href="@{/credit(id=${one.id})}">
-            <button class="more">OK</button>
+    <li th:each="one:${allUsers}" class="dtoSum">
+        <a th:href="@{/app(id=${one.id})}">
+            <button class="newbtn">OK</button>
         </a>
+        <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
     </li>
 
 
-    <li th:each="one:${allByDate}" style="width: 300px;float: left;border-style: ridge;background-color: pink">
-        <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
-        <a th:href="@{/credit(id=${one.user.id})}">
-            <button class="more">OK</button>
+    <li th:each="one:${allByDate}" class="dtoSum">
+        <a th:href="@{/app(id=${one.user.id})}">
+            <button class="newbtn">OK</button>
         </a>
+        <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
         <p><strong th:utext="${one.armDate+' _ '+one.value}"></strong>
     </li>
 

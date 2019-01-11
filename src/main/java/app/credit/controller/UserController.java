@@ -37,7 +37,7 @@ public class UserController {
         if (user.isPresent()) {
             String message = user.get().getName() + "@   partq uni, Mi jnje!!!";
             if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
-                return "redirect:/credit?id=" + user.get().getId() + "&message=" + message;
+                return "redirect:/app?id=" + user.get().getId() + "&message=" + message;
             }
             userRepository.delete(user.get());
             return "redirect:/allByMax";
@@ -68,7 +68,7 @@ public class UserController {
         }
         user.setName(user.getName().toLowerCase());
         userRepository.save(user);
-        return "redirect:/credit?id=" + user.getId();
+        return "redirect:/app?id=" + user.getId();
     }
 
     @RequestMapping(value = "/update")
@@ -97,7 +97,7 @@ public class UserController {
         }
         user.setId(id);
         userRepository.save(user);
-        return "redirect:/credit?id=" + user.getId();
+        return "redirect:/app?id=" + user.getId();
     }
 
     @RequestMapping(value = "/search")

@@ -31,12 +31,12 @@ public class CreditApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        if (userRepository.findByEmail("Vahe") == null) {
+        if (userRepository.findByEmail("ando@gmail.com") == null) {
             User admin = User.builder()
-                    .name("Vahe")
+                    .name("Ando")
                     .type(UserType.ADMIN)
-                    .email("Vahe")
-                    .password(passwordEncoder().encode("Vahe"))
+                    .email("ando@gmail.com")
+                    .password(passwordEncoder().encode("ando"))
                     .build();
 
             userRepository.save(admin);

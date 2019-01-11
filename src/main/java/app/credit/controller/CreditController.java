@@ -36,7 +36,7 @@ public class CreditController {
     private CreditService creditService;
 
 
-    @RequestMapping(value = "/credit")
+    @RequestMapping(value = "/app")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
                       @RequestParam(name = "id", required = false) int userId) throws JMSException {
         Optional<User> one = userRepository.findById(userId);
@@ -47,7 +47,7 @@ public class CreditController {
 //        List<CreditDto> creditDtos = creditRepository.getCreditDtos(one.get());
 //        for (CreditDto creditDto : creditDtos) {
 //            producer.send(creditDto, creditDto.getUserName());
-//            jmsConsumer.sending("credit with '" + creditDto.getId() + "' is exist", creditDto.getUserName());
+//            jmsConsumer.sending("app with '" + creditDto.getId() + "' is exist", creditDto.getUserName());
 //        }
             final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one.get());
             if (credit != null) {
@@ -83,7 +83,7 @@ public class CreditController {
                     sb = new StringBuilder("shat mec tiv es gre");
                 }
             }
-            return "redirect:/credit?id=" + userId + "&message=" + sb.toString();
+            return "redirect:/app?id=" + userId + "&message=" + sb.toString();
         }
         credit.setType(CreditType.NEW);
         final Optional<User> user = userRepository.findById(userId);
@@ -91,7 +91,7 @@ public class CreditController {
 
             credit.setUser(user.get());
             creditRepository.save(credit);
-            return "redirect:/credit" + "?id=" + credit.getUser().getId();
+            return "redirect:/app" + "?id=" + credit.getUser().getId();
         }
         return "redirect:/error";
     }
@@ -102,7 +102,7 @@ public class CreditController {
         if (one.isPresent()) {
             one.get().setType(CreditType.END);
             creditRepository.save(one.get());
-            return "redirect:/credit?id=" + one.get().getUser().getId();
+            return "redirect:/app?id=" + one.get().getUser().getId();
         }
         return "redirect:/error";
     }
@@ -112,7 +112,7 @@ public class CreditController {
         Optional<Credit> one = creditRepository.findById(id);
         if (one.isPresent()) {
             creditRepository.delete(one.get());
-            return "redirect:/credit?id=" + one.get().getUser().getId();
+            return "redirect:/app?id=" + one.get().getUser().getId();
         }
         return "redirect:/error";
     }
@@ -156,7 +156,7 @@ public class CreditController {
                         sb = new StringBuilder("shat mec tiv es gre");
                     }
                 }
-                return "redirect:/credit?id=" + one.get().getUser().getId() + "&message=" + sb.toString();
+                return "redirect:/app?id=" + one.get().getUser().getId() + "&message=" + sb.toString();
             }
             one.get().setValue(credit.getValue());
             if (!credit.getDate().equals("")) {
@@ -164,7 +164,7 @@ public class CreditController {
             }
             one.get().setId(id);
             creditRepository.save(one.get());
-            return "redirect:/credit?id=" + one.get().getUser().getId();
+            return "redirect:/app?id=" + one.get().getUser().getId();
         }
         return "redirect:/error";
 

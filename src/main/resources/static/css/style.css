@@ -30,9 +30,69 @@
     float: left;
     padding-right: 20px;
     border-style: ridge;
-    background-color: greenyellow;
+    background-color: mistyrose;
+
+
 }
 
 .ul {
    padding-left: 150px;
+}
+.glyph{
+    padding-right: 100px;
+     height: 16px;
+     width: 24px;
+    pointer-events: none; //this makes the glyph clickable as part of the input
+}
+
+.btn {
+    vertical-align: middle;
+    padding-top: 0px;
+    height: 25px;
+    width: 28px;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.container-newbtn {
+    width: 100%;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.newbtn {
+    font-family: Ubuntu-Bold;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+
+
+
+
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+
+    background-color: #827ffe;
+    border-radius: 3px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.newbtn:hover {
+    background-color: #403866;
+}
+#popUpWindow{
+//background: lightblue;
 }
