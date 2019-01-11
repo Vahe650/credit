@@ -1,41 +1,42 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>պարտք</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
+
 </head>
 <body style="background-color: darkkhaki">
+<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<span><a href="/allByMax">
-    <button style="border-radius: 200px;border-color: red">Բոլոլրը</button>
-</a></span>
 
-<span>
-    <a href="/admin">
-    <button style="border-radius: 200px;border-color: red">Նոր</button>
-</a>
-    <form action="/search">
-        <input name="search" placeholder="փնտրել">
-        <input STYLE="color: red;border-radius: 500px;border-color: red" type="submit" value="փնտրել">
-    </form>
-    <form action="/searchByDate">
-        <input type="date" name="date" placeholder="amsativ">
-        <input STYLE="color: red;border-radius: 500px;border-color: red" type="submit" value="փնտրել">
-    </form>
-
-</span>
+<span><a href="/"><button class="more">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
+    <a href="/admin"><button class="more">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
+    <a href="/logout"><button class="more">ԵԼՔ</button></a>
+</span><br><br>
+<form action="/search">
+    <input name="search" placeholder="փնտրել">
+    <input class="more" c type="submit" value="փնտրել">
+</form>
+<form action="/searchByDate">
+    <input type="date" name="date" placeholder="amsativ">
+    <input class="more" type="submit" value="փնտրել">
+</form>
 
 
 
 
 <ol style="padding-left: 200px">
-    <li><h3 style="color: olive"><strong th:inline="text" style="color: red;  ">ընդհանուր=[[${#numbers.formatDecimal(s, 0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
+    <li><h3 style="color: olive"><strong th:inline="text" style="color: red;  ">ընդհանուր=[[${#numbers.formatDecimal(s,
+        0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 
-        <li th:each="one:${all}" style="width: 300px;float: left;border-style: ridge;background-color: yellow">
-            <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
-                <a th:href="@{/credit(id=${one.id})}">
-                    <button style="border-radius: 200px;border-color: red">0K</button>
-                </a>
-        </li>
+    <li th:each="one:${all}" style="width: 300px;float: left;border-style: ridge;background-color: yellow">
+        <h3 style="display: inline-block" th:text="${one.name+' '+one.country}"></h3>
+        <a th:href="@{/credit(id=${one.id})}">
+            <button class="more">0K</button>
+        </a>
+    </li>
 
 </ol>
 </body>

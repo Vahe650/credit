@@ -24,7 +24,7 @@ public class UserController {
     private UserRepository userRepository;
     private CreditRepository creditRepository;
 
-    @RequestMapping(value = "/")
+    @RequestMapping(value = "/allByMax")
     public String home(ModelMap map) {
         map.addAttribute("all", userRepository.findAllByOrderByNameAsc());
         map.addAttribute("s", creditRepository.sum());
@@ -40,7 +40,7 @@ public class UserController {
                 return "redirect:/credit?id=" + user.get().getId() + "&message=" + message;
             }
             userRepository.delete(user.get());
-            return "redirect:/";
+            return "redirect:/allByMax";
         }
         return "redirect:/error";
     }
@@ -104,9 +104,10 @@ public class UserController {
     public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
         List<User> userList = userRepository.findUserByNameLike(search.trim());
         if (userList.isEmpty()) {
-            modelMap.addAttribute("mess", "<strong>' " + search + " '</strong>" + "  anunov mard chka");
+            modelMap.addAttribute("mess",  search + " anunov mard chka");
         } else {
             modelMap.addAttribute("allUsers", userList);
+            modelMap.addAttribute("s", creditRepository.sum());
         }
         return "result";
     }

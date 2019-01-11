@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <html>
 <head>
     <title>update</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
-<a href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a><br>
-<span style="color: red"><h3 th:text="${message}"></h3></span>
+<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+
+<a href="/allByMax"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a><br>
+<h3 class="message"  th:text="${message}"></h3>
 <form th:action="@{/up}" th:object="${user}" method="post">
     <input type="hidden" name="id" th:value="${user.id}">
     <input th:field="*{name}"  placeholder="անուն"/><br>
     <input th:field="*{country}"  placeholder="քաղաք"/><br>
     <input th:field="*{tel}"  placeholder=" հեռախոս"/><br>
-    <button style="border-radius: 200px;border-color: red">թարմացնել</button>
+    <button class="more">թարմացնել</button>
 
 </form>
 </body>

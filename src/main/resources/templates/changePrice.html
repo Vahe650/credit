@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <html>
 <head>
     <title>change</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
-<a  href="/"><button style="border-radius: 200px;border-color: red">Գլխավոր</button></a>
+<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+
+<a  href="/allByMax"><button class="more">Գլխավոր</button></a>
 <h3 style="color: red" th:text="${creditor.user.name+'  '+ creditor.user.country+'  '+ creditor.user.tel}"></h3>
 <form th:action="@{/updatePrice}" th:object="${creditor}" method="post">
     <input type="hidden" name="id" th:value="${creditor.getId()}">
     Նոր պարտք  <input type="number" step="50"  th:field="*{value}" placeholder="partq"><br>
     Նոր ամիս  <input type="date"   th:field="*{date}" placeholder="partq"><br>
-    <button style="border-radius: 200px;border-color: red">թարմացնել</button>
+    <button class="more" >թարմացնել</button>
 </form>
 </body>
 </html>

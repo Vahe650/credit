@@ -1,18 +1,26 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+</head>
 <html>
 <head>
     <title>Add User</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
-<a href="/"><button style="border-radius: 200px;border-color: red"> Գլխավոր</button></a><br>
-<span style="color: red"><h3 th:text="${message}"> </h3></span>
+<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+
+<a href="/allByMax"><button style="border-radius: 200px;border-color: red"> Գլխավոր</button></a><br>
+<span class="message" ><h3 th:text="${message}"> </h3></span>
 
 <form th:action="@{/add}" th:object="${user}"  method="post">
     <input  th:field="*{name}" placeholder="անուն"></input><br>
     <input  th:field="*{country}" placeholder="քաղաք" ></input><br>
     <input  th:field="*{tel}" placeholder="հեռախոս "></input><br>
-    <button style="border-radius: 200px;border-color: red">ավելացնել</button>
+    <button class="more">ավելացնել</button>
 
 </form>
 </body>

@@ -1,57 +1,58 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:td="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
+</head>
 <html>
 <head>
     <title>detail</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
-<a href="/">
-    <button>Գլխավոր</button>
-</a>
+<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<h3 style="color: red" th:text="${user.name+' '+user.country+' '+user.tel}"></h3>
-<a th:href="@{/update(id=${user.id})}">
-    <button style="border-radius: 200px;border-color: red">թարմացնել</button>
-</a>&nbsp; &nbsp; &nbsp;
-<a th:href="@{/deleteUser(id=${user.id})}">
-    <button style="border-radius: 200px;border-color: red"> ջնջել ցուցակից</button>
-</a><br>
-<h3 th:text="${message}"></h3>
+<a href="/allByMax"><button class="more">ԳԼԽԱՎՈՐ</button></a>
+<h3 class="message" th:text="${user.name+' '+user.country+' '+user.tel}"></h3>
+<a th:href="@{/update(id=${user.id})}"><button class="more" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
+<a th:href="@{/deleteUser(id=${user.id})}"><button class="more"> ՋՆՋԵԼ</button></a><br>
+<h3 class="message" th:text="${message}"></h3>
 
 
 <form th:action="@{/addCredit}" th:object="${creditor}" method="post">
-    <input type="hidden" name="userId" th:value="${user.getId()}">
-    Նոր պարտք <input th:field="*{value}" type="number" step="50" placeholder="partq">
-    <button style="border-radius: 200px;border-color: red">ավելացնել</button>
+    <input type="hidden" name="userId" th:value="${user.getId()}">ՆՈՐ ՊԱՐՏՔ
+    <input th:field="*{value}" type="number" step="50" placeholder="partq">
+    <button class="more">ԱՎԵԼԱՑՆԵԼ</button>
 </form>
-<span style="width: 280px;float: left;">
-    <h2>պարտք</h2>
+<span class="credit" >
+    <h2>ՊԱՐՏՔ</h2>
 <ol>
-    <li><h3 style="color: olive">ամիս/օր &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; գումար</h3></li>
+    <li><h3 class="olive">ԱՄԻՍ/ՕՐ &nbsp; ԳՈՒՄԱՐ</h3></li>
 
-            <li th:each="one:${news}"> <strong style="display: inline-block" th:text="${one.armDate+' '}"></strong>
+            <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
               <a th:href="@{/change(id=${one.id})}"><button
-                      style="border-radius: 200px;border-color: red">-</button></a><strong style="display: inline-block" th:text="' '+${one.value}+' '"></strong>
-                <a th:href="@{/changeType(id=${one.id})}"><button style="border-radius: 200px;border-color: red">+</button></a><br><br>
+                      class="more">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
+                <a th:href="@{/changeType(id=${one.id})}"><button class="more">+</button></a><br><br>
             </li>
 
 
 
-    <li  style="color: red"><strong th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong></li>
+    <li  class="message"><strong th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong></li>
 </ol>
      </span>
 
 <span style="width: 5px;float: left;"><hr width="1" size="500"></span>
 
-<span style="width: 280px;float: left;">
+<span class="credit" >
 
-<h2>Տված</h2>
+<h2>ՏՎԱԾ</h2>
 <ol>
-     <li><h3 style="color: olive">ամիս/օր &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; գումար</h3></li>
+     <li><h3 class="olive">ԱՄԻՍ/ՕՐ&nbsp; ԳՈՒՄԱՐ</h3></li>
 
 
             <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" style="display: inline-block"></strong>
-                <a th:href="@{/deletePrice(id=${one.id})}"><button>ջնջել</button></a><br><br></li>
+                <a th:href="@{/deletePrice(id=${one.id})}"><button class="more">ՋՆՋԵԼ</button></a><br><br></li>
 
 </ol>
     </span>

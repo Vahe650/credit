@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+
+    <title>Login</title>
+    <link href="/css/style.css" rel="stylesheet" media="all">
+
+</head>
+<body>
+
+<div align="center" class="login-form">
+    <a href="/">
+        <button class="more">Գլխավոր</button>
+    </a>
+    <div th:if="${param.error}">
+        <span class="message">Սխալ գաղտնաբառ կամ Անուն</span>
+    </div>
+    <form action="/login" method="post">
+        <div class="form-group">
+            <input class="au-input au-input--full" type="text" name="email" placeholder="email" id="email">
+        </div>
+        <div class="form-group">
+            <input class="au-input au-input--full" type="password" name="password" placeholder="Password" id="password">
+        </div>
+        <div class="login-checkbox">
+            <label>
+                <input type="checkbox" name="remember-me">Հիշել
+            </label>
+        </div>
+            <button class="more">ՄՈՒՏՔ</button>
+
+    </form>
+</div>
+
+</body>
+
+</html>
+<!-- end document-->

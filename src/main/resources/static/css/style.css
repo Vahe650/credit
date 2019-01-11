@@ -1,0 +1,38 @@
+.more{
+    cursor:pointer;
+    border-radius: 200px;
+    border-color: red;
+}
+
+.credit {
+    width: 280px;
+    float: left;
+}
+
+.message {
+    color: red;
+}
+
+.inline {
+    display: inline-block;
+}
+
+.olive {
+    color: olive;
+}
+
+.dtos {
+    color: red;
+    float:  right;
+}
+.dtoSum {
+    width: 300px;
+    float: left;
+    padding-right: 20px;
+    border-style: ridge;
+    background-color: greenyellow;
+}
+
+.ul {
+   padding-left: 150px;
+}

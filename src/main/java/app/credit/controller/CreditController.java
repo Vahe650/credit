@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.jms.JMSException;
 import javax.validation.Valid;
-import javax.validation.constraints.DecimalMin;
 import java.util.List;
 import java.util.Optional;
 
@@ -126,29 +125,14 @@ public class CreditController {
             map.addAttribute("mess", creditService.getDates(date) + " in partq chi exel");
         } else {
             map.addAttribute("allByDate", allByDate);
+            map.addAttribute("s", creditRepository.sum());
         }
         return "result";
     }
 
-    @RequestMapping(value = "/allByMax")
-    public String allByMax(ModelMap modelMap) {
-//        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
-//        modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
-        modelMap.addAttribute("userSumDto", creditRepository.createUserSum());
-        return "result";
-    }
 
-    @RequestMapping(value = "/searchDtoByName")
-    public String searchDto(ModelMap modelMap, @RequestParam("name") String name) {
-        List<UserSumDto> userList = creditRepository.searchUserSDto(name.trim());
-        if (userList.isEmpty()) {
-            modelMap.addAttribute("message", name + "n  partq chuni");
-        } else {
-            modelMap.addAttribute("allDtos", userList);
-        }
-        return "result";
 
-    }
+
 
     @RequestMapping(value = "/change")
     public String change(ModelMap map, @RequestParam("id") int id) {
