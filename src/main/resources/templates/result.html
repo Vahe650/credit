@@ -40,7 +40,7 @@
         0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 
     <li th:each="one:${allDtos}" class="dtoSum"><h4
-            th:text="${one.user.name+' '+one.user.country+''+one.user.tel+'='+one.sum}">
+            th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}">
         <span class="dtos" th:text="'='+${one.sum}"></span></h4>
     </li>
 
@@ -48,7 +48,7 @@
 
 <ul class="ul">
     <li  th:each="one:${userSumDto}"class="dtoSum"><h4
-            th:text="${one.user.name+' '+one.user.country+''+one.user.tel+'='+one.sum}"></h4>
+            th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
 
     </li>
 
