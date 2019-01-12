@@ -6,17 +6,47 @@
 <head>
     <title>change</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
 </head>
 <body>
-<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-50 p-b-90">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                <span class="login100-form-title p-b-51" th:text="${message}"></span>
+                <a class="underline" href="/allByMax">
+                    <button class="login100-form-btn">
+                        Գլխավոր
+                    </button>
+                </a>
+                <form class="login100-form validate-form flex-sb flex-w" th:action="@{/updatePrice}"
+                      th:object="${creditor}" method="post">
+                <span class="login100-form-title p-b-51"
+                      th:text="${creditor.user.name+'  '+ creditor.user.country}"></span>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" type="hidden" name="id" th:value="${creditor.getId()}">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" step="50" th:field="*{value}" placeholder="Փոխել "><br>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input  class="input100" type="date" th:field="*{date}" th:value="${creditor.date}" placeholder="Փոխել օրը"><br>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn">
+                            Փոխել
+                        </button>
+                    </div>
 
-<a  href="/allByMax"><button class="more">Գլխավոր</button></a>
-<h3 class="message" th:text="${creditor.user.name+'  '+ creditor.user.country+'  '+ creditor.user.tel}"></h3>
-<form th:action="@{/updatePrice}" th:object="${creditor}" method="post">
-    <input type="hidden" name="id" th:value="${creditor.getId()}">
-    Փոխել չափը  <input type="number" step="50"  th:field="*{value}" placeholder="partq"><br>
-    Փոխել օրը  <input type="date"   th:field="*{date}" placeholder="partq"><br>
-    <button class="newbtn" >թարմացնել</button>
-</form>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

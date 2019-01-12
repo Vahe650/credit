@@ -6,19 +6,54 @@
 <head>
     <title>update</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/util.css">
+    <link rel="stylesheet" type="text/css" href="/css/main.css">
+
 </head>
 <body>
-<p sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
+<div class="limiter">
+    <div class="container-login100">
+        <div class="wrap-login100 p-t-50 p-b-90">
+            <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                <span class="login100-form-title p-b-51" th:text="${message!=''} ?  ${'անուն Չունի'} : '' "></span>
 
-<a href="/allByMax"><button class="newbtn">Գլխավոր</button></a><br>
-<h3 class="message"  th:text="${message}"></h3>
-<form th:action="@{/up}" th:object="${user}" method="post">
-    <input type="hidden" name="id" th:value="${user.id}">
-    <input th:field="*{name}"  placeholder="անուն"/><br>
-    <input th:field="*{country}"  placeholder="քաղաք"/><br>
-    <input th:field="*{tel}"  placeholder=" հեռախոս"/><br>
-    <button class="newbtn">թարմացնել</button>
+                <a class="underline" href="/allByMax">
+                    <button class="login100-form-btn">
+                        Գլխավոր
+                    </button>
+                </a>
+                <form class="login100-form validate-form flex-sb flex-w" th:action="@{/up}" th:object="${user}" method="post">
+                    <span class="login100-form-title p-b-51">
+						թարմացում
+					</span>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" type="hidden" name="id" th:value="${user.id}">
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" th:field="*{name}" placeholder="անուն"/><br>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" th:field="*{country}" placeholder="քաղաք"/><br>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" th:field="*{tel}" placeholder=" հեռախոս"/><br>
+                        <span class="focus-input100"></span>
+                    </div>
 
-</form>
+
+                    <div class="container-login100-form-btn m-t-17">
+                        <button class="login100-form-btn">
+                            թարմացնել
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

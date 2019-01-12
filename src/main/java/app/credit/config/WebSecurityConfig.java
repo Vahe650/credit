@@ -57,7 +57,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .failureUrl("/login?error")
                 .usernameParameter("email")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/")
+                .defaultSuccessUrl("/allByMax")
                 .and()
                 .logout()
                 .logoutUrl("/logout")
@@ -70,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .rememberMe()
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login", "/", "/searchDtoByName").permitAll()
+                .antMatchers("/resources**","/login*", "/", "/searchDtoByName").permitAll()
                 .anyRequest().hasAuthority(UserType.ADMIN.name());
     }
 
@@ -80,6 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
+
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().antMatchers("/css/**");

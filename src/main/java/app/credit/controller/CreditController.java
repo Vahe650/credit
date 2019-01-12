@@ -127,7 +127,7 @@ public class CreditController {
             map.addAttribute("allByDate", allByDate);
             map.addAttribute("s", creditRepository.sum());
         }
-        return "result";
+        return "index";
     }
 
 
@@ -135,17 +135,22 @@ public class CreditController {
 
 
     @RequestMapping(value = "/change")
-    public String change(ModelMap map, @RequestParam("id") int id) {
+    public String change(ModelMap map,
+                         @RequestParam(value = "message", required = false) String message,
+                         @RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
         if (one.isPresent()) {
             map.addAttribute("creditor", one.get());
+            map.addAttribute("message", message != null ? message : "");
             return "changePrice";
         }
         return "redirect:/error";
     }
 
     @RequestMapping(value = "/updatePrice")
-    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result, @RequestParam(name = "id", required = false) int id) {
+    public String updatePrice(@Valid @ModelAttribute(name = "creditor") Credit credit,
+                              BindingResult result,
+                              @RequestParam(name = "id", required = false) int id) {
         Optional<Credit> one = creditRepository.findById(credit.getId());
         if (one.isPresent()) {
             StringBuilder sb = new StringBuilder();
@@ -156,7 +161,7 @@ public class CreditController {
                         sb = new StringBuilder("shat mec tiv es gre");
                     }
                 }
-                return "redirect:/app?id=" + one.get().getUser().getId() + "&message=" + sb.toString();
+                return "redirect:/change?id=" + one.get().getId() + "&message=" + sb.toString();
             }
             one.get().setValue(credit.getValue());
             if (!credit.getDate().equals("")) {

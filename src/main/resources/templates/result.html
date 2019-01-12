@@ -4,20 +4,22 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
 
+
     <title>պարտք</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
+
+
 </head>
 <body>
-<p  sec:authorize="hasAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<span  sec:authorize="hasAuthority('ADMIN')"><a  href="/allByMax"><button class="newbtn" >Գլխավոր</button></a>&nbsp;&nbsp;
-    <a  href="/admin"><button class="newbtn" >ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
+<span  sec:authorize="hasAuthority('ADMIN')"><a class="underline"  href="/allByMax"><button class="newbtn" >Գլխավոր</button></a>&nbsp;&nbsp;
+    <a class="underline"  href="/admin"><button class="newbtn" >ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
 </span>
 
-<a  href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
+<a class="underline"  href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
 
-<span  sec:authorize="!hasAuthority('ADMIN')"><a href="/login"><button class="newbtn" >Մուտք</button></a>&nbsp;&nbsp;</span>
-<span  sec:authorize="hasAuthority('ADMIN')"><a href="/logout"><button class="newbtn" >ԵԼՔ</button></a>&nbsp;&nbsp;</span>
+<span  sec:authorize="!hasAuthority('ADMIN')"><a class="underline" href="/login"><button class="newbtn" >Մուտք</button></a>&nbsp;&nbsp;</span>
+<span  sec:authorize="hasAuthority('ADMIN')"><a class="underline" href="/logout"><button class="newbtn" >ԵԼՔ</button></a>&nbsp;&nbsp;</span>
 
 
 
@@ -25,9 +27,8 @@
 <br>
 
 <form th:action="@{/searchDtoByName}">
-    <input name="name" placeholder="ՈՐՈՆՈՒՄ ՊԱՐՏՔ">
+    <input  class="search" name="name" placeholder="ՈՐՈՆՈՒՄ ՊԱՐՏՔ">
     <input type="image" src="../images/test.jpg" class="btn" alt="Submit" >
-
 </form>
 <span sec:authorize="hasAuthority('ADMIN')">
     </span>
@@ -36,7 +37,7 @@
     <li><h3 class="olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
         0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 
-    <li th:each="one:${allDtos}" class="dtoSum"><h4
+    <li th:each="one:${allDtos}" class="dtoSum"><h4 class="fonts"
             th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}">
         <span class="dtos" th:text="'='+${one.sum}"></span></h4>
     </li>
@@ -44,33 +45,13 @@
 </ul>
 
 <ul class="ul">
-    <li  th:each="one:${userSumDto}"class="dtoSum"><h4
+    <li   th:each="one:${userSumDto}"class="dtoSum"><h4 class="fonts"
             th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
 
     </li>
 
 </ul>
-<ol class="ul">
-    <h2 class="message" th:text="${mess}"></h2>
 
-    <li th:each="one:${allUsers}" class="dtoSum">
-        <a th:href="@{/app(id=${one.id})}">
-            <button class="newbtn">OK</button>
-        </a>
-        <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
-    </li>
-
-
-    <li th:each="one:${allByDate}" class="dtoSum">
-        <a th:href="@{/app(id=${one.user.id})}">
-            <button class="newbtn">OK</button>
-        </a>
-        <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
-        <p><strong th:utext="${one.armDate+' _ '+one.value}"></strong>
-    </li>
-
-
-</ol>
 
 </body>
 </html>

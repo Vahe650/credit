@@ -2,21 +2,19 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-<head>
-    <link rel="stylesheet" type="text/css" href="../static/css/style.css"/>
-</head>
+
 <html>
 <head>
     <title>detail</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
+
 </head>
 <body>
-<p sec:authorize="hasAnyAuthority('ADMIN')" align="center">Welcome Administrator(<span sec:authentication="principal.username">User</span>)</p>
 
-<a href="/allByMax"><button class="newbtn">ԳԼԽԱՎՈՐ</button></a>
+<a class="underline" href="/allByMax"><button class="newbtn">ԳԼԽԱՎՈՐ</button></a>
 <h3 class="message" th:text="${user.name+' '+user.country+' '+user.tel}"></h3>
-<a th:href="@{/update(id=${user.id})}"><button class="newbtn" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
-<a th:href="@{/deleteUser(id=${user.id})}"><button class="newbtn"> ՋՆՋԵԼ</button></a><br>
+<a class="underline"th:href="@{/update(id=${user.id})}"><button class="newbtn" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
+<a class="underline"th:href="@{/deleteUser(id=${user.id})}"><button class="newbtn"> ՋՆՋԵԼ</button></a><br>
 <h3 class="message" th:text="${message}"></h3>
 
 
@@ -31,9 +29,9 @@
     <li><h3 class="olive">ԱՄԻՍ/ՕՐ &nbsp; ԳՈՒՄԱՐ</h3></li>
 
             <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
-              <a th:href="@{/change(id=${one.id})}"><button
+              <a class="underline"th:href="@{/change(id=${one.id})}"><button
                       class="newbtn">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
-                <a th:href="@{/changeType(id=${one.id})}"><button class="newbtn">+</button></a><br><br>
+                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button class="newbtn">+</button></a><br><br>
             </li>
 
 
@@ -51,8 +49,8 @@
      <li><h3 class="olive">ԱՄԻՍ/ՕՐ&nbsp; ԳՈՒՄԱՐ</h3></li>
 
 
-            <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" style="display: inline-block"></strong>
-                <a th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">ՋՆՋԵԼ</button></a><br><br></li>
+            <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" class="inline"></strong>
+                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">ՋՆՋԵԼ</button></a><br><br></li>
 
 </ol>
     </span>

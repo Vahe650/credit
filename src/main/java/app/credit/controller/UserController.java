@@ -86,8 +86,8 @@ public class UserController {
 
     @RequestMapping(value = "/up", method = RequestMethod.POST)
     public String up(@Valid @ModelAttribute(name = "user") User user,
-                     @RequestParam(name = "id",required = false) int id,
-                     BindingResult result) {
+                     BindingResult result,
+                     @RequestParam(name = "id",required = false) int id) {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
@@ -109,7 +109,7 @@ public class UserController {
             modelMap.addAttribute("allUsers", userList);
             modelMap.addAttribute("s", creditRepository.sum());
         }
-        return "result";
+        return "index";
     }
 }
 
