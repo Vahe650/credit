@@ -15,11 +15,11 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                <span class="login100-form-title p-b-51" th:text="${message!=''} ?  ${'անուն Չունի'} : '' "></span>
+                <span class="login100-form-title p-b-51" th:text="${message!=''} ?  ${'լրացրեք  անունը '} : '' "></span>
 
-                <a class="underline" href="/allByMax">
+                <a class="underline" th:href="@{/app(id=${user.id})}">
                     <button class="login100-form-btn">
-                        Գլխավոր
+                        չեղարկել
                     </button>
                 </a>
                 <form class="login100-form validate-form flex-sb flex-w" th:action="@{/up}" th:object="${user}" method="post">

@@ -3,6 +3,10 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
+<head>
+    <link rel="stylesheet" type="text/css" href="src/main/resources/static/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="src/main/resources/static/css/style.css"/>
+</head>
 <html>
 <head>
     <title>detail</title>
@@ -30,8 +34,8 @@
 
             <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
               <a class="underline"th:href="@{/change(id=${one.id})}"><button
-                      class="newbtn">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
-                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button class="newbtn">+</button></a><br><br>
+                      class="smallbtn">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
+                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button class="smallbtn">+</button></a><br><br>
             </li>
 
 
@@ -40,7 +44,7 @@
 </ol>
      </span>
 
-<span style="width: 5px;float: left;"><hr width="1" size="500"></span>
+<span class="span-vert"><hr width="1" size="500"></span>
 
 <span class="credit" >
 
@@ -50,7 +54,7 @@
 
 
             <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" class="inline"></strong>
-                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">ՋՆՋԵԼ</button></a><br><br></li>
+                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">✗</button></a><br><br></li>
 
 </ol>
     </span>

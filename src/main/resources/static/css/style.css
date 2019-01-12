@@ -60,15 +60,15 @@
     overflow: hidden;
 }
 
-.container-newbtn {
-    width: 100%;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-}
+/*.container-newbtn {*/
+    /*width: 100%;*/
+    /*display: -webkit-box;*/
+    /*display: -webkit-flex;*/
+    /*display: -moz-box;*/
+    /*display: -ms-flexbox;*/
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
+/*}*/
 
 .newbtn {
     font-family: Ubuntu-Bold;
@@ -76,6 +76,7 @@
     color: #fff;
     line-height: 1.2;
     text-transform: uppercase;
+    height: 33px;
 
     justify-content: center;
     align-items: center;
@@ -113,4 +114,34 @@
 
 .fonts {
     font-size: 17px;
+}
+
+.span-vert {
+    width: 5px;float: left
+}
+
+.smallbtn {
+    font-family: Ubuntu-Bold;
+    font-size: 16px;
+    color: #fff;
+    line-height: 1.2;
+    text-transform: uppercase;
+    height: 28px;
+    width: 5px;
+
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+
+    background-color: #827ffe;
+    border-radius: 7px;
+
+    -webkit-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+.smallbtn:hover {
+    background-color: #403866;
 }
