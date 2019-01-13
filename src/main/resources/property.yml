@@ -8,7 +8,7 @@ spring:
     jpa:
         database: MYSQL
     datasource:
-        url: jdbc:mysql://localhost:3306/app?verifyservercertificate=false&useSSL=false&characterEncoding=utf8&characterSetResults=utf8
+        url: jdbc:mysql://localhost:3306/credit?verifyservercertificate=false&useSSL=false&characterEncoding=utf8&characterSetResults=utf8
         username: root
         password: root
         driver-class-name: com.mysql.jdbc.Driver

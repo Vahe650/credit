@@ -104,7 +104,7 @@ public class UserController {
     public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
         List<User> userList = userRepository.findUserByNameLike(search.trim());
         if (userList.isEmpty()) {
-            modelMap.addAttribute("mess",  search + " anunov mard chka");
+            modelMap.addAttribute("mess",  search);
         } else {
             modelMap.addAttribute("allUsers", userList);
             modelMap.addAttribute("s", creditRepository.sum());

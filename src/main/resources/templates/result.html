@@ -32,10 +32,11 @@
 </form>
 <span sec:authorize="hasAuthority('ADMIN')">
     </span>
-<h2 class="message" th:text="${message}"></h2>
+
 <ul class="ul">
     <li><h3 class="olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
         0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
+    <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
 
     <li th:each="one:${allDtos}" class="dtoSum"><h4 class="fonts"
             th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}">

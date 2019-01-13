@@ -9,30 +9,32 @@
     <title>detail</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
 
+
 </head>
 <body>
 
 <a class="underline" href="/allByMax"><button class="newbtn">ԳԼԽԱՎՈՐ</button></a>
-<h3 class="message" th:text="${user.name+' '+user.country+' '+user.tel}"></h3>
-<a class="underline"th:href="@{/update(id=${user.id})}"><button class="newbtn" >ԹԱՐՄԱՑՆԵԼ</button></a>&nbsp; &nbsp; &nbsp;
-<a class="underline"th:href="@{/deleteUser(id=${user.id})}"><button class="newbtn"> ՋՆՋԵԼ</button></a><br>
-<h3 class="message" th:text="${message}"></h3>
+<span class="user-name" th:text="${user.name+' '+user.country+' '+user.tel}"></span>
+<a class="underline"th:href="@{/update(id=${user.id})}"><button style="font-size: 27px" class="newbtn" >✎</button></a>&nbsp; &nbsp; &nbsp;
+<a class="underline"th:href="@{/deleteUser(id=${user.id})}"><button style="font-size: 27px" class="newbtn"> ✂</button></a><br>
+<h3 class="user-name" th:text="${message}"></h3>
 
 
 <form th:action="@{/addCredit}" th:object="${creditor}" method="post">
-    <input type="hidden" name="userId" th:value="${user.getId()}">ՆՈՐ ՊԱՐՏՔ
-    <input th:field="*{value}" type="number" step="50" placeholder="partq">
-    <button class="newbtn">ԱՎԵԼԱՑՆԵԼ</button>
+    <input type="hidden" name="userId" th:value="${user.getId()}">
+   <span class="user-name">ՆՈՐ ՊԱՐՏՔ</span>
+    <input  class="search" th:field="*{value}" type="number" step="50" placeholder="ՊԱՐՏՔ">
+    <button style="font-size: 25px" class="newbtn"> ➲</button>
 </form>
 <span class="credit" >
-    <h2>ՊԱՐՏՔ</h2>
+    <span style="padding-left: 60px" class="user-name">ՊԱՐՏՔ</span>
 <ol>
     <li><h3 class="olive">ԱՄԻՍ/ՕՐ &nbsp; ԳՈՒՄԱՐ</h3></li>
 
             <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
-              <a class="underline"th:href="@{/change(id=${one.id})}"><button
-                      class="smallbtn">-</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
-                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button class="smallbtn">+</button></a><br><br>
+              <a class="underline"th:href="@{/change(id=${one.id})}"><button style="font-size: 20px"
+                      class="smallbtn"> ✎</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
+                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button style="font-size: 20px" class="smallbtn"> ➨</button></a><br><br>
             </li>
 
 
@@ -45,13 +47,13 @@
 
 <span class="credit" >
 
-<h2>ՏՎԱԾ</h2>
+    <span style="padding-left: 60px" class="user-name">ՏՎԱԾ</span>
 <ol>
      <li><h3 class="olive">ԱՄԻՍ/ՕՐ&nbsp; ԳՈՒՄԱՐ</h3></li>
 
 
             <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" class="inline"></strong>
-                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button class="newbtn">✗</button></a><br><br></li>
+                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button style="font-size: 20px" class="newbtn">✂</button></a><br><br></li>
 
 </ol>
     </span>

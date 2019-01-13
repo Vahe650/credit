@@ -36,7 +36,7 @@ public class MainController {
     public String searchDto(ModelMap modelMap, @RequestParam("name") String name) {
         List<UserSumDto> userList = creditRepository.searchUserSDto(name.trim());
         if (userList.isEmpty()) {
-            modelMap.addAttribute("message", name + "n  partq chuni");
+            modelMap.addAttribute("message", name);
         } else {
             modelMap.addAttribute("allDtos", userList);
             modelMap.addAttribute("s", creditRepository.sum());

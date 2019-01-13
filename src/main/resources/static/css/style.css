@@ -58,7 +58,13 @@
     border: none;
     cursor: pointer;
     overflow: hidden;
+
 }
+.btn:active {
+    background-color: #3e8e41;
+    transform: translateY(4px);
+}
+
 
 /*.container-newbtn {*/
     /*width: 100%;*/
@@ -106,7 +112,9 @@
     height: 30px;
     border-radius: 10px;
     border-color: #827ffe;
+    font-size: 20px;
 }
+
 .li{
     border-radius: 5px;
     border-color: #827ffe;
@@ -144,4 +152,16 @@
 
 .smallbtn:hover {
     background-color: #403866;
+}
+
+
+.user-name {
+    font-family: Ubuntu-Bold;
+    font-size: 30px;
+    color: red;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: start;
+    width: 100%;
+    display: block;
 }
