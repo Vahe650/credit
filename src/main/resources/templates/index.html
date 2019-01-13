@@ -42,6 +42,7 @@
 
 <ol class="ul">
     <span class="user-name" th:text="${mess==null} ?  '' : ${mess+' անունով մարդ չկա '} "></span>
+    <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ին պարտք չկա'} "></span>
     <li th:each="one:${allUsers}" class="dtoSum">
         <a class="underline" th:href="@{/app(id=${one.id})}">
             <button class="newbtn">✔</button>

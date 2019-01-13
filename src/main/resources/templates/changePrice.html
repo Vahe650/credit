@@ -15,7 +15,12 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                <span class="login100-form-title p-b-51" th:text="${message}"></span>
+                <td th:switch="${message}">
+                    <span class="login100-form-title p-b-51" th:case="'big'"> Շատ մեծ թիվ ես գրել </span>
+                    <span class="login100-form-title p-b-51" th:case="'min'">500-ից պակաս թիվ մի գրե</span>
+                    <span class="login100-form-title p-b-51" th:case="'max'">100,000-ից ավել թիվ մի գրե </span>
+
+                </td>
                 <a class="underline" th:href="@{/app(id=${creditor.user.id})}">
                     <button class="login100-form-btn">
                         չեղարկել

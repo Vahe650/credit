@@ -16,13 +16,17 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                <span class="login100-form-title p-b-51" th:text="${message!=''} ?  ${'լրացրեք  անունը '} : '' "></span>
+                <td th:switch="${message}">
+                    <span style="color: red" class="login100-form-title p-b-51" th:case="'nameRequaired'">Անունը լրացրեք</span>
+                    <span  style="color: red" class="login100-form-title p-b-51" th:case="'userExist'">տվյալ անունը արդեն առկա է</span>
+                </td>
                 <a class="underline" href="/allByMax">
                     <button class="login100-form-btn">
                         Գլխավոր
                     </button>
                 </a>
-                <form class="login100-form validate-form flex-sb flex-w" th:action="@{/add}" th:object="${user}" method="post">
+                <form class="login100-form validate-form flex-sb flex-w" th:action="@{/add}" th:object="${user}"
+                      method="post">
                     <span class="login100-form-title p-b-51">
 						ՆՈՐ ԱՆՈՒՆ
 					</span>

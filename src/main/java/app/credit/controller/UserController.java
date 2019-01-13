@@ -35,7 +35,7 @@ public class UserController {
     public String delete(@RequestParam("id") int id) {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
-            String message = user.get().getName() + "@   partq uni, Mi jnje!!!";
+            String message = "notEmpty";
             if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
                 return "redirect:/app?id=" + user.get().getId() + "&message=" + message;
             }
@@ -63,7 +63,7 @@ public class UserController {
             return "redirect:/admin?message=" + sb.toString();
         }
         if (userRepository.findByNameAndCountry(user.getName(), user.getCountry()) != null) {
-            String message = "ed anunov mard ka grancvac<br> LAV MAN ARI!!!";
+            String message = "userExist";
             return "redirect:/admin?message=" + message;
         }
         user.setName(user.getName().toLowerCase());
@@ -91,7 +91,7 @@ public class UserController {
         StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
             for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage()).append("<br>");
+                sb.append(objectError.getDefaultMessage());
             }
             return "redirect:/update?id=" + user.getId() + "&message=" + sb.toString();
         }

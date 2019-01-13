@@ -22,7 +22,7 @@ public class User {
     @Column
     private int id;
     @Column
-    @NotEmpty(message = "anuny partadir lracrac bdi exni!!!")
+    @NotEmpty(message = "nameRequaired")
     private String name;
     @Column
     private String tel;

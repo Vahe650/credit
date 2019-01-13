@@ -13,39 +13,52 @@
 </head>
 <body>
 
-<a class="underline" href="/allByMax"><button class="newbtn">ԳԼԽԱՎՈՐ</button></a>
+<a class="underline" href="/allByMax">
+    <button class="newbtn">ԳԼԽԱՎՈՐ</button>
+</a>
 <span class="user-name" th:text="${user.name+' '+user.country+' '+user.tel}"></span>
-<a class="underline"th:href="@{/update(id=${user.id})}"><button style="font-size: 27px" class="newbtn" >✎</button></a>&nbsp; &nbsp; &nbsp;
-<a class="underline"th:href="@{/deleteUser(id=${user.id})}"><button style="font-size: 27px" class="newbtn"> ✂</button></a><br>
-<h3 class="user-name" th:text="${message}"></h3>
+<a class="underline" th:href="@{/update(id=${user.id})}">
+    <button style="font-size: 27px" class="newbtn">✎</button>
+</a>&nbsp; &nbsp; &nbsp;
+<a class="underline" th:href="@{/deleteUser(id=${user.id})}">
+    <button style="font-size: 27px" class="newbtn"> ✂</button>
+</a><br>
+<td th:switch="${message}">
+    <span class="user-name" th:case="'big'"> Շատ մեծ թիվ ես գրել </span>
+    <span class="user-name" th:case="'min'">500-ից պակաս թիվ մի գրե</span>
+    <span class="user-name" th:case="'max'">100,000-ից ավել թիվ մի գրե </span>
+    <span class="user-name" th:case="'notEmpty'" th:text="${user.name+'-ը պարտք ունի մի ջնջե'}"> </span>
+</td>
 
 
 <form th:action="@{/addCredit}" th:object="${creditor}" method="post">
     <input type="hidden" name="userId" th:value="${user.getId()}">
-   <span class="user-name">ՆՈՐ ՊԱՐՏՔ</span>
-    <input  class="search" th:field="*{value}" type="number" step="50" placeholder="ՊԱՐՏՔ">
-    <button style="font-size: 25px" class="newbtn"> ➲</button>
+    <input class="search" th:field="*{value}" type="number" step="50" placeholder="ՊԱՐՏՔ">
+    <button style="font-size: 28px" class="newbtn"> ➲</button>
+
 </form>
-<span class="credit" >
+<span class="credit">
     <span style="padding-left: 60px" class="user-name">ՊԱՐՏՔ</span>
 <ol>
     <li><h3 class="olive">ԱՄԻՍ/ՕՐ &nbsp; ԳՈՒՄԱՐ</h3></li>
 
-            <li th:each="one:${news}"> <strong class="inline"  th:text="${one.armDate+' '}"></strong>
-              <a class="underline"th:href="@{/change(id=${one.id})}"><button style="font-size: 20px"
-                      class="smallbtn"> ✎</button></a><strong class="inline" th:text="' '+${one.value}+' '"></strong>
-                <a class="underline"th:href="@{/changeType(id=${one.id})}"><button style="font-size: 20px" class="smallbtn"> ➨</button></a><br><br>
+            <li th:each="one:${news}"> <strong class="inline" th:text="${one.armDate+' '}"></strong>
+              <a class="underline" th:href="@{/change(id=${one.id})}"><button style="font-size: 20px"
+                                                                              class="smallbtn"> ✎</button></a><strong
+                        class="inline" th:text="' '+${one.value}+' '"></strong>
+                <a class="underline" th:href="@{/changeType(id=${one.id})}"><button style="font-size: 20px"
+                                                                                    class="smallbtn"> ➨</button></a><br><br>
             </li>
 
 
 
-    <li  class="message"><strong th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong></li>
+    <li class="message"><strong th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong></li>
 </ol>
      </span>
 
 <span class="span-vert"><hr width="1" size="500"></span>
 
-<span class="credit" >
+<span class="credit">
 
     <span style="padding-left: 60px" class="user-name">ՏՎԱԾ</span>
 <ol>
@@ -53,7 +66,8 @@
 
 
             <li th:each="one:${ends}"><strong th:text="${one.armDate+' - '+one.value}" class="inline"></strong>
-                <a class="underline"th:href="@{/deletePrice(id=${one.id})}"><button style="font-size: 20px" class="newbtn">✂</button></a><br><br></li>
+                <a class="underline" th:href="@{/deletePrice(id=${one.id})}"><button style="font-size: 20px"
+                                                                                     class="newbtn">✂</button></a><br><br></li>
 
 </ol>
     </span>

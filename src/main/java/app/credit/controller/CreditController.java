@@ -34,15 +34,11 @@ public class CreditController {
     private CreditRepository creditRepository;
     private UserRepository userRepository;
     private CreditService creditService;
-
-
     @RequestMapping(value = "/app")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
                       @RequestParam(name = "id", required = false) int userId) throws JMSException {
         Optional<User> one = userRepository.findById(userId);
         if (one.isPresent()) {
-
-
             List<Credit> byUserId = creditRepository.findAllByUser(one.get());
 //        List<CreditDto> creditDtos = creditRepository.getCreditDtos(one.get());
 //        for (CreditDto creditDto : creditDtos) {
@@ -59,7 +55,7 @@ public class CreditController {
             }
             final List<Credit> news = creditRepository.newCredits(one.get());
             final List<Credit> ends = creditRepository.endCredits(one.get());
-            map.addAttribute("message", message != null ? message : "");
+            map.addAttribute("message", message != null ? message : " ");
             map.addAttribute("creditor", new Credit());
             map.addAttribute("user", one.get());
             map.addAttribute("byUserId", byUserId);
@@ -69,9 +65,7 @@ public class CreditController {
             return "details";
         }
         return "redirect:/error";
-
     }
-
     @RequestMapping(value = "/addCredit")
     public String cred(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result,
                        @RequestParam(name = "userId", required = false) int userId) {
@@ -80,7 +74,7 @@ public class CreditController {
             for (ObjectError objectError : result.getAllErrors()) {
                 sb.append(objectError.getDefaultMessage());
                 if (objectError.toString().contains(NumberFormatException.class.getName())) {
-                    sb = new StringBuilder("shat mec tiv es gre");
+                    sb = new StringBuilder("big");
                 }
             }
             return "redirect:/app?id=" + userId + "&message=" + sb.toString();
@@ -88,14 +82,12 @@ public class CreditController {
         credit.setType(CreditType.NEW);
         final Optional<User> user = userRepository.findById(userId);
         if (user.isPresent()) {
-
             credit.setUser(user.get());
             creditRepository.save(credit);
             return "redirect:/app" + "?id=" + credit.getUser().getId();
         }
         return "redirect:/error";
     }
-
     @RequestMapping(value = "/changeType")
     public String type(@RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
@@ -106,7 +98,6 @@ public class CreditController {
         }
         return "redirect:/error";
     }
-
     @RequestMapping(value = "/deletePrice")
     public String delete(@RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
@@ -116,24 +107,17 @@ public class CreditController {
         }
         return "redirect:/error";
     }
-
-
     @RequestMapping(value = "/searchByDate")
     public String date(ModelMap map, @RequestParam("date") String date) {
         List<Credit> allByDate = creditRepository.findAllByDate(date);
         if (allByDate.isEmpty()) {
-            map.addAttribute("mess", creditService.getDates(date) + " in partq chi exel");
+            map.addAttribute("message", creditService.getDates(date));
         } else {
             map.addAttribute("allByDate", allByDate);
             map.addAttribute("s", creditRepository.sum());
         }
         return "index";
     }
-
-
-
-
-
     @RequestMapping(value = "/change")
     public String change(ModelMap map,
                          @RequestParam(value = "message", required = false) String message,
@@ -158,7 +142,7 @@ public class CreditController {
                 for (ObjectError objectError : result.getAllErrors()) {
                     sb.append(objectError.getDefaultMessage());
                     if (objectError.toString().contains(NumberFormatException.class.getName())) {
-                        sb = new StringBuilder("shat mec tiv es gre");
+                        sb = new StringBuilder("big");
                     }
                 }
                 return "redirect:/change?id=" + one.get().getId() + "&message=" + sb.toString();
@@ -172,7 +156,5 @@ public class CreditController {
             return "redirect:/app?id=" + one.get().getUser().getId();
         }
         return "redirect:/error";
-
     }
-
 }
