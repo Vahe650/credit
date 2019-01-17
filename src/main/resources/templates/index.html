@@ -3,11 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-
     <title>պարտք</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
-
-
 </head>
 <body>
 
@@ -31,50 +28,95 @@
 </form>
 
 
-<ol class="ul">
-    <li><h3 style="color: olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
-        0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
-    <div th:if="${currentUrl eq 'allByMax'}">
+<!--<ol class="ul">-->
+<!--<li>-->
+<!--<li th:each="one:${all}" class="dtoSum">-->
+<!--<a class="underline" th:href="@{/app(id=${one.id})}">-->
+<!--<button class="newbtn">✔</button>-->
+<!--</a>-->
+<!--<h3 class="inline" th:text="${one.name+' '+one.country}"></h3>-->
+<!--</li>-->
+<!--</ol>-->
+<h3 align="center" style="color: olive">
+    <strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
+<span class="user-name" th:text="${mess==null} ?  '' : ${mess+' անունով մարդ չկա '} "></span>
+<span class="user-name" th:text="${message==null} ?  '' : ${message+'-ին պարտք չկա'} "></span>
+
+<table style="padding-left: 180px" align="center">
+    <tbody>
+    <tr class="dtoSum" th:each="one : ${all}">
+        <td><a class="underline" th:href="@{/app(id=${one.id})}">
+            <button class="newbtn">✔</button>
+        </a>
+            <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="padding-left: 180px" align="center">
+    <tbody>
+    <tr th:each="one:${allUsers}" class="dtoSum">
+        <td><a class="underline" th:href="@{/app(id=${one.id})}">
+            <button class="newbtn">✔</button>
+        </a>
+            <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<table style="padding-left: 180px" align="center">
+    <tbody>
+    <tr th:each="one:${allByDate}" class="dtoSum">
+        <td><a class="underline" th:href="@{/app(id=${one.user.id})}">
+            <button class="newbtn">✔</button>
+        </a>
+            <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
+            <p><strong th:utext="${one.armDate+' _ '+one.value}"></strong>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div align="center" th:if="${currentUrl eq 'allByMax'}">
             <span th:if="${all.hasPrevious()}">
             <a th:href="@{/allByMax(page=${all.number - 1},size=${all.size})}"><button
                     class="newbtn"> << Նախորդ </button></a></span>
-        <th:block th:each="i: ${#numbers.sequence(0, all.totalPages - 1)}">
-            <span th:if="${all.number == i}">[[${i}+1]]</span>
-            <span th:unless="${all.number == i}">
+    <th:block th:each="i: ${#numbers.sequence(0, all.totalPages - 1)}">
+        <span th:if="${all.number == i}">[[${i}+1]]</span>
+        <span th:unless="${all.number == i}">
                                             <a th:href="@{/allByMax(page=${i},size=${all.size})}">[[${i}+1]]</a></span>
-        </th:block>
-        <span th:if="${all.hasNext()}">
+    </th:block>
+    <span th:if="${all.hasNext()}">
                 <a th:href="@{/allByMax(page=${all.number + 1},size=${all.size})}"><button
                         class="newbtn">Հաջորդ >> </button></a></span>
-    </div>
-    <li th:each="one:${all}" class="dtoSum">
-        <a class="underline" th:href="@{/app(id=${one.id})}">
-            <button class="newbtn">✔</button>
-        </a>
-        <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
-    </li>
-</ol>
-
-<ol class="ul">
-    <span class="user-name" th:text="${mess==null} ?  '' : ${mess+' անունով մարդ չկա '} "></span>
-    <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ին պարտք չկա'} "></span>
-    <li th:each="one:${allUsers}" class="dtoSum">
-        <a class="underline" th:href="@{/app(id=${one.id})}">
-            <button class="newbtn">✔</button>
-        </a>
-        <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
-    </li>
-
-
-    <li th:each="one:${allByDate}" class="dtoSum">
-        <a class="underline" th:href="@{/app(id=${one.user.id})}">
-            <button class="newbtn">✔</button>
-        </a>
-        <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
-        <p><strong th:utext="${one.armDate+' _ '+one.value}"></strong>
-    </li>
-</ol>
-
+</div>
+<div align="center" th:if="${currentUrl eq '/search{search}'}">
+            <span th:if="${allUsers.hasPrevious()}">
+            <a th:href="@{/search(search=${search},page=${allUsers.number - 1},size=${allUsers.size})}"><button
+                    class="newbtn"> << Նախորդ </button></a></span>
+    <th:block th:each="i: ${#numbers.sequence(0, allUsers.totalPages - 1)}">
+        <span th:if="${allUsers.number == i}">[[${i}+1]]</span>
+        <span th:unless="${allUsers.number == i}">
+                                            <a th:href="@{/search(search=${search},page=${i},size=${allUsers.size})}">[[${i}+1]]</a></span>
+    </th:block>
+    <span th:if="${allUsers.hasNext()}">
+                <a th:href="@{/search(search=${search},page=${allUsers.number + 1},size=${allUsers.size})}"><button
+                        class="newbtn">Հաջորդ >> </button></a></span>
+</div>
+<div align="center" th:if="${currentUrl eq 'searchByDate'}">
+            <span th:if="${allByDate.hasPrevious()}">
+            <a th:href="@{/searchByDate(date=${date},page=${allByDate.number - 1},size=${allByDate.size})}"><button
+                    class="newbtn"> << Նախորդ </button></a></span>
+    <th:block th:each="i: ${#numbers.sequence(0, allByDate.totalPages - 1)}">
+        <span th:if="${allByDate.number == i}">[[${i}+1]]</span>
+        <span th:unless="${allByDate.number == i}">
+                                            <a th:href="@{/searchByDate(date=${date},page=${i},size=${allByDate.size})}">[[${i}+1]]</a></span>
+    </th:block>
+    <span th:if="${allByDate.hasNext()}">
+                <a th:href="@{/searchByDate(date=${date},page=${allByDate.number + 1},size=${allByDate.size})}"><button
+                        class="newbtn">Հաջորդ >> </button></a></span>
+</div>
 
 
 </body>

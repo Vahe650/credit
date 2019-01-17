@@ -5,18 +5,13 @@ import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,7 +28,7 @@ public class UserController {
 
     @RequestMapping(value = "/allByMax")
     public String home(ModelMap map, @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 5) Pageable pageable) {
+                       @PageableDefault(size = 20) Pageable pageable) {
         PageRequest pageRequest;
         if (page != null && page > 0) {
             pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByNameAsc());
@@ -117,12 +112,22 @@ public class UserController {
     }
 
     @RequestMapping(value = "/search")
-    public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search) {
-        List<User> userList = userRepository.findUserByNameLike(search.trim());
-        if (userList.isEmpty()) {
+    public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search,
+                         @RequestParam(value = "page", required = false) Integer page,
+                         @PageableDefault(size = 20) Pageable pageable) {
+        PageRequest pageRequest;
+        if (page != null && page > 0) {
+            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByNameAsc());
+        } else {
+            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByNameAsc());
+        }
+        final Page<User> userByNameLike = userRepository.findUserByNameLike(pageRequest, search.trim());
+        if ( userByNameLike.getTotalElements()==0) {
             modelMap.addAttribute("mess",  search);
         } else {
-            modelMap.addAttribute("allUsers", userList);
+            modelMap.addAttribute("currentUrl","/search{search}");
+            modelMap.addAttribute("search",search);
+            modelMap.addAttribute("allUsers", userByNameLike);
             modelMap.addAttribute("s", creditRepository.sum());
         }
         return "index";

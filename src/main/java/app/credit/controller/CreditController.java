@@ -9,6 +9,11 @@ import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.CreditService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
@@ -34,6 +39,9 @@ public class CreditController {
     private CreditRepository creditRepository;
     private UserRepository userRepository;
     private CreditService creditService;
+    private Sort sortByDateAsc() {
+        return new Sort(Sort.Direction.ASC, "date");
+    }
     @RequestMapping(value = "/app")
     public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
                       @RequestParam(name = "id", required = false) int userId) throws JMSException {
@@ -108,12 +116,22 @@ public class CreditController {
         return "redirect:/error";
     }
     @RequestMapping(value = "/searchByDate")
-    public String date(ModelMap map, @RequestParam("date") String date) {
-        List<Credit> allByDate = creditRepository.findAllByDate(date);
-        if (allByDate.isEmpty()) {
+    public String date(ModelMap map, @RequestParam("date") String date,@RequestParam(name = "search", required = false) String search,
+                       @RequestParam(value = "page", required = false) Integer page,
+                       @PageableDefault(size = 20) Pageable pageable) {
+        PageRequest pageRequest;
+        if (page != null && page > 0) {
+            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByDateAsc());
+        } else {
+            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByDateAsc());
+        }
+        Page<Credit> allByDate = creditRepository.findAllByDate(pageRequest,date);
+        if (allByDate.getTotalElements()==0) {
             map.addAttribute("message", creditService.getDates(date));
         } else {
             map.addAttribute("allByDate", allByDate);
+            map.addAttribute("date", date);
+            map.addAttribute("currentUrl", "searchByDate");
             map.addAttribute("s", creditRepository.sum());
         }
         return "index";
