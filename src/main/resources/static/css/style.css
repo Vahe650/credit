@@ -38,6 +38,7 @@
 }
 
 .ul {
+
    padding-left: 150px;
 
 }
@@ -165,3 +166,12 @@
     width: 100%;
     display: block;
 }
+.footer {
+    padding-top: 5px;
+    text-align: center;
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:60px;
+}
+

@@ -1,10 +1,12 @@
 package app.credit.repository;
 
 import app.credit.model.User;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -16,7 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query(value = "select * from user left  join creditor on user.`id`=creditor.`user_id` WHERE creditor.`type`='NEW' " +
             "group by user.id order by user.name", nativeQuery = true)
-    List<User> findAllByOrderByNameAsc();
+    LinkedList<User> findAllByOrderByNameAsc(PageRequest pageRequest);
 
 
 

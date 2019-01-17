@@ -8,16 +8,14 @@
     <link href="/css/style.css" rel="stylesheet" media="all">
     <link rel="stylesheet" type="text/css" href="/css/util.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
-
 </head>
 <body>
-
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                    <span   id="name_validation" style="color: red" class="login100-form-title p-b-51" ></span>
                 <td th:switch="${message}">
-                    <span style="color: red" class="login100-form-title p-b-51" th:case="'nameRequaired'">Անունը լրացրեք</span>
                     <span  style="color: red" class="login100-form-title p-b-51" th:case="'userExist'">տվյալ անունը արդեն առկա է</span>
                 </td>
                 <a class="underline" href="/allByMax">
@@ -25,24 +23,25 @@
                         Գլխավոր
                     </button>
                 </a>
-                <form class="login100-form validate-form flex-sb flex-w" th:action="@{/add}" th:object="${user}"
+                <form onsubmit="return validateForm();" id="FormId" class="login100-form validate-form flex-sb flex-w" th:action="@{/add}" th:object="${user}"
                       method="post">
                     <span class="login100-form-title p-b-51">
 						ՆՈՐ ԱՆՈՒՆ
 					</span>
                     <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                        <input class="input100" th:field="*{name}" placeholder="անուն"></input><br>
+                        <input id="name" class="input100" th:field="*{name}" placeholder="անուն"><br>
                         <span class="focus-input100"></span>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                        <input class="input100" th:field="*{country}" placeholder="քաղաք"></input><br>
-                        <span class="focus-input100"></span>
-                    </div>
-                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                        <input class="input100" th:field="*{tel}" placeholder="հեռախոս "></input><br>
-                        <span class="focus-input100"></span>
-                    </div>
 
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" th:field="*{country}" placeholder="քաղաք"><br>
+                        <span class="focus-input100"></span>
+                    </div>
+                    <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
+                        <input class="input100" th:field="*{tel}"  placeholder="հեռախոս "><br>
+                        <span class="focus-input100"></span>
+                    </div>
                     <div class="container-login100-form-btn m-t-17">
                         <button class="login100-form-btn">
                             ավելացնել
@@ -54,5 +53,6 @@
         </div>
     </div>
 </div>
+<script src="/js/main.js"></script>
 </body>
 </html>

@@ -9,32 +9,47 @@
 
 
 </head>
-<body >
+<body>
 
 
-<span><a class="underline"  href="/allByMax"><button class="newbtn" >Գլխավոր</button></a>&nbsp;&nbsp;
-    <a class="underline"href="/admin"><button class="newbtn">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
-    <a class="underline"href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
-    <a class="underline"href="/logout"><button class="newbtn">ԵԼՔ</button></a>    <span style="margin-left: 720px" sec:authorize="hasAuthority('ADMIN')" >Barev <span style="text-transform: uppercase" sec:authentication="principal.username">User</span> Jan</span>
+<span><a class="underline" href="/allByMax"><button class="newbtn">Գլխավոր</button></a>&nbsp;&nbsp;
+    <a class="underline" href="/admin"><button class="newbtn">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
+    <a class="underline" href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;
+    <a class="underline" href="/logout"><button class="newbtn">ԵԼՔ</button></a>    <span style="margin-left: 720px"
+                                                                                         sec:authorize="hasAuthority('ADMIN')">Barev <span
+            style="text-transform: uppercase" sec:authentication="principal.username">User</span> Jan</span>
 
 </span><br><br>
 <form action="/search">
-    <input  class="search" name="search" placeholder="փնտրել">
-    <input type="image" src="../images/test.jpg" class="btn" alt="Submit" >
+    <input class="search" name="search" placeholder="փնտրել">
+    <input type="image" src="../images/test.jpg" class="btn" alt="Submit">
 </form>
 <form action="/searchByDate">
     <input class="search" type="date" name="date" placeholder="amsativ">
-    <input   type="image" src="../images/test.jpg" class="btn" alt="Submit" >
+    <input type="image" src="../images/test.jpg" class="btn" alt="Submit">
 
 </form>
 
-<ol class="ul" >
+
+<ol class="ul">
     <li><h3 style="color: olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
         0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
-
+    <div th:if="${currentUrl eq 'allByMax'}">
+            <span th:if="${all.hasPrevious()}">
+            <a th:href="@{/allByMax(page=${all.number - 1},size=${all.size})}"><button
+                    class="newbtn"> << Նախորդ </button></a></span>
+        <th:block th:each="i: ${#numbers.sequence(0, all.totalPages - 1)}">
+            <span th:if="${all.number == i}">[[${i}+1]]</span>
+            <span th:unless="${all.number == i}">
+                                            <a th:href="@{/allByMax(page=${i},size=${all.size})}">[[${i}+1]]</a></span>
+        </th:block>
+        <span th:if="${all.hasNext()}">
+                <a th:href="@{/allByMax(page=${all.number + 1},size=${all.size})}"><button
+                        class="newbtn">Հաջորդ >> </button></a></span>
+    </div>
     <li th:each="one:${all}" class="dtoSum">
-        <a class="underline"  th:href="@{/app(id=${one.id})}">
-            <button  class="newbtn"  >✔</button>
+        <a class="underline" th:href="@{/app(id=${one.id})}">
+            <button class="newbtn">✔</button>
         </a>
         <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
     </li>
@@ -58,8 +73,9 @@
         <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
         <p><strong th:utext="${one.armDate+' _ '+one.value}"></strong>
     </li>
-
-
 </ol>
+
+
+
 </body>
 </html>

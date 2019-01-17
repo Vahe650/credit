@@ -5,6 +5,10 @@ import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,12 +27,24 @@ import java.util.Optional;
 public class UserController {
     private UserRepository userRepository;
     private CreditRepository creditRepository;
+    private Sort sortByNameAsc() {
+        return new Sort(Sort.Direction.ASC, "name");
+    }
 
     @RequestMapping(value = "/allByMax")
-    public String home(ModelMap map) {
-        map.addAttribute("all", userRepository.findAllByOrderByNameAsc());
+    public String home(ModelMap map, @RequestParam(value = "page", required = false) Integer page,
+                       @PageableDefault(size = 5) Pageable pageable) {
+        PageRequest pageRequest;
+        if (page != null && page > 0) {
+            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByNameAsc());
+        } else {
+            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByNameAsc());
+        }
+        map.addAttribute("currentUrl","allByMax");
+        map.addAttribute("all", userRepository.findAll(pageRequest));
         map.addAttribute("s", creditRepository.sum());
         return "index";
+
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
