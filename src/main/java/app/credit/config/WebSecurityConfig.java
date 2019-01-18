@@ -22,12 +22,8 @@ import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
-
-
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
-
-
     @Autowired
     public WebSecurityConfig(@Qualifier("currentUserDetailService") UserDetailsService userDetailsService,
                              PasswordEncoder passwordEncoder) {
@@ -46,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     public SpringSecurityDialect securityDialect() {
         return new SpringSecurityDialect();
     }
-
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
@@ -73,14 +67,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
                 .antMatchers("/resources**","/login*", "/", "/searchDtoByName").permitAll()
                 .anyRequest().hasAuthority(UserType.ADMIN.name());
     }
-
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
                 .userDetailsService(userDetailsService)
                 .passwordEncoder(passwordEncoder);
     }
-
     @Override
     public void configure(WebSecurity webSecurity) {
         webSecurity.ignoring().antMatchers("/css/**");
@@ -89,5 +81,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         webSecurity.ignoring().antMatchers("/vendor/**");
         webSecurity.ignoring().antMatchers("/js/**");
     }
-
 }

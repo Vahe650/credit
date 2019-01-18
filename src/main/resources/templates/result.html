@@ -37,24 +37,23 @@
     </span>
 
 
-<li><h3 class="olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
+<h3 align="center" class="olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
     0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
 <table style="padding-left: 180px" align="center">
     <tbody>
-    <tr class="dtoSum" th:each="one:${allDtos}" >
+    <tr class="dtoSum" th:each="one:${allDtos}">
         <td><h4 class="fonts" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
         </td>
     </tr>
-
     </tbody>
 </table>
 
 <table style="padding-left: 180px" align="center">
     <tbody>
-    <tr class="dtoSum" th:each="one:${userSumDto}" >
+    <tr class="dtoSum" th:each="one:${userSumDto}">
         <td><h4 class="fonts" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
-    </td>
+        </td>
     </tr>
     </tbody>
 </table>
@@ -86,7 +85,6 @@
                 <a th:href="@{/searchDtoByName(name=${name},page=${allDtos.number + 1},size=${allDtos.size})}"><button
                         class="newbtn">Հաջորդ >> </button></a></span>
 </div>
-
 
 
 </body>

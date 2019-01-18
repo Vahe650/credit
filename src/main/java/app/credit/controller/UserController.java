@@ -3,6 +3,8 @@ package app.credit.controller;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
+import app.credit.service.ErrorService;
+import app.credit.service.PaginationService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -22,21 +24,19 @@ import java.util.Optional;
 public class UserController {
     private UserRepository userRepository;
     private CreditRepository creditRepository;
+    private PaginationService paginationService;
+    private ErrorService errorService;
     private Sort sortByNameAsc() {
         return new Sort(Sort.Direction.ASC, "name");
     }
 
     @RequestMapping(value = "/allByMax")
-    public String home(ModelMap map, @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 20) Pageable pageable) {
-        PageRequest pageRequest;
-        if (page != null && page > 0) {
-            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByNameAsc());
-        } else {
-            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByNameAsc());
-        }
-        map.addAttribute("currentUrl","allByMax");
-        map.addAttribute("all", userRepository.findAll(pageRequest));
+    public String home(ModelMap map,
+                       @RequestParam(value = "page", required = false) Integer page,
+                       @PageableDefault(size = 6) Pageable pageable) {
+        PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
+        map.addAttribute("currentUrl", "allByMax");
+        map.addAttribute("all", userRepository.findAll(pagination));
         map.addAttribute("s", creditRepository.sum());
         return "index";
 
@@ -58,7 +58,8 @@ public class UserController {
 
 
     @RequestMapping(value = "/admin", method = RequestMethod.GET)
-    public String adminPage(ModelMap map, @RequestParam(name = "message",required = false) String message) {
+    public String adminPage(ModelMap map,
+                            @RequestParam(name = "message", required = false) String message) {
         map.addAttribute("message", message != null ? message : "");
         map.addAttribute("user", new User());
         return "AddUser";
@@ -66,11 +67,8 @@ public class UserController {
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String update(@Valid @ModelAttribute(name = "user") User user, BindingResult result) {
-        StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
-            for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage());
-            }
+            StringBuilder sb = errorService.hasErrors(result);
             return "redirect:/admin?message=" + sb.toString();
         }
         if (userRepository.findByNameAndCountry(user.getName(), user.getCountry()) != null) {
@@ -85,7 +83,7 @@ public class UserController {
     @RequestMapping(value = "/update")
     public String update(ModelMap map,
                          @RequestParam(name = "id") int id,
-                         @RequestParam(name = "message",required = false) String message) {
+                         @RequestParam(name = "message", required = false) String message) {
         final Optional<User> byId = userRepository.findById(id);
         if (byId.isPresent()) {
             map.addAttribute("message", message != null ? message : "");
@@ -98,12 +96,9 @@ public class UserController {
     @RequestMapping(value = "/up", method = RequestMethod.POST)
     public String up(@Valid @ModelAttribute(name = "user") User user,
                      BindingResult result,
-                     @RequestParam(name = "id",required = false) int id) {
-        StringBuilder sb = new StringBuilder();
+                     @RequestParam(name = "id", required = false) int id) {
         if (result.hasErrors()) {
-            for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage());
-            }
+            StringBuilder sb = errorService.hasErrors(result);
             return "redirect:/update?id=" + user.getId() + "&message=" + sb.toString();
         }
         user.setId(id);
@@ -112,21 +107,17 @@ public class UserController {
     }
 
     @RequestMapping(value = "/search")
-    public String search(ModelMap modelMap, @RequestParam(name = "search", required = false) String search,
+    public String search(ModelMap modelMap,
+                         @RequestParam(name = "search", required = false) String search,
                          @RequestParam(value = "page", required = false) Integer page,
-                         @PageableDefault(size = 20) Pageable pageable) {
-        PageRequest pageRequest;
-        if (page != null && page > 0) {
-            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByNameAsc());
+                         @PageableDefault(size = 6) Pageable pageable) {
+        PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
+        final Page<User> userByNameLike = userRepository.findUserByNameLike(pagination, search.trim());
+        if (userByNameLike.getTotalElements() == 0) {
+            modelMap.addAttribute("mess", search);
         } else {
-            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByNameAsc());
-        }
-        final Page<User> userByNameLike = userRepository.findUserByNameLike(pageRequest, search.trim());
-        if ( userByNameLike.getTotalElements()==0) {
-            modelMap.addAttribute("mess",  search);
-        } else {
-            modelMap.addAttribute("currentUrl","/search{search}");
-            modelMap.addAttribute("search",search);
+            modelMap.addAttribute("currentUrl", "/search{search}");
+            modelMap.addAttribute("search", search);
             modelMap.addAttribute("allUsers", userByNameLike);
             modelMap.addAttribute("s", creditRepository.sum());
         }

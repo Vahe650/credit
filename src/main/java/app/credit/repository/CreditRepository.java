@@ -18,7 +18,6 @@ import java.util.Optional;
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> findAllByUser(User user);
 
-    @NumberFormat(style = NumberFormat.Style.NUMBER,pattern = "#,###.###")
     @Query("SELECT SUM(value) FROM Credit t WHERE t.type=('NEW')")
     Integer sum();
 
@@ -37,13 +36,13 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
     @Query("SELECT c from Credit c  WHERE c.user=:user AND c.type=('NEW')")
     List<Integer> findHaveingPrice(@Param("user") User user);
 
-    @Query("SELECT SUM(c.value) FROM Credit c LEFT JOIN c.user u  " +
-            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
-    List<Integer> allByMaxPrice();
-
-    @Query("SELECT c FROM Credit c LEFT JOIN  c.user u " +
-            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
-    List<Credit> allUsersByMaxPrice();
+//    @Query("SELECT SUM(c.value) FROM Credit c LEFT JOIN c.user u  " +
+//            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
+//    List<Integer> allByMaxPrice();
+//
+//    @Query("SELECT c FROM Credit c LEFT JOIN  c.user u " +
+//            " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
+//    List<Credit> allUsersByMaxPrice();
 
     @Query("SELECT new app.credit.dto.UserSumDto(c.user,SUM(c.value)) FROM Credit c  " +
             " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")

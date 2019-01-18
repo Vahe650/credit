@@ -1,13 +1,12 @@
 package app.credit.controller;
-
-
-import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.CreditService;
+import app.credit.service.ErrorService;
+import app.credit.service.PaginationService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,13 +17,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
-import javax.jms.JMSException;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -33,18 +31,22 @@ import java.util.Optional;
 @AllArgsConstructor
 public class CreditController {
 
-//    private JmsConsumer jmsConsumer;
+    //    private JmsConsumer jmsConsumer;
 //    private JmsProducer producer;
-
+    private PaginationService paginationService;
     private CreditRepository creditRepository;
     private UserRepository userRepository;
     private CreditService creditService;
+    private ErrorService errorService;
+
     private Sort sortByDateAsc() {
         return new Sort(Sort.Direction.ASC, "date");
     }
+
     @RequestMapping(value = "/app")
-    public String add(ModelMap map, @RequestParam(value = "message", required = false) String message,
-                      @RequestParam(name = "id", required = false) int userId) throws JMSException {
+    public String add(ModelMap map,
+                      @RequestParam(value = "message", required = false) String message,
+                      @RequestParam(name = "id", required = false) int userId) {
         Optional<User> one = userRepository.findById(userId);
         if (one.isPresent()) {
             List<Credit> byUserId = creditRepository.findAllByUser(one.get());
@@ -74,17 +76,13 @@ public class CreditController {
         }
         return "redirect:/error";
     }
+
     @RequestMapping(value = "/addCredit")
-    public String cred(@Valid @ModelAttribute(name = "creditor") Credit credit, BindingResult result,
+    public String cred(@Valid @ModelAttribute(name = "creditor") Credit credit,
+                       BindingResult result,
                        @RequestParam(name = "userId", required = false) int userId) {
-        StringBuilder sb = new StringBuilder();
         if (result.hasErrors()) {
-            for (ObjectError objectError : result.getAllErrors()) {
-                sb.append(objectError.getDefaultMessage());
-                if (objectError.toString().contains(NumberFormatException.class.getName())) {
-                    sb = new StringBuilder("big");
-                }
-            }
+            StringBuilder sb = errorService.hasErrors(result);
             return "redirect:/app?id=" + userId + "&message=" + sb.toString();
         }
         credit.setType(CreditType.NEW);
@@ -96,6 +94,7 @@ public class CreditController {
         }
         return "redirect:/error";
     }
+
     @RequestMapping(value = "/changeType")
     public String type(@RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
@@ -106,6 +105,7 @@ public class CreditController {
         }
         return "redirect:/error";
     }
+
     @RequestMapping(value = "/deletePrice")
     public String delete(@RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
@@ -115,18 +115,15 @@ public class CreditController {
         }
         return "redirect:/error";
     }
+
     @RequestMapping(value = "/searchByDate")
-    public String date(ModelMap map, @RequestParam("date") String date,@RequestParam(name = "search", required = false) String search,
+    public String date(ModelMap map,
+                       @RequestParam("date") String date,
                        @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 20) Pageable pageable) {
-        PageRequest pageRequest;
-        if (page != null && page > 0) {
-            pageRequest = PageRequest.of(page, pageable.getPageSize(),sortByDateAsc());
-        } else {
-            pageRequest = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(),sortByDateAsc());
-        }
-        Page<Credit> allByDate = creditRepository.findAllByDate(pageRequest,date);
-        if (allByDate.getTotalElements()==0) {
+                       @PageableDefault(size = 6) Pageable pageable) {
+        PageRequest pagination = paginationService.pagination(pageable, page, sortByDateAsc());
+        Page<Credit> allByDate = creditRepository.findAllByDate(pagination, date);
+        if (allByDate.getTotalElements() == 0) {
             map.addAttribute("message", creditService.getDates(date));
         } else {
             map.addAttribute("allByDate", allByDate);
@@ -136,6 +133,7 @@ public class CreditController {
         }
         return "index";
     }
+
     @RequestMapping(value = "/change")
     public String change(ModelMap map,
                          @RequestParam(value = "message", required = false) String message,
@@ -155,14 +153,8 @@ public class CreditController {
                               @RequestParam(name = "id", required = false) int id) {
         Optional<Credit> one = creditRepository.findById(credit.getId());
         if (one.isPresent()) {
-            StringBuilder sb = new StringBuilder();
             if (result.hasErrors()) {
-                for (ObjectError objectError : result.getAllErrors()) {
-                    sb.append(objectError.getDefaultMessage());
-                    if (objectError.toString().contains(NumberFormatException.class.getName())) {
-                        sb = new StringBuilder("big");
-                    }
-                }
+                StringBuilder sb = errorService.hasErrors(result);
                 return "redirect:/change?id=" + one.get().getId() + "&message=" + sb.toString();
             }
             one.get().setValue(credit.getValue());
