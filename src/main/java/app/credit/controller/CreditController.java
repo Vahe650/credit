@@ -49,7 +49,6 @@ public class CreditController {
                       @RequestParam(name = "id", required = false) int userId) {
         Optional<User> one = userRepository.findById(userId);
         if (one.isPresent()) {
-            List<Credit> byUserId = creditRepository.findAllByUser(one.get());
 //        List<CreditDto> creditDtos = creditRepository.getCreditDtos(one.get());
 //        for (CreditDto creditDto : creditDtos) {
 //            producer.send(creditDto, creditDto.getUserName());
@@ -68,7 +67,6 @@ public class CreditController {
             map.addAttribute("message", message != null ? message : " ");
             map.addAttribute("creditor", new Credit());
             map.addAttribute("user", one.get());
-            map.addAttribute("byUserId", byUserId);
             map.addAttribute("news", news);
             map.addAttribute("ends", ends);
             map.addAttribute("userSum", creditRepository.userSum(one.get()));
@@ -120,7 +118,7 @@ public class CreditController {
     public String date(ModelMap map,
                        @RequestParam("date") String date,
                        @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 6) Pageable pageable) {
+                       @PageableDefault(size = 16) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByDateAsc());
         Page<Credit> allByDate = creditRepository.findAllByDate(pagination, date);
         if (allByDate.getTotalElements() == 0) {

@@ -33,7 +33,7 @@ public class UserController {
     @RequestMapping(value = "/allByMax")
     public String home(ModelMap map,
                        @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 6) Pageable pageable) {
+                       @PageableDefault(size = 16) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
         map.addAttribute("currentUrl", "allByMax");
         map.addAttribute("all", userRepository.findAll(pagination));
@@ -110,7 +110,7 @@ public class UserController {
     public String search(ModelMap modelMap,
                          @RequestParam(name = "search", required = false) String search,
                          @RequestParam(value = "page", required = false) Integer page,
-                         @PageableDefault(size = 6) Pageable pageable) {
+                         @PageableDefault(size = 16) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
         final Page<User> userByNameLike = userRepository.findUserByNameLike(pagination, search.trim());
         if (userByNameLike.getTotalElements() == 0) {
