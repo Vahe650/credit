@@ -128,16 +128,17 @@
 
 .smallbtn {
     font-family: Ubuntu-Bold;
-    font-size: 16px;
+
     color: #fff;
     line-height: 1.2;
     text-transform: uppercase;
-    height: 28px;
+    height: 35px;
+
 
 
     justify-content: center;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 16px;
 
     background-color: #827ffe;
     border-radius: 7px;

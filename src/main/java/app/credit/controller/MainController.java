@@ -29,7 +29,7 @@ public class MainController {
     @RequestMapping(value = "/")
     public String allByMax(ModelMap modelMap,
                            @RequestParam(value = "page", required = false) Integer page,
-                           @PageableDefault(size = 16) Pageable pageable) {
+                           @PageableDefault(size = 99) Pageable pageable) {
 
         PageRequest pagination = paginationService.pagination(pageable, page,  JpaSort.unsafe("SUM(value)"));
 //        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
@@ -42,7 +42,7 @@ public class MainController {
     @RequestMapping(value = "/searchDtoByName")
     public String searchDto(ModelMap modelMap, @RequestParam("name") String name,
                             @RequestParam(value = "page", required = false) Integer page,
-                            @PageableDefault(size = 16) Pageable pageable) {
+                            @PageableDefault(size = 99) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page,  JpaSort.unsafe("SUM(value)"));
         Page<UserSumDto> userList = creditRepository.searchUserSDto(pagination,name.trim());
         if (userList.getTotalElements()==0) {

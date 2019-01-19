@@ -16,9 +16,9 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "LIKE LOWER(CONCAT('%', :searchItem, '%')))   ")
     Page<User> findUserByNameLike(Pageable var1,@Param("searchItem") String find);
 
-    @Query(value = "select * from user left  join creditor on user.`id`=creditor.`user_id` WHERE creditor.`type`='NEW' " +
-            "group by user.id order by user.name", nativeQuery = true)
-    LinkedList<User> findAllByOrderByNameAsc();
+
+
+
     User findByNameAndCountry(String name, String country);
     User findByEmail(String email);
 }

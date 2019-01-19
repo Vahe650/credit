@@ -118,7 +118,7 @@ public class CreditController {
     public String date(ModelMap map,
                        @RequestParam("date") String date,
                        @RequestParam(value = "page", required = false) Integer page,
-                       @PageableDefault(size = 16) Pageable pageable) {
+                       @PageableDefault(size = 51) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByDateAsc());
         Page<Credit> allByDate = creditRepository.findAllByDate(pagination, date);
         if (allByDate.getTotalElements() == 0) {

@@ -57,6 +57,10 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
             " WHERE c.type='NEW' and c.user=:user")
     List<CreditDto> getCreditDtos(@Param("user") User user);
 
+    @Query("SELECT c FROM Credit c " +
+            "WHERE c.type='NEW' GROUP BY c.user")
+    Page<Credit> findAllByOrderByNameAsc(Pageable var1);
+
 
 
     Credit findTop1ByUserOrderByIdDesc( User user);

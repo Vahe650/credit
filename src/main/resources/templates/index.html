@@ -45,10 +45,10 @@
 <table style="padding-left: 180px" align="center">
     <tbody>
     <tr class="dtoSum" th:each="one : ${all}">
-        <td><a class="underline" th:href="@{/app(id=${one.id})}">
+        <td><a class="underline" th:href="@{/app(id=${one.user.id})}">
             <button class="newbtn">✔</button>
         </a>
-            <h3 class="inline" th:text="${one.name+' '+one.country}"></h3>
+            <h3 class="inline" th:text="${one.user.name+' '+one.user.country}"></h3>
         </td>
     </tr>
     </tbody>

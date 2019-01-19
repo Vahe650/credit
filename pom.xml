@@ -104,8 +104,8 @@
                 <version>5.0.7</version>
                 <configuration>
                     <url>jdbc:mysql://localhost:3306/credit?useSSl=false&amp;useUnicode=yes&amp;characterEncoding=utf8&amp;characterSetResults=utf8</url>
-                    <user>delta</user>
-                    <password>deltaMaster18!</password>
+                    <user>root</user>
+                    <password>root</password>
                 </configuration>
                 <dependencies>
                     <dependency>
