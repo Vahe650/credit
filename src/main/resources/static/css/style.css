@@ -14,6 +14,7 @@
 }
 
 .inline {
+    color: navy;
     display: inline-block;
     font-size: 25px;
 }
@@ -28,7 +29,7 @@
 }
 
 .dtoSum {
-    width: 350px;
+    width: 370px;
     float: left;
     border-style: ridge;
     background-color: mistyrose;
@@ -60,6 +61,7 @@
     border: none;
     cursor: pointer;
     overflow: hidden;
+    display: inline-block;
 
 }
 
@@ -116,6 +118,8 @@
     border-radius: 10px;
     border-color: #827ffe;
     font-size: 20px;
+    display: inline;
+    vertical-align: middle;
 }
 
 .li {
@@ -191,9 +195,14 @@
 .result{
     font-family: Ubuntu-Bold  ;
     font-size: 24px  ;
-    color: darkred  ;
+    color: navy  ;
     line-height: 1.2  ;
    text-align: start;
     width: 100%;
     display: block;
+}
+
+.table {
+    padding-left: 105px;
+   align-content: center;
 }

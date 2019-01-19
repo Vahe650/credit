@@ -23,7 +23,8 @@
 
 <span sec:authorize="!hasAuthority('ADMIN')"><a class="underline" href="/login"><button
         class="newbtn">Մուտք</button></a>&nbsp;&nbsp;</span>
-<span sec:authorize="hasAuthority('ADMIN')"><a class="underline" href="/logout"><button class="newbtn">ԵԼՔ</button></a>&nbsp;&nbsp;</span>
+<span sec:authorize="hasAuthority('ADMIN')">
+    <a class="underline" href="/logout"><button class="newbtn">ԵԼՔ</button></a>&nbsp;&nbsp;</span>
 
 
 <br>
@@ -40,7 +41,7 @@
 <strong th:inline="text" class="user-name">ընդհանուր=[[${#numbers.formatDecimal(s,
     0, 'COMMA', 0, 'POINT')}]]</strong>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
-<table style="padding-left: 180px" align="center">
+<table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one:${allDtos}">
         <td><strong class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
@@ -49,7 +50,7 @@
     </tbody>
 </table>
 
-<table style="padding-left: 180px" align="center">
+<table class="table" >
     <tbody>
     <tr class="dtoSum" th:each="one:${userSumDto}">
         <td><strong  class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
@@ -85,7 +86,5 @@
                 <a th:href="@{/searchDtoByName(name=${name},page=${allDtos.number + 1},size=${allDtos.size})}"><button
                         class="newbtn">Հաջորդ >> </button></a></span>
 </div>
-
-
 </body>
 </html>
