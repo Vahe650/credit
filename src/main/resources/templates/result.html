@@ -30,20 +30,20 @@
 <br>
 
 <form th:action="@{/searchDtoByName}">
-    <input class="search" name="name" placeholder="ՈՐՈՆՈՒՄ ՊԱՐՏՔ">
+    <input class="search" name="name" placeholder="ՈՐՈՆՈՒՄ ">
     <input type="image" src="../images/test.jpg" class="btn" alt="Submit">
 </form>
 <span sec:authorize="hasAuthority('ADMIN')">
     </span>
 
 
-<h3 align="center" class="olive"><strong th:inline="text" class="message">ընդհանուր=[[${#numbers.formatDecimal(s,
-    0, 'COMMA', 0, 'POINT')}]]</strong></h3></li>
+<strong th:inline="text" class="user-name">ընդհանուր=[[${#numbers.formatDecimal(s,
+    0, 'COMMA', 0, 'POINT')}]]</strong>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
 <table style="padding-left: 180px" align="center">
     <tbody>
     <tr class="dtoSum" th:each="one:${allDtos}">
-        <td><h4 class="fonts" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
+        <td><strong class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
         </td>
     </tr>
     </tbody>
@@ -52,7 +52,7 @@
 <table style="padding-left: 180px" align="center">
     <tbody>
     <tr class="dtoSum" th:each="one:${userSumDto}">
-        <td><h4 class="fonts" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></h4>
+        <td><strong  class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
         </td>
     </tr>
     </tbody>
