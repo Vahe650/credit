@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 
 
-<html>
+
 <head>
     <title>detail</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
@@ -36,7 +36,6 @@
         <input type="hidden" name="userId" th:value="${user.getId()}">
         <input class="search" th:field="*{value}" type="number" step="50" placeholder="ՊԱՐՏՔ">
         <button style="font-size: 28px" class="newbtn"> ➲</button>
-
     </form>
     <div style="overflow: hidden;">
         <table style="vertical-align: top;" class="inline">
@@ -47,7 +46,8 @@
                 <th class="details">ՊԱՐՏՔ<br>ԱՄԻՍ/ՕՐ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ԳՈՒՄԱՐ</th>
             </tr>
             <tr th:each="one:${news}">
-                <td class="details" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail" th:text="${one.armDate+' '}"></strong>
+                <td class="details" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
+                                                                                     th:text="${one.armDate+' '}"></strong>
                     <a class="underline" th:href="@{/change(id=${one.id})}">
                         <button style="font-size: 20px"
                                 class="smallbtn"> ✎
@@ -60,7 +60,8 @@
                     </a>
                 </td>
             <tr>
-                <td class="details"><strong class="inline-detail"  th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong>
+                <td class="details"><strong class="inline-detail"
+                                            th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong>
                 </td>
             </tr>
         </table>
@@ -69,9 +70,7 @@
                 <col span="1">
             </colgroup>
             <tr>
-
                 <th class="details">ՏՎԱԾ<br>ԱՄԻՍ/ՕՐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ԳՈՒՄԱՐ</th>
-
             </tr>
             <tr th:each="one:${ends}">
                 <td class="details" th:if="${one.getType().name() eq 'END'}"><strong
@@ -82,12 +81,8 @@
                                 class="smallbtn">✂
                         </button>
                     </a>
-
                 </td>
-
-
             <tr>
-
         </table>
     </div>
 </div>

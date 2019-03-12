@@ -5,15 +5,12 @@ import app.credit.dto.UserSumDto;
 import app.credit.model.Credit;
 import app.credit.model.User;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.NumberFormat;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CreditRepository extends JpaRepository<Credit, Integer> {
     List<Credit> findAllByUser(User user);
