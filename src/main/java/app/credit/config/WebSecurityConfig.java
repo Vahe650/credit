@@ -18,7 +18,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
 
-//@SuppressWarnings("SpringJavaAutowiringInspection")
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
@@ -47,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         httpSecurity
                 .csrf().disable()
                 .formLogin()
-                .loginPage("/loginPage")
+                .loginPage("/login")
                 .failureUrl("/login?error")
                 .usernameParameter("email")
                 .passwordParameter("password")

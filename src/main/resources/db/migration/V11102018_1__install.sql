@@ -26,7 +26,6 @@ CREATE TABLE `creditor` (
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_id` int(11) NOT NULL,
   `type` enum('NEW','END') DEFAULT 'NEW',
-  `arm_date` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`,`user_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `creditor_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE

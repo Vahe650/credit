@@ -47,7 +47,7 @@
             </tr>
             <tr th:each="one:${news}">
                 <td class="details" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
-                                                                                     th:text="${one.armDate+' '}"></strong>
+                                                                                     th:text="${@creditService.getDates(one.getDate())+' '}"></strong>
                     <a class="underline" th:href="@{/change(id=${one.id})}">
                         <button style="font-size: 20px"
                                 class="smallbtn"> ✎
@@ -74,7 +74,7 @@
             </tr>
             <tr th:each="one:${ends}">
                 <td class="details" th:if="${one.getType().name() eq 'END'}"><strong
-                        th:text="${one.armDate+' - '+one.value}"
+                        th:text="${@creditService.getDates(one.getDate())+' - '+one.value}"
                         class="inline-detail"></strong>
                     <a class="underline" th:href="@{/deletePrice(id=${one.id})}">
                         <button style="font-size: 20px"

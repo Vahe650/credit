@@ -6,7 +6,6 @@ import org.springframework.validation.ObjectError;
 
 @Service
 public class ErrorService {
-
     public StringBuilder hasErrors(BindingResult result) {
         StringBuilder sb = new StringBuilder();
             for (ObjectError objectError : result.getAllErrors()) {

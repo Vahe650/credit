@@ -20,13 +20,11 @@ public class Credit {
     private int id;
     @Column
     @DecimalMin(value = "500", message = "min")
-    @DecimalMax(value = "100000",message = "max")
+    @DecimalMax(value = "99000",message = "max")
     @NumberFormat(style = NumberFormat.Style.NUMBER,pattern = "#,###.###")
     private int value;
     @Column
     private String date;
-    @Column
-    private String armDate;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;

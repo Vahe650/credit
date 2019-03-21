@@ -32,8 +32,6 @@ public class MainController {
                            @PageableDefault(size = 99) Pageable pageable) {
 
         PageRequest pagination = paginationService.pagination(pageable, page,  JpaSort.unsafe("SUM(value)"));
-//        modelMap.addAttribute("allByMax", creditRepository.allByMaxPrice());
-//        modelMap.addAttribute("allUsersByMax", creditRepository.allUsersByMaxPrice());
         modelMap.addAttribute("currentUrl","");
         modelMap.addAttribute("userSumDto", creditRepository.createUserSum(pagination));
         modelMap.addAttribute("s", creditRepository.sum());

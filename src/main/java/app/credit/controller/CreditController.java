@@ -1,4 +1,5 @@
 package app.credit.controller;
+
 import app.credit.model.Credit;
 import app.credit.model.CreditType;
 import app.credit.model.User;
@@ -15,14 +16,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-
-
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -54,16 +51,9 @@ public class CreditController {
 //            producer.send(creditDto, creditDto.getUserName());
 //            jmsConsumer.sending("app with '" + creditDto.getId() + "' is exist", creditDto.getUserName());
 //        }
-            final Credit credit = creditRepository.findTop1ByUserOrderByIdDesc(one.get());
-            if (credit != null) {
-                if (StringUtils.isEmpty(credit.getArmDate())) {
-                    String presentDate = creditService.getDates(credit.getDate());
-                    credit.setArmDate(presentDate);
-                    creditRepository.save(credit);
-                }
-            }
-            final List<Credit> news = creditRepository.newCredits(one.get());
-            final List<Credit> ends = creditRepository.endCredits(one.get());
+
+            final List<Credit> news = creditRepository.findByUserAndType(one.get(), CreditType.NEW);
+            final List<Credit> ends = creditRepository.findByUserAndType(one.get(), CreditType.END);
             map.addAttribute("message", message != null ? message : " ");
             map.addAttribute("creditor", new Credit());
             map.addAttribute("user", one.get());
@@ -120,7 +110,7 @@ public class CreditController {
                        @RequestParam(value = "page", required = false) Integer page,
                        @PageableDefault(size = 51) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByDateAsc());
-        Page<Credit> allByDate = creditRepository.findAllByDate(pagination, date);
+        Page<Credit> allByDate = creditRepository.findByDateContainingAndType(pagination, date, CreditType.NEW);
         if (allByDate.getTotalElements() == 0) {
             map.addAttribute("message", creditService.getDates(date));
         } else {
@@ -157,7 +147,7 @@ public class CreditController {
             }
             one.get().setValue(credit.getValue());
             if (!credit.getDate().equals("")) {
-                one.get().setArmDate(creditService.getDates(credit.getDate()));
+                one.get().setDate(credit.getDate());
             }
             one.get().setId(id);
             creditRepository.save(one.get());

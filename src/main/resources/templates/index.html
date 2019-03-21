@@ -60,7 +60,7 @@
             <button class="newbtn">✔</button>
         </a>
             <strong  class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
-            <p><strong class="inline" th:utext="${one.armDate+' _ '+one.value}"></strong>
+            <p><strong class="inline" th:utext="${@creditService.getDates(one.getDate())+' _ '+one.value}"></strong>
         </td>
     </tr>
     </tbody>

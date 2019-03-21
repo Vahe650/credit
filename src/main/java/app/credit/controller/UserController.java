@@ -1,22 +1,26 @@
 package app.credit.controller;
 
+import app.credit.model.CreditType;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.ErrorService;
 import app.credit.service.PaginationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -39,7 +43,6 @@ public class UserController {
         map.addAttribute("all", creditRepository.findAllByOrderByNameAsc(pagination));
         map.addAttribute("s", creditRepository.sum());
         return "index";
-
     }
 
     @RequestMapping(value = "/deleteUser", method = RequestMethod.GET)
@@ -47,7 +50,7 @@ public class UserController {
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             String message = "notEmpty";
-            if (!creditRepository.findHaveingPrice(user.get()).isEmpty()) {
+            if (creditRepository.existsByUserAndType(user.get(), CreditType.NEW)) {
                 return "redirect:/app?id=" + user.get().getId() + "&message=" + message;
             }
             userRepository.delete(user.get());
@@ -112,7 +115,7 @@ public class UserController {
                          @RequestParam(value = "page", required = false) Integer page,
                          @PageableDefault(size = 51) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
-        final Page<User> userByNameLike = userRepository.findUserByNameLike(pagination, search.trim());
+        final Page<User> userByNameLike = userRepository.findByNameContainingAndType(pagination, search.trim(), null);
         if (userByNameLike.getTotalElements() == 0) {
             modelMap.addAttribute("mess", search);
         } else {

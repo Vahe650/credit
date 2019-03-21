@@ -44,16 +44,18 @@
 <table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one:${allDtos}">
-        <td><strong class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
+        <td><strong class="result"
+                    th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
         </td>
     </tr>
     </tbody>
 </table>
 
-<table class="table" >
+<table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one:${userSumDto}">
-        <td><strong  class="result" th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
+        <td><strong class="result"
+                    th:text="${one.user.name+' '+one.user.country+' '+one.user.tel+'='+one.sum}"></strong>
         </td>
     </tr>
     </tbody>
