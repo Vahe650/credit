@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -44,16 +45,15 @@ public class CreditApplicationTests {
         all.add(armen);
         all.add(sergey);
         userRepository.saveAll(all);
-        int value=1000;
+        int value = 1000;
         for (User user : all) {
             Credit credit = new Credit();
             credit.setType(CreditType.NEW);
             credit.setValue(value);
             credit.setUser(user);
             creditRepository.save(credit);
-            value+=500;
+            value += 500;
         }
-
     }
 
     @Test
@@ -80,4 +80,12 @@ public class CreditApplicationTests {
         creditRepository.findAll();
     }
 
+    @Test
+    public void editCredit() {
+        if (creditRepository.existsByUserAndType(userRepository.findTop1ByOrderByIdDesc(), CreditType.NEW) || creditRepository.existsByUserAndType(userRepository.findTop1ByOrderByIdDesc(), CreditType.END)) {
+            Credit first = creditRepository.findTop1ByUserOrderByIdDesc(userRepository.findTop1ByOrderByIdDesc());
+            first.setValue(14400);
+            creditRepository.save(first);
+        }
+    }
 }

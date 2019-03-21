@@ -40,7 +40,7 @@ public class UserController {
                        @PageableDefault(size = 51) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, new Sort(Sort.Direction.ASC,"user.name"));
         map.addAttribute("currentUrl", "allByMax");
-        map.addAttribute("all", creditRepository.findAllByOrderByNameAsc(pagination));
+        map.addAttribute("all", creditRepository.findAllByOrderByNameAsc (pagination));
         map.addAttribute("s", creditRepository.sum());
         return "index";
     }
