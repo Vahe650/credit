@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserSumDto {
-    private User user;
+    private String userName;
+    private String country;
+    private String tel;
     private Long sum;
 
 

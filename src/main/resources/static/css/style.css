@@ -36,6 +36,10 @@
     border-radius: 10px;
     border-color: #827ffe;
 }
+.dtoSum:hover{
+    border-style: dotted;
+    background-color: #FFBAC1;
+}
 
 .ul {
 
@@ -76,16 +80,6 @@
     background-color: #3e8e41;
     transform: translateY(4px);
 }
-
-/*.container-newbtn {*/
-/*width: 100%;*/
-/*display: -webkit-box;*/
-/*display: -webkit-flex;*/
-/*display: -moz-box;*/
-/*display: -ms-flexbox;*/
-/*display: flex;*/
-/*flex-wrap: wrap;*/
-/*}*/
 
 .newbtn {
     font-family: Ubuntu-Bold;
@@ -129,6 +123,9 @@
     font-size: 20px;
     display: inline;
     vertical-align: middle;
+}
+.search:focus{
+    border-style: dashed;
 }
 
 .li {
@@ -186,7 +183,7 @@
     height: 60px;
 }
 
-.details {
+.detailss {
     width: 330px;
     float: left;
     border-style: ridge;
@@ -209,7 +206,7 @@
     text-align: start;
     width: 100%;
     display: block;
-    opacity: 0.8;
+    opacity: 0.7;
 }
 
 .result:hover {

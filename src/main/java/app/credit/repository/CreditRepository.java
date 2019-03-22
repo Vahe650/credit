@@ -27,11 +27,11 @@ public interface CreditRepository extends JpaRepository<Credit, Integer> {
 
     boolean existsByUserAndType(User user, CreditType type);
 
-    @Query("SELECT new app.credit.dto.UserSumDto(c.user,SUM(c.value)) FROM Credit c  " +
+    @Query("SELECT new app.credit.dto.UserSumDto(c.user.name,c.user.country,c.user.tel,SUM(c.value)) FROM Credit c  " +
             " WHERE c.type='NEW' GROUP BY c.user ORDER BY SUM(c.value) DESC")
     Page<UserSumDto> createUserSum(Pageable pageable);
 
-    @Query("SELECT new app.credit.dto.UserSumDto(c.user,SUM(c.value)) FROM Credit c " +
+    @Query("SELECT new app.credit.dto.UserSumDto(c.user.name,c.user.country,c.user.tel,SUM(c.value)) FROM Credit c " +
             " WHERE c.type='NEW' and (c.user.name LIKE  CONCAT('%', :name, '%') or c.user.country LIKE  CONCAT('%', :name, '%'))  " +
             " GROUP BY c.user ORDER BY SUM(c.value) DESC")
     Page<UserSumDto> searchUserSDto(Pageable pa, @Param("name") String name);

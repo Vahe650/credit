@@ -1,9 +1,9 @@
 package app.credit.controller;
-
-
 import app.credit.dto.UserSumDto;
 import app.credit.repository.CreditRepository;
 import app.credit.service.PaginationService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,32 +22,40 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MainController {
     private CreditRepository creditRepository;
     private PaginationService paginationService;
+
     @GetMapping("/login")
     public String login() {
         return "login";
     }
+
     @RequestMapping(value = "/")
     public String allByMax(ModelMap modelMap,
                            @RequestParam(value = "page", required = false) Integer page,
-                           @PageableDefault(size = 99) Pageable pageable) {
-        PageRequest pagination = paginationService.pagination(pageable, page,  JpaSort.unsafe("SUM(value)"));
-        modelMap.addAttribute("currentUrl","");
-        modelMap.addAttribute("userSumDto", creditRepository.createUserSum(pagination));
+                           @PageableDefault(size = 99) Pageable pageable) throws JsonProcessingException {
+        PageRequest pagination = paginationService.pagination(pageable, page, JpaSort.unsafe("SUM(value)"));
+        Page<UserSumDto> userSum = creditRepository.createUserSum(pagination);
+        modelMap.addAttribute("currentUrl", "");
+        modelMap.addAttribute("userSumDto", userSum);
         modelMap.addAttribute("s", creditRepository.sum());
+
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(userSum);
+        modelMap.addAttribute("json",json);
         return "result";
     }
+
     @RequestMapping(value = "/searchDtoByName")
     public String searchDto(ModelMap modelMap, @RequestParam("name") String name,
                             @RequestParam(value = "page", required = false) Integer page,
                             @PageableDefault(size = 99) Pageable pageable) {
-        PageRequest pagination = paginationService.pagination(pageable, page,  JpaSort.unsafe("SUM(value)"));
-        Page<UserSumDto> userList = creditRepository.searchUserSDto(pagination,name.trim());
-        if (userList.getTotalElements()==0) {
+        PageRequest pagination = paginationService.pagination(pageable, page, JpaSort.unsafe("SUM(value)"));
+        Page<UserSumDto> userList = creditRepository.searchUserSDto(pagination, name.trim());
+        if (userList.getTotalElements() == 0) {
             modelMap.addAttribute("message", name);
         } else {
             modelMap.addAttribute("allDtos", userList);
-            modelMap.addAttribute("currentUrl","searchDtoByName");
-            modelMap.addAttribute("name",name);
+            modelMap.addAttribute("currentUrl", "searchDtoByName");
+            modelMap.addAttribute("name", name);
             modelMap.addAttribute("s", creditRepository.sum());
         }
         return "result";

@@ -41,10 +41,10 @@
                 <col span="1">
             </colgroup>
             <tr>
-                <th class="details">ՊԱՐՏՔ<br>ԱՄԻՍ/ՕՐ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ԳՈՒՄԱՐ</th>
+                <th class="detailss">ՊԱՐՏՔ<br>ԱՄԻՍ/ՕՐ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ԳՈՒՄԱՐ</th>
             </tr>
             <tr th:each="one:${news}">
-                <td class="details" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
+                <td class="detailss" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
                                                                                      th:text="${@creditService.getDates(one.getDate())+' '}"></strong>
                     <a class="underline" th:href="@{/change(id=${one.id})}">
                         <button style="font-size: 20px"
@@ -58,7 +58,7 @@
                     </a>
                 </td>
             <tr>
-                <td class="details"><strong class="inline-detail"
+                <td class="detailss"><strong class="inline-detail"
                                             th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong>
                 </td>
             </tr>
@@ -68,10 +68,10 @@
                 <col span="1">
             </colgroup>
             <tr>
-                <th class="details">ՏՎԱԾ<br>ԱՄԻՍ/ՕՐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ԳՈՒՄԱՐ</th>
+                <th class="detailss">ՏՎԱԾ<br>ԱՄԻՍ/ՕՐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ԳՈՒՄԱՐ</th>
             </tr>
             <tr th:each="one:${ends}">
-                <td class="details" th:if="${one.getType().name() eq 'END'}"><strong
+                <td class="detailss" th:if="${one.getType().name() eq 'END'}"><strong
                         th:text="${@creditService.getDates(one.getDate())+' - '+one.value}"
                         class="inline-detail"></strong>
                     <a class="underline" th:href="@{/deletePrice(id=${one.id})}">
