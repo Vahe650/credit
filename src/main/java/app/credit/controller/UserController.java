@@ -2,6 +2,7 @@ package app.credit.controller;
 
 import app.credit.model.CreditType;
 import app.credit.model.User;
+import app.credit.model.UserType;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.ErrorService;
@@ -115,7 +116,7 @@ public class UserController {
                          @RequestParam(value = "page", required = false) Integer page,
                          @PageableDefault(size = 51) Pageable pageable) {
         PageRequest pagination = paginationService.pagination(pageable, page, sortByNameAsc());
-        final Page<User> userByNameLike = userRepository.findByNameContainingAndType(pagination, search.trim(), null);
+        final Page<User> userByNameLike = userRepository.findByTypeAndNameContainingOrCountryContaining(pagination,null, search.trim(),search.trim());
         if (userByNameLike.getTotalElements() == 0) {
             modelMap.addAttribute("mess", search);
         } else {

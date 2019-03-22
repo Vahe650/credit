@@ -62,7 +62,14 @@
     cursor: pointer;
     overflow: hidden;
     display: inline-block;
+    opacity: 0.7;
 
+}
+
+.btn:hover {
+    width: 36px;
+    height: 33px;
+    opacity: unset;
 }
 
 .btn:active {
@@ -103,6 +110,8 @@
 
 .newbtn:hover {
     background-color: #403866;
+    border-radius: 20px;
+
 }
 
 #popUpWindow {
@@ -192,17 +201,23 @@
     font-size: 21px;
 }
 
-.result{
-    font-family: Ubuntu-Bold  ;
-    font-size: 24px  ;
-    color: navy  ;
-    line-height: 1.2  ;
-   text-align: start;
+.result {
+    font-family: Ubuntu-Bold;
+    font-size: 24px;
+    color: navy;
+    line-height: 1.2;
+    text-align: start;
     width: 100%;
     display: block;
+    opacity: 0.8;
+}
+
+.result:hover {
+    opacity: unset;
+    color:#8b0000;
 }
 
 .table {
     padding-left: 105px;
-   align-content: center;
+    align-content: center;
 }

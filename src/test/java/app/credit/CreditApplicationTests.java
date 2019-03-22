@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.junit4.SpringRunner;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,7 +71,7 @@ public class CreditApplicationTests {
     public void searchpage() {
         User admin = userRepository.findTop1ByOrderByIdAsc();
         PageRequest of = PageRequest.of(1, 1);
-        userRepository.findByNameContainingAndType(of, admin.getName(), UserType.ADMIN);
+        userRepository.findByTypeAndNameContainingOrCountryContaining(of,UserType.ADMIN, admin.getName(),admin.getName());
     }
 
     @Test
