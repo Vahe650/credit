@@ -32,4 +32,5 @@ public class Credit {
     @Enumerated(EnumType.STRING)
     private CreditType type;
 
+
 }

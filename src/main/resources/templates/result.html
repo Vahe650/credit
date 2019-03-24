@@ -37,7 +37,7 @@
         }
 
         #menu {
-            position: absolute;
+
             bottom: 20px;
             width: 100%;
             text-align: center;
@@ -70,7 +70,7 @@
             top: 40px;
             left: 0px;
             right: 0px;
-            font-size: 60px;
+            font-size: 30px;
             font-weight: bold;
             color: rgba(255, 255, 255, 0.75);
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.95);
@@ -81,7 +81,7 @@
             bottom: 15px;
             left: 0px;
             right: 0px;
-            font-size: 12px;
+            font-size: 25px;
             color: rgba(127, 255, 255, 0.75);
         }
 
@@ -186,12 +186,13 @@
                         class="newbtn">Հաջորդ >> </button></a></span>
 </div>
 
-<div class="con" id="container"></div>
+<div class="con" id="container">
 <div id="menu">
     <button id="table">TABLE</button>
     <button id="sphere">SPHERE</button>
     <button id="helix">HELIX</button>
     <button id="grid">GRID</button>
+</div>
 </div>
 
 </body>
@@ -202,18 +203,9 @@
 
 
 <script type="text/javascript" th:inline="javascript">
-
-
     /*<![CDATA[*/
-
     var table= [[${json}]];
-
-
-
     /*]]>*/
-
-
-
     var camera, scene, renderer;
     var controls;
 
