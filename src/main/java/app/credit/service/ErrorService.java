@@ -1,5 +1,6 @@
 package app.credit.service;
 
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -15,5 +16,16 @@ public class ErrorService {
             }
         }
         return sb;
+}
+
+
+
+    public StringBuilder error(BindingResult result) {
+        StringBuilder sb = new StringBuilder();
+        result.getAllErrors().forEach(obEr-> sb.append(obEr.getDefaultMessage()));
+
+        result.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).forEach(sb::append);
+        return sb;
     }
+
 }
