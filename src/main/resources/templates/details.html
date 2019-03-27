@@ -28,8 +28,6 @@
         <span style="text-align: center" class="user-name" th:case="'notEmpty'"
               th:text="${user.name+'-ը պարտք ունի մի ջնջե'}"> </span>
     </th:block>
-
-
     <form th:action="@{/addCredit}" th:object="${creditor}" method="post">
         <input type="hidden" name="userId" th:value="${user.getId()}">
         <input class="search" th:field="*{value}" type="number" step="50" placeholder="ՊԱՐՏՔ">

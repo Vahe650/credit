@@ -29,7 +29,7 @@
 }
 
 .dtoSum {
-    width: 370px;
+    width: 437px;
     float: left;
     border-style: ridge;
     background-color: mistyrose;
@@ -200,7 +200,7 @@
 
 .result {
     font-family: Ubuntu-Bold;
-    font-size: 24px;
+    font-size: 21px;
     color: navy;
     line-height: 1.2;
     text-align: start;
@@ -215,6 +215,6 @@
 }
 
 .table {
-    padding-left: 105px;
+
     align-content: center;
 }
