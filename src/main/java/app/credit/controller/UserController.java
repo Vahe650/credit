@@ -2,7 +2,6 @@ package app.credit.controller;
 
 import app.credit.model.CreditType;
 import app.credit.model.User;
-import app.credit.model.UserType;
 import app.credit.repository.CreditRepository;
 import app.credit.repository.UserRepository;
 import app.credit.service.ErrorService;

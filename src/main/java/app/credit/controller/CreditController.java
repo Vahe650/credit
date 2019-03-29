@@ -98,12 +98,10 @@ public class CreditController {
     @RequestMapping(value = "/deletePrice")
     public String delete(@RequestParam("id") int id) {
         Optional<Credit> one = creditRepository.findById(id);
-        if (one.isPresent()) {
-            creditRepository.delete(one.get());
-            return "redirect:/app?id=" + one.get().getUser().getId();
-        }
-        return "redirect:/error";
-    }
+        one.ifPresent(creditRepository::delete);
+        return "redirect:/app?id=" + one.get().getUser().getId();
+
+}
 
     @RequestMapping(value = "/searchByDate")
     public String date(ModelMap map,
