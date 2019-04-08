@@ -23,26 +23,21 @@
     <input class="search" name="name" placeholder="ՈՐՈՆՈՒՄ ">
     <input type="image" src="../images/test.jpg" class="btn" alt="Submit">
 </form>
-<span sec:authorize="hasAuthority('ADMIN')">
-    </span>
+<span sec:authorize="hasAuthority('ADMIN')"> </span>
 <strong th:inline="text" class="user-name">ընդհանուր=[[${#numbers.formatDecimal(s,
     0, 'COMMA', 0, 'POINT')}]]</strong>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
 <table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one:${allDtos}">
-        <td><strong class="result"
-                    th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong>
-        </td>
+        <td><strong class="result" th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong> </td>
     </tr>
     </tbody>
 </table>
 <table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one:${userSumDto}">
-        <td><strong class="result"
-                    th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong>
-        </td>
+        <td><strong class="result"  th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong> </td>
     </tr>
     </tbody>
 </table>
@@ -56,10 +51,8 @@
                                             <a th:href="@{/(page=${i},size=${userSumDto.size})}">[[${i}+1]]</a></span>
     </th:block>
     <span th:if="${userSumDto.hasNext()}">
-                <a th:href="@{/(page=${userSumDto.number + 1},size=${userSumDto.size})}"><button
-                        class="newbtn">Հաջորդ >> </button></a></span>
+                <a th:href="@{/(page=${userSumDto.number + 1},size=${userSumDto.size})}"><button class="newbtn">Հաջորդ >> </button></a></span>
 </div>
-
 <div align="center" th:if="${currentUrl eq 'searchDtoByName'}">
             <span th:if="${allDtos.hasPrevious()}">
             <a th:href="@{/searchDtoByName(name=${name},page=${allDtos.number - 1},size=${allDtos.size})}"><button
@@ -70,9 +63,8 @@
                                             <a th:href="@{/searchDtoByName(name=${name},page=${i},size=${allDtos.size})}">[[${i}+1]]</a></span>
     </th:block>
     <span th:if="${allDtos.hasNext()}">
-                <a th:href="@{/searchDtoByName(name=${name},page=${allDtos.number + 1},size=${allDtos.size})}"><button
-                        class="newbtn">Հաջորդ >> </button></a></span>
+                <a th:href="@{/searchDtoByName(name=${name},page=${allDtos.number + 1},size=${allDtos.size})}">
+                    <button class="newbtn">Հաջորդ >> </button></a></span>
 </div>
-
 </body>
 </html>

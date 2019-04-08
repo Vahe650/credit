@@ -11,8 +11,7 @@
     <a class="underline" href="/admin"><button class="newbtn">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
     <a class="underline" href="/"><button class="newbtn">ՊԱՐՏՔԵՐ</button></a>&nbsp;&nbsp;&nbsp;
     <a class="underline" href="/logout"><button class="newbtn">ԵԼՔ</button></a>
-    <span style="margin-left: 720px" sec:authorize="hasAuthority('ADMIN')">Barev <span style="text-transform: uppercase"
-                                                                                       sec:authentication="principal.username">User</span> Jan</span>
+    <span style="margin-left: 720px" sec:authorize="hasAuthority('ADMIN')">Barev <span style="text-transform: uppercase" sec:authentication="principal.username">User</span> Jan</span>
 </span><br><br>
 <form action="/search">
     <input class="search" name="search" placeholder="ՈՐՈՆՈՒՄ">
@@ -25,7 +24,6 @@
 <strong th:inline="text" class="user-name">ընդհանուր=[[${#numbers.formatDecimal(s,0, 'COMMA', 0, 'POINT')}]]</strong>
 <span class="user-name" th:text="${mess==null} ?  '' : ${mess+' անունով մարդ չկա '} "></span>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ին պարտք չկա'} "></span>
-
 <table class="table">
     <tbody>
     <tr class="dtoSum" th:each="one : ${all}">
@@ -40,9 +38,7 @@
 <table class="table">
     <tbody>
     <tr th:each="one:${allUsers}" class="dtoSum">
-        <td><a class="underline" th:href="@{/app(id=${one.id})}">
-            <button class="newbtn">✔</button>
-        </a>
+        <td><a class="underline" th:href="@{/app(id=${one.id})}"> <button class="newbtn">✔</button> </a>
             <strong class="inline" th:text="${one.name+' '+one.country}"></strong>
         </td>
     </tr>
@@ -51,9 +47,7 @@
 <table class="table">
     <tbody>
     <tr th:each="one:${allByDate}" class="dtoSum">
-        <td><a class="underline" th:href="@{/app(id=${one.user.id})}">
-            <button class="newbtn">✔</button>
-        </a>
+        <td><a class="underline" th:href="@{/app(id=${one.user.id})}"> <button class="newbtn">✔</button> </a>
             <strong class="inline" th:text="${one.user.name+' '+one.user.country}"></strong>
             <p><strong class="inline" th:utext="${@creditService.getDates(one.getDate())+' _ '+one.value}"></strong>
         </td>

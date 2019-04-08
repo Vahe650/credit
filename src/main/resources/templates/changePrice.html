@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>change</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" type="text/css" href="/css/util.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
@@ -17,13 +15,8 @@
                     <span class="login100-form-title p-b-51" th:case="'big'"> Շատ մեծ թիվ ես գրել </span>
                     <span class="login100-form-title p-b-51" th:case="'min'">500-ից պակաս թիվ մի գրե</span>
                     <span class="login100-form-title p-b-51" th:case="'max'">100,000-ից ավել թիվ մի գրե </span>
-
                 </td>
-                <a class="underline" th:href="@{/app(id=${creditor.user.id})}">
-                    <button class="login100-form-btn">
-                        չեղարկել
-                    </button>
-                </a>
+                <a class="underline" th:href="@{/app(id=${creditor.user.id})}"> <button class="login100-form-btn"> չեղարկել </button> </a>
                 <form class="login100-form validate-form flex-sb flex-w" th:action="@{/updatePrice}"
                       th:object="${creditor}" method="post">
                 <span class="login100-form-title p-b-51"
@@ -41,9 +34,7 @@
                         <span class="focus-input100"></span>
                     </div>
                     <div class="container-login100-form-btn m-t-17">
-                        <button class="login100-form-btn">
-                            Փոխել
-                        </button>
+                        <button class="login100-form-btn">  Փոխել </button>
                     </div>
                 </form>
             </div>

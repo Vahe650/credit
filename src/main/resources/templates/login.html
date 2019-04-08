@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Login</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,11 +12,7 @@
 <div class="limiter">
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
-            <a class="underline" href="/">
-                <button class="login100-form-btn">
-                    Գլխավոր
-                </button>
-            </a>
+            <a class="underline" href="/"> <button class="login100-form-btn"> Գլխավոր </button> </a>
             <form action="#" method="post" class="login100-form validate-form flex-sb flex-w">
                 <span class="login100-form-title p-b-51">ՄՈՒՏՔ</span>
                 <span style="color: red" th:if="${param.error}" class="login100-form-title p-b-51">Սխալ Անուն կամ Գաղտնաբառ</span>
@@ -32,15 +27,11 @@
                 <div class="flex-sb-m w-full p-t-3 p-b-24">
                     <div class="contact100-form-checkbox">
                         <input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-                        <label class="label-checkbox100" for="ckb1">
-                            Հիշել
-                        </label>
+                        <label class="label-checkbox100" for="ckb1"> Հիշել </label>
                     </div>
                 </div>
                 <div class="container-login100-form-btn m-t-17">
-                    <button class="login100-form-btn">
-                        ՄՈՒՏՔ
-                    </button>
+                    <button class="login100-form-btn"> ՄՈՒՏՔ </button>
                 </div>
             </form>
         </div>

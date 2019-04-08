@@ -1,23 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>detail</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
 </head>
 <body>
 <div align="center">
-    <a class="underline" href="/allByMax">
-        <button class="newbtn">ԳԼԽԱՎՈՐ</button>
-    </a>
+    <a class="underline" href="/allByMax"> <button class="newbtn">ԳԼԽԱՎՈՐ</button> </a>
     <span style="text-align: center" class="user-name" th:text="${user.name+' '+user.country+' '+user.tel}"></span>
     <a class="underline" th:href="@{/update(id=${user.id})}">
         <button style="font-size: 27px" class="newbtn">✎</button>
     </a>&nbsp; &nbsp; &nbsp;
-    <a class="underline" th:href="@{/deleteUser(id=${user.id})}">
-        <button style="font-size: 27px" class="newbtn"> ✂</button>
-    </a><br>
+    <a class="underline" th:href="@{/deleteUser(id=${user.id})}"><button style="font-size: 27px" class="newbtn"> ✂</button> </a><br>
     <th:block th:switch="${message}">
         <span style="text-align: center" class="user-name" th:case="'big'"> Շատ մեծ թիվ ես գրել </span>
         <span style="text-align: center" class="user-name" th:case="'min'">500-ից պակաս թիվ մի գրե</span>
@@ -42,14 +37,10 @@
                 <td class="detailss" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
                                                                                       th:text="${@creditService.getDates(one.getDate())+' '}"></strong>
                     <a class="underline" th:href="@{/change(id=${one.id})}">
-                        <button style="font-size: 20px"
-                                class="smallbtn"> ✎
-                        </button>
+                        <button style="font-size: 20px" class="smallbtn"> ✎ </button>
                     </a><strong class="inline-detail" th:text="' '+${one.value}+' '"></strong>
                     <a class="underline" th:href="@{/changeType(id=${one.id})}">
-                        <button style="font-size: 20px"
-                                class="smallbtn"> ➨
-                        </button>
+                        <button style="font-size: 20px"  class="smallbtn"> ➨ </button>
                     </a>
                 </td>
             <tr>
@@ -59,9 +50,7 @@
             </tr>
         </table>
         <table style="vertical-align: top;" class="inline">
-            <colgroup>
-                <col span="1">
-            </colgroup>
+            <colgroup> <col span="1"> </colgroup>
             <tr>
                 <th class="detailss">ՏՎԱԾ<br>ԱՄԻՍ/ՕՐ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ԳՈՒՄԱՐ</th>
             </tr>
@@ -70,9 +59,7 @@
                         th:text="${@creditService.getDates(one.getDate())+' - '+one.value}"
                         class="inline-detail"></strong>
                     <a class="underline" th:href="@{/deletePrice(id=${one.id})}">
-                        <button style="font-size: 20px"
-                                class="smallbtn">✂
-                        </button>
+                        <button style="font-size: 20px" class="smallbtn">✂ </button>
                     </a>
                 </td>
             <tr>

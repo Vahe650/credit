@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>update</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" type="text/css" href="/css/util.css">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
@@ -13,17 +11,13 @@
     <div class="container-login100">
         <div class="wrap-login100 p-t-50 p-b-90">
             <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
-                <span   id="name_validation" style="color: red" class="login100-form-title p-b-51" ></span>
-
+                <span id="name_validation" style="color: red" class="login100-form-title p-b-51"></span>
                 <a class="underline" th:href="@{/app(id=${user.id})}">
-                    <button class="login100-form-btn">
-                        չեղարկել
-                    </button>
+                    <button class="login100-form-btn"> չեղարկել </button>
                 </a>
-                <form  onsubmit="return validateForm();" class="login100-form validate-form flex-sb flex-w" th:action="@{/up}" th:object="${user}" method="post">
-                    <span class="login100-form-title p-b-51">
-						թարմացում
-					</span>
+                <form onsubmit="return validateForm();" class="login100-form validate-form flex-sb flex-w"
+                      th:action="@{/up}" th:object="${user}" method="post">
+                    <span class="login100-form-title p-b-51">թարմացում</span>
                     <div class="wrap-input100 validate-input m-b-16" data-validate="Username is required">
                         <input class="input100" type="hidden" name="id" th:value="${user.id}">
                         <span class="focus-input100"></span>
@@ -41,9 +35,7 @@
                         <span class="focus-input100"></span>
                     </div>
                     <div class="container-login100-form-btn m-t-17">
-                        <button class="login100-form-btn">
-                            թարմացնել
-                        </button>
+                        <button class="login100-form-btn"> թարմացնել</button>
                     </div>
                 </form>
             </div>
