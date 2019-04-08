@@ -105,13 +105,8 @@
             background-color: rgba(0, 255, 255, 0.75);
         }
     </style>
-
-
 </head>
 <body>
-
-
-
 <div  id="container">
     <div id="menu">
         <button id="table">TABLE</button>
@@ -120,39 +115,27 @@
         <button id="grid">GRID</button>
     </div>
 </div>
-
-
 </body>
 <script src="/js/three.js"></script>
 <script src="/js/tween.min.js"></script>
 <script src="/js/TrackballControls.js"></script>
 <script src="/js/CSS3DRenderer.js"></script>
-
-
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     var table= [[${json}]];
     /*]]>*/
     var camera, scene, renderer;
     var controls;
-
     var objects = [];
     var targets = {table: [], sphere: [], helix: [], grid: []};
-
     init();
     animate();
-
     function init() {
-
         camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 10000);
         camera.position.z = 3000;
-
         scene = new THREE.Scene();
-
         // table
-
         for (var i = 0; i < table.length; i += 5) {
-
             var element = document.createElement('div');
             element.className = 'element';
             element.style.backgroundColor = 'rgba(0,127,127,' + (Math.random() * 0.5 + 0.25) + ')';
@@ -177,19 +160,13 @@
             object.position.y = Math.random() * 4000 - 2000;
             object.position.z = Math.random() * 4000 - 2000;
             scene.add(object);
-
             objects.push(object);
-
-            //
-
             var object = new THREE.Object3D();
             object.position.x = (table[i + 3] * 140) - 1330;
             object.position.y = -(table[i + 4] * 180) + 990;
-
             targets.table.push(object);
 
         }
-
         // sphere
 
         var vector = new THREE.Vector3();

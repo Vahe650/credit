@@ -3,41 +3,28 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-
-
     <title>պարտք</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
-
-
 </head>
 <body>
-
 <span sec:authorize="hasAuthority('ADMIN')"><a class="underline" href="/allByMax">
     <button class="newbtn">Գլխավոր</button></a>&nbsp;&nbsp;
     <a class="underline" href="/admin"><button class="newbtn">ՆՈՐ ԱՆՈՒՆ</button></a>&nbsp;&nbsp;
 </span>
-
 <a class="underline" href="/">
     <button class="newbtn">ՊԱՐՏՔԵՐ</button>
 </a>&nbsp;&nbsp;
-
 <span sec:authorize="!hasAuthority('ADMIN')"><a class="underline" href="/login"><button
         class="newbtn">Մուտք</button></a>&nbsp;&nbsp;</span>
 <span sec:authorize="hasAuthority('ADMIN')">
     <a class="underline" href="/logout"><button class="newbtn">ԵԼՔ</button></a>&nbsp;&nbsp;</span>
-
-
-<br>
-<br>
-
+<br><br>
 <form th:action="@{/searchDtoByName}">
     <input class="search" name="name" placeholder="ՈՐՈՆՈՒՄ ">
     <input type="image" src="../images/test.jpg" class="btn" alt="Submit">
 </form>
 <span sec:authorize="hasAuthority('ADMIN')">
     </span>
-
-
 <strong th:inline="text" class="user-name">ընդհանուր=[[${#numbers.formatDecimal(s,
     0, 'COMMA', 0, 'POINT')}]]</strong>
 <span class="user-name" th:text="${message==null} ?  '' : ${message+'-ը պարտք չունի '} "></span>
@@ -50,18 +37,15 @@
     </tr>
     </tbody>
 </table>
-
-
-    <table class="table">
-        <tbody>
-        <tr class="dtoSum" th:each="one:${userSumDto}">
-            <td><strong class="result"
-                        th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-
+<table class="table">
+    <tbody>
+    <tr class="dtoSum" th:each="one:${userSumDto}">
+        <td><strong class="result"
+                    th:text="${one.userName+' '+one.country +' '+one.tel+'='+one.sum}"></strong>
+        </td>
+    </tr>
+    </tbody>
+</table>
 <div align="center" th:if="${currentUrl eq ''}">
             <span th:if="${userSumDto.hasPrevious()}">
             <a th:href="@{/(page=${userSumDto.number - 1},size=${userSumDto.size})}"><button

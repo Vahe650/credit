@@ -2,9 +2,6 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
-
-
 <head>
     <title>detail</title>
     <link href="/css/style.css" rel="stylesheet" media="all">
@@ -43,7 +40,7 @@
             </tr>
             <tr th:each="one:${news}">
                 <td class="detailss" th:if="${one.getType().name() eq 'NEW'}"><strong class="inline-detail"
-                                                                                     th:text="${@creditService.getDates(one.getDate())+' '}"></strong>
+                                                                                      th:text="${@creditService.getDates(one.getDate())+' '}"></strong>
                     <a class="underline" th:href="@{/change(id=${one.id})}">
                         <button style="font-size: 20px"
                                 class="smallbtn"> ✎
@@ -57,7 +54,7 @@
                 </td>
             <tr>
                 <td class="detailss"><strong class="inline-detail"
-                                            th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong>
+                                             th:text="${userSum!=null} ? ${'ընդհանուր=' + userSum}: ' Պարտք Չունի '"></strong>
                 </td>
             </tr>
         </table>
@@ -82,6 +79,5 @@
         </table>
     </div>
 </div>
-
 </body>
 </html>
