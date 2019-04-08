@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class CreditApplication implements CommandLineRunner {
     @Autowired
     private UserRepository userRepository;
+
     public static void main(String[] args) { SpringApplication.run(CreditApplication.class, args);
     }
     @Bean
@@ -30,8 +31,7 @@ public class CreditApplication implements CommandLineRunner {
 
 
     @Override
-    public void run(String... args) throws Exception {
-
+    public void run(String... args) {
         if (userRepository.findByEmail("ando") == null) {
             User admin = User.builder()
                     .name("Ando")
@@ -39,7 +39,6 @@ public class CreditApplication implements CommandLineRunner {
                     .email("ando")
                     .password(passwordEncoder().encode("ando"))
                     .build();
-
             userRepository.save(admin);
         }
     }

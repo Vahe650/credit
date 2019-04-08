@@ -1,5 +1,4 @@
 package app.credit.controller;
-
 import app.credit.model.CreditType;
 import app.credit.model.User;
 import app.credit.repository.CreditRepository;

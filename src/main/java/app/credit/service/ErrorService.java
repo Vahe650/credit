@@ -23,9 +23,7 @@ public class ErrorService {
     public StringBuilder error(BindingResult result) {
         StringBuilder sb = new StringBuilder();
         result.getAllErrors().forEach(obEr-> sb.append(obEr.getDefaultMessage()));
-
         result.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage).forEach(sb::append);
         return sb;
     }
-
 }

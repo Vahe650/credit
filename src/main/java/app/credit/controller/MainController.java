@@ -2,7 +2,6 @@ package app.credit.controller;
 
 import app.credit.dto.UserSumDto;
 import app.credit.repository.CreditRepository;
-import app.credit.repository.UserRepository;
 import app.credit.service.PaginationService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @AllArgsConstructor
 public class MainController {
     private CreditRepository creditRepository;
-    private UserRepository userRepository;
     private PaginationService paginationService;
 
     @GetMapping("/login")
